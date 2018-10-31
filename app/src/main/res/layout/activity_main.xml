@@ -152,23 +152,67 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!--<android.support.constraint.ConstraintLayout-->
-                <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-                <!--xmlns:tools="http://schemas.android.com/tools"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--tools:context="com.example.jatin.bargraph.MainActivity">-->
-                <!--<com.github.mikephil.charting.charts.BarChart-->
-                    <!--android:id="@+id/barchart"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"/>-->
-            <!--</android.support.constraint.ConstraintLayout>-->
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/bar_chart"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="500dp" />
+                android:layout_height="300dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/firstPie"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"/>
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/secondPie"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:text="Add More Study Time" />
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                android:visibility="gone" />
+            <!--   android:visibility="gone" -->
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="How many hours?"
+                android:inputType="number|numberDecimal"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number|numberDecimal"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView9"
