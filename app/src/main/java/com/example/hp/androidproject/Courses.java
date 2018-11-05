@@ -36,7 +36,7 @@ public class Courses extends AppCompatActivity  {
     EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
     Spinner spinner;
     private Button topic1, topic2, topic3;
-    private Spinner spin;
+//    private Spinner spin;
 
 
 
@@ -46,7 +46,7 @@ public class Courses extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_courses);
 
 
         // initialising variables
@@ -70,7 +70,7 @@ public class Courses extends AppCompatActivity  {
         topic2 = (Button)findViewById(R.id.topic2);
         topic3 = (Button)findViewById(R.id.topic3);
         spinner = (Spinner) findViewById(R.id.spinner);
-        spin = (Spinner) findViewById(R.id.spin);
+//        spin = (Spinner) findViewById(R.id.spin);
         loadAssignmentData();
 
         // event to add values from form into database when assignment button is clicked
@@ -103,12 +103,16 @@ public class Courses extends AppCompatActivity  {
 
                 if( id == R.id.myprofile){
                     Toast.makeText(Courses.this, "MyProfile", Toast.LENGTH_SHORT).show();
+                    openUser();
                 }
                 else if( id == R.id.study){
                     Toast.makeText(Courses.this, "Study Page", Toast.LENGTH_SHORT).show();
                 }
                 else if( id == R.id.course){
                     Toast.makeText(Courses.this, "Course Page", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.login){
+                    openMainActivity();
                 }
 
                 return true;
@@ -179,6 +183,9 @@ public class Courses extends AppCompatActivity  {
 //        spin.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 //    }
 
+
+    // intents to open new activities
+
     public void openActivityTopicOne(){
         Intent intent = new Intent(this, TopicOne.class);
         startActivity(intent);
@@ -197,6 +204,15 @@ public class Courses extends AppCompatActivity  {
         startActivity(intent);
     }
 
+    public void openUser(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+    }
+
+    public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
     // method that inserts value from form into database
     public void insertData(String name, String dueData, String description, Integer percentWorth){

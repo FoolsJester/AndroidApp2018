@@ -39,14 +39,16 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if( id == R.id.myprofile){
-//                    openMainActivity();
+                    openUser();
                 }
                 else if( id == R.id.study){
                     Toast.makeText(MainActivity.this, "Study Page", Toast.LENGTH_SHORT).show();
                 }
                 else if( id == R.id.course){
-                    Toast.makeText(MainActivity.this, "Course Page", Toast.LENGTH_SHORT).show();
                     openCourses();
+                }
+                else if(id == R.id.login){
+                    openMainActivity();
                 }
 
                 return true;
@@ -57,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
     public void openCourses(){
         Intent intent = new Intent(this, Courses.class);
         startActivity(intent);
+    }
+
+    public void openUser(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+    }
+    public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
     }
 
     @Override

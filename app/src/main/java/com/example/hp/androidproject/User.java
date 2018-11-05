@@ -1,9 +1,14 @@
 package com.example.hp.androidproject;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -18,6 +23,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -28,6 +34,9 @@ import android.widget.Toast;
 
 public class User extends AppCompatActivity {
 
+    private DrawerLayout dl;
+    private ActionBarDrawerToggle abdt;
+
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
 
@@ -36,6 +45,39 @@ public class User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user);
+
+        // initialising variables for nav bar
+        dl = (DrawerLayout)findViewById(R.id.dl);
+        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open,R.string.Close);
+        abdt.setDrawerIndicatorEnabled(true);
+        dl.addDrawerListener(abdt);
+        abdt.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item){
+                int id = item.getItemId();
+
+                if( id == R.id.myprofile){
+                    openUser();
+                }
+                else if( id == R.id.study){
+                    Toast.makeText(User.this, "Study Page", Toast.LENGTH_SHORT).show();
+                }
+                else if( id == R.id.course){
+                    openCourses();
+                }
+                else if(id == R.id.login){
+                    openMainActivity();
+                }
+
+                return true;
+            }
+        });
+
 
 //        setSpinner();
 
@@ -166,4 +208,20 @@ public class User extends AppCompatActivity {
         pieChart.setTransparentCircleRadius(58f);
 
     }
+
+// intents to open activities for nav bar
+    public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    public void openCourses(){
+        Intent intent = new Intent(this, Courses.class);
+        startActivity(intent);
+    }
+
+    public void openUser(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+    }
+
 }
