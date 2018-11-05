@@ -17,7 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".User" />
-        <activity android:name=".DiscussionForumMake"></activity>
+        <activity android:name=".DiscussionForumMake" />
+        <activity android:name=".Courses" />
+        <activity android:name=".TopicOne" />
+        <activity android:name=".TopicTwo" />
+        <activity android:name=".TopicThree" />
+        <activity android:name=".Assignments"></activity>
     </application>
 
 </manifest>
