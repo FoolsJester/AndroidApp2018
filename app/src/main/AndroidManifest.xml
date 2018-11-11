@@ -22,7 +22,8 @@
         <activity android:name=".TopicOne" />
         <activity android:name=".TopicTwo" />
         <activity android:name=".TopicThree" />
-        <activity android:name=".Assignments"></activity>
+        <activity android:name=".Assignments"/>
+        <activity android:name=".StudyTimer"/>
     </application>
 
 </manifest>

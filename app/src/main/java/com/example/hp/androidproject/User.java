@@ -36,6 +36,7 @@ public class User extends AppCompatActivity {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
+    private Button timeStudy;
 
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
@@ -47,30 +48,28 @@ public class User extends AppCompatActivity {
         setContentView(R.layout.user);
 
         // initialising variables for nav bar
-        dl = (DrawerLayout)findViewById(R.id.dl);
-        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open,R.string.Close);
+        dl = (DrawerLayout) findViewById(R.id.dl);
+        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
         dl.addDrawerListener(abdt);
         abdt.syncState();
+        timeStudy = (Button)findViewById(R.id.button1);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
-        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item){
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if( id == R.id.myprofile){
-                    openUser();
-                }
-                else if( id == R.id.study){
+                if (id == R.id.myprofile) {
+                    openUserActivity();
+                } else if (id == R.id.study) {
                     Toast.makeText(User.this, "Study Page", Toast.LENGTH_SHORT).show();
-                }
-                else if( id == R.id.course){
-                    openCourses();
-                }
-                else if(id == R.id.login){
+                } else if (id == R.id.course) {
+                    openCoursesActivity();
+                } else if (id == R.id.login) {
                     openMainActivity();
                 }
 
@@ -108,7 +107,7 @@ public class User extends AppCompatActivity {
         pieChart(100, 15, "firstPie");
         pieChart(30, 5, "secondPie");
 
-       // final Spinner dropdown = findViewById(R.id.spinner1);
+        // final Spinner dropdown = findViewById(R.id.spinner1);
         final Button set = (Button) findViewById(R.id.button2);
         final EditText hours = (EditText) findViewById(R.id.editText);
         final Spinner dropdown = findViewById(R.id.spinner1);
@@ -121,7 +120,7 @@ public class User extends AppCompatActivity {
         dropdown.setAdapter(dataAdapter);
 
 
-        Button addStudy = (Button) findViewById(R.id.button);
+        Button addStudy = (Button) findViewById(R.id.button3);
         addStudy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 dropdown.setVisibility(View.VISIBLE);
@@ -132,29 +131,36 @@ public class User extends AppCompatActivity {
             }
         });
 
+        timeStudy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openStudyTimerActivity();
+            }
+        });
+
         set.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                db=openHelper.getWritableDatabase();
+                db = openHelper.getWritableDatabase();
 
                 String course = dropdown.getSelectedItem().toString();
                 String study = hours.getText().toString();
                 int studyInt = Integer.parseInt(study);
 
-                String prodStudy= productive.getText().toString();
+                String prodStudy = productive.getText().toString();
                 int prodStudyInt = Integer.parseInt(prodStudy);
 
 
                 insertdata(course, studyInt, prodStudyInt);
-                Toast.makeText(getApplicationContext(), "register successfully",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "register successfully", Toast.LENGTH_LONG).show();
 
             }
         });
     }
 
 
-    public void setSpinner () {
+    public void setSpinner() {
 
-        openHelper=new Database(this);
+        openHelper = new Database(this);
         db = openHelper.getReadableDatabase();
         Spinner dropdown = findViewById(R.id.spinner1);
 
@@ -168,7 +174,7 @@ public class User extends AppCompatActivity {
 
     }
 
-    public void insertdata(String courseCode, int hours, int productiveStudy){
+    public void insertdata(String courseCode, int hours, int productiveStudy) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Database.COL_2, courseCode);
         contentValues.put(Database.COL_3, hours);
@@ -177,7 +183,7 @@ public class User extends AppCompatActivity {
         long id = db.insert(Database.TABLE_NAME, null, contentValues);
     }
 
-    public void pieChart(int productive, int dossing, String chartId){
+    public void pieChart(int productive, int dossing, String chartId) {
 
         int resID = getResources().getIdentifier(chartId, "id", getPackageName());
 
@@ -209,19 +215,25 @@ public class User extends AppCompatActivity {
 
     }
 
-// intents to open activities for nav bar
+    // intents to open activities for nav bar
+
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-    public void openCourses(){
+
+    public void openCoursesActivity(){
         Intent intent = new Intent(this, Courses.class);
         startActivity(intent);
     }
 
-    public void openUser(){
+    public void openUserActivity(){
         Intent intent = new Intent(this, User.class);
         startActivity(intent);
     }
 
-}
+    public void openStudyTimerActivity() {
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+    }
