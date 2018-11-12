@@ -68,6 +68,7 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
+                assignmentNames.add(cursor.getString(3));
                 assignmentNames.add(cursor.getString(4));
             } while (cursor.moveToNext());
         }

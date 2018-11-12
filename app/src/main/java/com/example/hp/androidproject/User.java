@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 
@@ -203,7 +208,7 @@ public class User extends AppCompatActivity {
             }
         }
         int newTotal = old_total + hours; int newInterupted = old_interupted + productiveStudy;
-        
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper2.COL_2, courseCode);
         contentValues.put(DatabaseHelper2.COL_3, "12/11/2018");
@@ -225,44 +230,43 @@ public class User extends AppCompatActivity {
 
         int size = assignment.size();
         String sizeString = Integer.toString(size);
-        Log.d("AssignmentSize", sizeString);
+//        Log.d("AssignmentSize", sizeString);
 
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
-        for (int i =0; i < assignment.size(); i++){
-            Log.d("AssignmentList", assignment.get(i));
+        for (int i =0; i < assignment.size(); i+=2){
             int hour = Integer.parseInt(assignment.get(i));
-            barEntries.add(new BarEntry(i, hour));
+            int interupted = Integer.parseInt(assignment.get(i+1));
+            barEntries.add(new BarEntry(i, new float[] {hour-interupted, interupted}));
         }
 
-//        barEntries.add(new BarEntry(2f, 1));
-//        barEntries.add(new BarEntry(3f, 2));
-//        barEntries.add(new BarEntry(4f, 3));
-//        barEntries.add(new BarEntry(5f, 4));
-//        barEntries.add(new BarEntry(6f, 5));
-
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Study Statistics");
+        BarDataSet barDataSet = new BarDataSet(barEntries, "  ");
+        barDataSet.setColors(new int[]{ContextCompat.getColor(this, R.color.colorAccent),
+                ContextCompat.getColor(this, R.color.colorPrimary),});
+        barDataSet.setStackLabels(new String[]{"Productive Study", "Unproductive Study"});
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(barDataSet);
 
 
         BarData data = new BarData(dataSets);
 
-        chart.setData(data);
-        chart.notifyDataSetChanged();
-        chart.invalidate();
+        List<String> labels = db.getAssignments();
 
-//        if (first == true){
-//            first = false;
-//            chart.setData(data);
-//        }
-//        else {
-//
-//
-//        }
+        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.getXAxis().setLabelCount(labels.size());
 
 
-        //chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-        //chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.setDrawGridBackground(false);
+
+        if (chart.getData() != null && chart.getData().getDataSetCount() > 0){
+            chart.setData(data);
+        }
+        else {
+            chart.setData(data);
+            chart.notifyDataSetChanged();
+            chart.invalidate();
+        }
+
     }
 
     // intents to open activities for nav bar

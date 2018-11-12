@@ -163,22 +163,12 @@
                 android:textStyle="bold" />
 
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="300dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/BarChart"
-                        android:layout_width="250dp"
-                        android:layout_height="250dp"/>
+                        android:layout_width="350dp"
+                        android:layout_height="350dp"/>
 
-                </LinearLayout>
-            </HorizontalScrollView>
+
 
             <Button
                 android:id="@+id/button1"
