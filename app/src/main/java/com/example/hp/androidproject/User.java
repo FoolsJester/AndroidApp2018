@@ -2,6 +2,7 @@ package com.example.hp.androidproject;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -15,14 +16,14 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class User extends AppCompatActivity {
 
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
+    BarChart chart;
 
 
     @Override
@@ -78,9 +80,10 @@ public class User extends AppCompatActivity {
         });
 
 
-//        setSpinner();
+        setSpinner();
+        barChart();
 
-        openHelper = new Database(this);
+        openHelper = new DatabaseHelper2(this);
 
 
 //        chart = (BarChart) findViewById(R.id.bar_chart);
@@ -104,8 +107,6 @@ public class User extends AppCompatActivity {
 //        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
 //        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        pieChart(100, 15, "firstPie");
-        pieChart(30, 5, "secondPie");
 
         // final Spinner dropdown = findViewById(R.id.spinner1);
         final Button set = (Button) findViewById(R.id.button2);
@@ -113,11 +114,11 @@ public class User extends AppCompatActivity {
         final Spinner dropdown = findViewById(R.id.spinner1);
         final EditText productive = findViewById(R.id.editText2);
 
-        String[] labels = {"COMP30650", "COMP50650", "COMP20650", "COMP40650", "COMP10650", "COMP60650"};
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        dropdown.setAdapter(dataAdapter);
+//        String[] labels = {"COMP30650", "COMP50650", "COMP20650", "COMP40650", "COMP10650", "COMP60650"};
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels);
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        dropdown.setAdapter(dataAdapter);
 
 
         Button addStudy = (Button) findViewById(R.id.button3);
@@ -150,9 +151,9 @@ public class User extends AppCompatActivity {
                 int prodStudyInt = Integer.parseInt(prodStudy);
 
 
-                insertdata(course, studyInt, prodStudyInt);
+                updateData(course, studyInt, prodStudyInt);
                 Toast.makeText(getApplicationContext(), "register successfully", Toast.LENGTH_LONG).show();
-
+                barChart();
             }
         });
     }
@@ -160,12 +161,12 @@ public class User extends AppCompatActivity {
 
     public void setSpinner() {
 
-        openHelper = new Database(this);
+        openHelper = new DatabaseHelper2(this);
         db = openHelper.getReadableDatabase();
         Spinner dropdown = findViewById(R.id.spinner1);
 
 
-        Database db = new Database(getApplicationContext());
+        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
         List<String> assignment = db.getAssignments();
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, assignment);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -175,44 +176,93 @@ public class User extends AppCompatActivity {
     }
 
     public void insertdata(String courseCode, int hours, int productiveStudy) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Database.COL_2, courseCode);
-        contentValues.put(Database.COL_3, hours);
-        contentValues.put(Database.COL_4, productiveStudy);
 
-        long id = db.insert(Database.TABLE_NAME, null, contentValues);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper2.COL_2, courseCode);
+        contentValues.put(DatabaseHelper2.COL_3, "12/11/2018");
+        contentValues.put(DatabaseHelper2.COL_4, hours);
+        contentValues.put(DatabaseHelper2.COL_5, productiveStudy);
+
+        long id = db.insert(DatabaseHelper2.TABLE_NAME, null, contentValues);
+        Toast.makeText(getApplicationContext(), "ID="+id, Toast.LENGTH_LONG).show();
     }
 
-    public void pieChart(int productive, int dossing, String chartId) {
+    public void updateData(String courseCode, int hours, int productiveStudy) {
 
-        int resID = getResources().getIdentifier(chartId, "id", getPackageName());
+        DatabaseHelper2 database = new DatabaseHelper2(getApplicationContext());
+        List<String> current_hours = database.getAll();
 
-        PieChart pieChart = (PieChart) findViewById(resID);
+        int old_total = 0; int old_interupted = 0; int id = 0;
 
-        pieChart.setUsePercentValues(true);
+        for (int i = 1; i < current_hours.size(); i+=4) {
+            if (courseCode.equals(current_hours.get(i))){
+                id = Integer.parseInt(current_hours.get(i-1));
+                old_total = Integer.parseInt(current_hours.get(i+1));
+                old_interupted = Integer.parseInt(current_hours.get(i+2));
+            }
+        }
+        int newTotal = old_total + hours; int newInterupted = old_interupted + productiveStudy;
+        
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper2.COL_2, courseCode);
+        contentValues.put(DatabaseHelper2.COL_3, "12/11/2018");
+        contentValues.put(DatabaseHelper2.COL_4, newTotal);
+        contentValues.put(DatabaseHelper2.COL_5, newInterupted);
+        db.update(DatabaseHelper2.TABLE_NAME, contentValues, "Count_ID ="+id, null);
 
-        ArrayList<Entry> yvalues = new ArrayList<Entry>();
-        yvalues.add(new Entry(productive, 0));
-        yvalues.add(new Entry(dossing, 1));
+    }
+
+    public void barChart() {
+
+        openHelper=new DatabaseHelper2(this);
+        db = openHelper.getReadableDatabase();
+
+        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        List<String> assignment = db.getHours();
+
+        chart = (BarChart) findViewById(R.id.BarChart);
+
+        int size = assignment.size();
+        String sizeString = Integer.toString(size);
+        Log.d("AssignmentSize", sizeString);
+
+        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+        for (int i =0; i < assignment.size(); i++){
+            Log.d("AssignmentList", assignment.get(i));
+            int hour = Integer.parseInt(assignment.get(i));
+            barEntries.add(new BarEntry(i, hour));
+        }
+
+//        barEntries.add(new BarEntry(2f, 1));
+//        barEntries.add(new BarEntry(3f, 2));
+//        barEntries.add(new BarEntry(4f, 3));
+//        barEntries.add(new BarEntry(5f, 4));
+//        barEntries.add(new BarEntry(6f, 5));
+
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Study Statistics");
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(barDataSet);
 
 
-        PieDataSet dataSet = new PieDataSet(yvalues, "Total Study Time");
+        BarData data = new BarData(dataSets);
 
-        ArrayList<String> xVals = new ArrayList<String>();
+        chart.setData(data);
+        chart.notifyDataSetChanged();
+        chart.invalidate();
 
-        xVals.add("Distracted Study");
-        xVals.add("ProductiveStudy");
+//        if (first == true){
+//            first = false;
+//            chart.setData(data);
+//        }
+//        else {
+//
+//
+//        }
 
 
-        PieData data = new PieData(xVals, dataSet);
-
-        data.setValueFormatter(new PercentFormatter());
-        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        pieChart.setData(data);
-        pieChart.setDrawHoleEnabled(false);
-        data.setValueTextSize(13f);
-        pieChart.setTransparentCircleRadius(58f);
-
+        //chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        //chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
     }
 
     // intents to open activities for nav bar

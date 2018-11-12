@@ -1,12 +1,16 @@
 package com.example.hp.androidproject;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper2 extends SQLiteOpenHelper {
     public static final String DATABASE_NAME="StudyBudy.db";
@@ -30,4 +34,76 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME); //Drop older table if exists
         onCreate(db);
     }
+
+    public List<String> getAssignments(){
+        List<String> assignmentNames = new ArrayList<String>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_NAME;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                assignmentNames.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+
+        return assignmentNames;
+
+        // tutorial on adding from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
+    }
+
+    public List<String> getHours(){
+        List<String> assignmentNames = new ArrayList<String>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_NAME;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                assignmentNames.add(cursor.getString(4));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return assignmentNames;
+
+        // tutorial on adding from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
+    }
+
+    public List<String> getAll(){
+        List<String> assignmentNames = new ArrayList<String>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_NAME;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                assignmentNames.add(cursor.getString(0));
+                assignmentNames.add(cursor.getString(1));
+                assignmentNames.add(cursor.getString(3));
+                assignmentNames.add(cursor.getString(4));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+
+        return assignmentNames;
+
+        // tutorial on adding from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
+    }
+
 }

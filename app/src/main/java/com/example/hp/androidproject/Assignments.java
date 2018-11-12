@@ -23,11 +23,9 @@ public class Assignments extends AppCompatActivity {
 
         // initialising variables
         dl =(DrawerLayout)
-
                 findViewById(R.id.dl);
 
         abdt =new
-
                 ActionBarDrawerToggle(this,dl, R.string.Open, R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
         dl.addDrawerListener(abdt);
