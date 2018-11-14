@@ -1,6 +1,7 @@
 package com.example.hp.androidproject;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,12 +30,16 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -43,6 +48,7 @@ public class User extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
     private Button timeStudy;
+
 
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
@@ -87,6 +93,7 @@ public class User extends AppCompatActivity {
 
         setSpinner();
         barChart();
+        createTextField();
 
         openHelper = new DatabaseHelper2(this);
 
@@ -164,6 +171,62 @@ public class User extends AppCompatActivity {
     }
 
 
+    public void createTextField() {
+
+        LinearLayout check = (LinearLayout) findViewById(R.id.linearLayout);
+
+        openHelper = new DatabaseHelper2(this);
+        db = openHelper.getReadableDatabase();
+
+        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        List<String> courses = db.getAssignments();
+
+        int[] myIntArray = new int[courses.size()];
+
+        for (int i = 0; i < courses.size(); i++) {
+
+            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            Button course = new Button(this);
+            final TextView assignment = new TextView(this);
+            final Button toCourse = new Button(this);
+
+            course.setLayoutParams(lparams);
+            course.setText(courses.get(i));
+            course.setId(i+1);
+            assignment.setLayoutParams(lparams);
+            assignment.setVisibility(View.GONE);
+            assignment.setText("\tProgramming Lab 2: INCOMPLETE\n\t Average Completion Time: 30 minutes");
+            toCourse.setLayoutParams(lparams);
+            toCourse.setText("View "+courses.get(i));
+            toCourse.setId(i+1);
+            toCourse.setVisibility(View.GONE);
+
+            course.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    if(assignment.getVisibility()==View.GONE){
+                        assignment.setVisibility(View.VISIBLE);
+                        toCourse.setVisibility(View.VISIBLE);}
+                    else if(assignment.getVisibility()==View.VISIBLE){
+                        assignment.setVisibility(View.GONE);
+                        toCourse.setVisibility(View.GONE);}
+                }
+            });
+
+            check.addView(course);
+            check.addView(assignment);
+            check.addView(toCourse);
+
+                }
+
+
+                //https://stackoverflow.com/questions/4203506/how-to-add-a-textview-to-a-linearlayout-dynamically-in-android
+        }
+
+
+
     public void setSpinner() {
 
         openHelper = new DatabaseHelper2(this);
@@ -228,8 +291,8 @@ public class User extends AppCompatActivity {
 
         chart = (BarChart) findViewById(R.id.BarChart);
 
-        int size = assignment.size();
-        String sizeString = Integer.toString(size);
+//        int size = assignment.size();
+//        String sizeString = Integer.toString(size);
 //        Log.d("AssignmentSize", sizeString);
 
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
