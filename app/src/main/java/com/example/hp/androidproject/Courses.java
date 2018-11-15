@@ -30,7 +30,7 @@ public class Courses extends AppCompatActivity  {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
-    Button enrolButton, assignmentButton;
+    Button enrolButton, assignmentButton, openGmail;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
     EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
@@ -69,9 +69,25 @@ public class Courses extends AppCompatActivity  {
         topic1 = (Button)findViewById(R.id.topic1);
         topic2 = (Button)findViewById(R.id.topic2);
         topic3 = (Button)findViewById(R.id.topic3);
+        openGmail = (Button)findViewById(R.id.openGmail);
         spinner = (Spinner) findViewById(R.id.spinner);
 //        spin = (Spinner) findViewById(R.id.spin);
         loadAssignmentData();
+
+        openGmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent (Intent.ACTION_SEND);
+                emailIntent .setType("message/rfc822");
+                emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"testEmail@gmail.com"});
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Put your Subject here");
+                emailIntent .setPackage("com.google.android.gm");
+                if (emailIntent .resolveActivity(getPackageManager())!=null)
+                    startActivity(emailIntent);
+                else
+                    Toast.makeText(getApplicationContext(), "Gmail App is not installed",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // event to add values from form into database when assignment button is clicked
         assignmentButton.setOnClickListener(new View.OnClickListener() {

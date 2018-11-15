@@ -59,9 +59,9 @@
             android:id="@+id/assignmentButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/txtpercentworth"
-            android:layout_marginTop="-130dp"
+            android:layout_marginBottom="144dp"
             android:drawableRight="@drawable/ic_library_books_black_24dp"
             android:padding="15dp"
             android:text="Add Assignment"
@@ -94,9 +94,8 @@
             android:id="@+id/txtdescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="192dp"
+            android:layout_centerVertical="true"
             android:ems="10"
             android:hint="DESCRIPTION"
             android:inputType="textPersonName" />
@@ -107,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="214dp"
+            android:layout_marginTop="197dp"
             android:ems="10"
             android:hint="DATE"
             android:inputType="textPersonName" />
@@ -116,9 +115,8 @@
             android:id="@+id/txtpercentworth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="130dp"
+            android:layout_below="@+id/txtdescription"
             android:ems="10"
             android:hint="PERCENTAGE WORTH"
             android:inputType="number" />
@@ -149,6 +147,15 @@
             android:layout_alignTop="@+id/topic1"
             android:layout_marginEnd="12dp"
             android:text="Topic Three" />
+
+        <Button
+            android:id="@+id/openGmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="80dp"
+            android:text="open gmail" />
 
         <!-- button tutorial: https://abhiandroid.com/ui/button-->
 
