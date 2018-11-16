@@ -39,7 +39,7 @@ public class Courses extends AppCompatActivity  {
     EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
     Spinner spinner;
     private Button topic1, topic2, topic3;
-//    private Spinner spin;
+
 
 
 
@@ -57,7 +57,7 @@ public class Courses extends AppCompatActivity  {
         abdt.setDrawerIndicatorEnabled(true);
         dl.addDrawerListener(abdt);
         abdt.syncState();
-//        addListenerOnSpinnerItemSelection();
+
 
 
         // initialising variables for assignment form and forum links
@@ -72,9 +72,7 @@ public class Courses extends AppCompatActivity  {
         topic3 = (Button)findViewById(R.id.topic3);
         addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
         openGmail = (Button)findViewById(R.id.openGmail);
-
         spinner = (Spinner) findViewById(R.id.spinner);
-//        spin = (Spinner) findViewById(R.id.spin);
         loadAssignmentData();
 
 
@@ -99,24 +97,6 @@ public class Courses extends AppCompatActivity  {
                     Toast.makeText(getApplicationContext(), "Gmail App is not installed",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        // event to add values from form into database when assignment button is clicked
-        assignmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db = openHelper.getWritableDatabase();
-                String name = _txtname.getText().toString();
-                String dueData = _txtduedate.getText().toString();
-                String description = _txtdescription.getText().toString();
-                Integer percentWorth = Integer.valueOf(_txtpercentworth.getText().toString());
-                insertData(name, dueData, description, percentWorth);
-                Toast.makeText(getApplicationContext(), "assignment is added", Toast.LENGTH_LONG).show();
-                loadAssignmentData();
-            }
-        });
-
-
 
         // tutorials for creating form with database: https://www.youtube.com/watch?v=B2avB5tmTMM
         // https://techsupportnep.com/programming/android/android-login-and-register-with-sqlite-database.html
@@ -164,17 +144,6 @@ public class Courses extends AppCompatActivity  {
             }
         });
 
-//        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                openActivityAssignments();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
 
         Button enrol = (Button) findViewById(R.id.enrolButton);
         enrol.setOnClickListener(new View.OnClickListener() {
@@ -215,10 +184,7 @@ public class Courses extends AppCompatActivity  {
         loadAssignmentData();
     }
 
-//    private void addListenerOnSpinnerItemSelection() {
-//        spin = (Spinner) findViewById(R.id.spin);
-//        spin.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-//    }
+
 
 
     // intents to open new activities
@@ -290,14 +256,19 @@ public class Courses extends AppCompatActivity  {
     }
 
     public void ChangeFragment(View view){
-//        Fragment AssignFragment = new Fragment();
-//        Fragment fragment = AssignFragment;
-        AddAssignment_Fragment fragment = new AddAssignment_Fragment();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-//        ft.replace(R.id.fragment_container, fragment);
-        ft.replace(R.id.your_placeholder, fragment);
-//        ft.add(R.id.fragment_container, fragment);
+        AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tag");
+        if(fragment == null) {
+            fragment = new AddAssignment_Fragment();
+            ft.add(R.id.placeholder, fragment, "tag");
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+        } else {  // already added
+
+            ft.remove(fragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        }
         ft.commit();
     }
 

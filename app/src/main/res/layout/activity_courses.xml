@@ -54,7 +54,8 @@
                     android:textSize="19sp"
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
-                    tools:text="COMP10280" />
+                    android:textColor="#283845"
+                    />
 
                 <TextView
                     android:id="@+id/textViewCourseName"
@@ -67,9 +68,10 @@
                     android:textSize="19sp"
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
-                    tools:text="Introduction to Programming" />
+                    tools:text="Introduction to Programming"
+                    android:textColor="#283845"/>
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/enrolButton"
                     android:layout_width="252dp"
                     android:layout_height="wrap_content"
@@ -78,116 +80,141 @@
                     android:gravity="center_horizontal"
                     android:padding="15dp"
                     android:text="Enrol Me"
-                    android:textSize="16sp" />
+                    app:fontFamily="sans-serif"
+                    android:tint="#E8B4BC"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
                 <!-- button tutorial: https://abhiandroid.com/ui/button-->
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#283845"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
 
+                <TextView
+                    android:id="@+id/ViewAssignments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#d3d3d3"
+                    android:text="View Assignments"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#283845"/>
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/assignment_names"
                     android:padding="15dp"
-                    android:textSize="20sp">
+                    android:textSize="20sp"
+                    app:fontFamily="sans-serif">
 
                 </android.support.v7.widget.AppCompatSpinner>
                 <!-- Spinner tutorial: https://www.youtube.com/watch?v=NoSri0OSOaA-->
 
 
-                <Spinner
+                <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#283845"
+                    android:padding="15dp"
+                    android:textSize="20sp">
+                </android.support.v7.widget.AppCompatSpinner>
 
 
 
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/assignmentFragButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_library_books_black_24dp"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
                     android:padding="15dp"
                     android:text="Add Assignment"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/txtname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="ASSIGNMENT NAME"
-                    android:inputType="textPersonName" />
-
-                <EditText
-                    android:id="@+id/txtdescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="DESCRIPTION"
-                    android:inputType="textPersonName" />
-
-                <EditText
-                    android:id="@+id/txtduedate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="DATE"
-                    android:inputType="textPersonName" />
-
-                <EditText
-                    android:id="@+id/txtpercentworth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="PERCENTAGE WORTH"
-                    android:inputType="number" />
-
-                <Button
-                    android:id="@+id/assignmentButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_library_books_black_24dp"
-                    android:padding="15dp"
-                    android:text="Add Assignment"
-                    android:textSize="16sp" />
-                <!--<fragment-->
-                    <!--android:name="com.example.hp.androidproject.FragmentOne"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="400dp"-->
-                    <!--android:id="@+id/fragment_container"-->
-                    <!--android:visibility="gone">-->
-
-                <!--</fragment>-->
+                    app:fontFamily="sans-serif"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
 
                 <FrameLayout
-                    android:id="@+id/your_placeholder"
+                    android:id="@+id/placeholder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </FrameLayout>
-                
-                <Button
+
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/openGmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="open gmail" />
+                    android:text="open gmail"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
 
-                <Button
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="#283845"/>
+
+                <TextView
+                    android:id="@+id/DiscussionForum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#d3d3d3"
+                    android:text="Discussion Forum"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#283845"/>
+
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/topic1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Topic One" />
+                    android:text="Topic One"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/topic2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Topic Two" />
+                    android:text="Topic Two"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/topic3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Topic Three" />
+                    android:text="Topic Three"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
 
 
 

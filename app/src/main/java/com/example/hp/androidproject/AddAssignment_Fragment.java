@@ -72,10 +72,10 @@ public class AddAssignment_Fragment extends Fragment {
                     ((Courses) act).testing(name, dueData, description, percentWorth);
                 }
 
-                Toast.makeText(getActivity(), "assignment is added", Toast.LENGTH_LONG).show();
-                if (act instanceof Courses) {
-                    ((Courses) act).loadAssignmentData();
-                }
+//                Toast.makeText(getActivity(), "assignment is added", Toast.LENGTH_LONG).show();
+//                if (act instanceof Courses) {
+//                    ((Courses) act).loadAssignmentData();
+//                }
 
             }
         });
