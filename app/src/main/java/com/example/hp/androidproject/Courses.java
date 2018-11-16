@@ -21,6 +21,9 @@ import android.widget.Toast;
 import java.util.List;
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 
 
 
@@ -30,7 +33,7 @@ public class Courses extends AppCompatActivity  {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
-    Button enrolButton, assignmentButton, openGmail;
+    Button enrolButton, assignmentButton, openGmail, addAssignmentFrag;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
     EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
@@ -48,7 +51,6 @@ public class Courses extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
 
-
         // initialising variables
         dl = (DrawerLayout)findViewById(R.id.dl);
         abdt = new ActionBarDrawerToggle(this, dl, R.string.Open,R.string.Close);
@@ -56,7 +58,6 @@ public class Courses extends AppCompatActivity  {
         dl.addDrawerListener(abdt);
         abdt.syncState();
 //        addListenerOnSpinnerItemSelection();
-
 
 
         // initialising variables for assignment form and forum links
@@ -69,10 +70,20 @@ public class Courses extends AppCompatActivity  {
         topic1 = (Button)findViewById(R.id.topic1);
         topic2 = (Button)findViewById(R.id.topic2);
         topic3 = (Button)findViewById(R.id.topic3);
+        addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
         openGmail = (Button)findViewById(R.id.openGmail);
+
         spinner = (Spinner) findViewById(R.id.spinner);
 //        spin = (Spinner) findViewById(R.id.spin);
         loadAssignmentData();
+
+
+        addAssignmentFrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChangeFragment(addAssignmentFrag);
+            }
+        });
 
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +100,7 @@ public class Courses extends AppCompatActivity  {
             }
         });
 
+
         // event to add values from form into database when assignment button is clicked
         assignmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +115,8 @@ public class Courses extends AppCompatActivity  {
                 loadAssignmentData();
             }
         });
+
+
 
         // tutorials for creating form with database: https://www.youtube.com/watch?v=B2avB5tmTMM
         // https://techsupportnep.com/programming/android/android-login-and-register-with-sqlite-database.html
@@ -194,6 +208,13 @@ public class Courses extends AppCompatActivity  {
 
     }
 
+    public void testing(String name, String dueData, String description, Integer percentWorth){
+        db = openHelper.getWritableDatabase();
+        insertData(name, dueData, description, percentWorth);
+        Toast.makeText(getApplicationContext(), "assignment is added", Toast.LENGTH_LONG).show();
+        loadAssignmentData();
+    }
+
 //    private void addListenerOnSpinnerItemSelection() {
 //        spin = (Spinner) findViewById(R.id.spin);
 //        spin.setOnItemSelectedListener(new CustomOnItemSelectedListener());
@@ -242,12 +263,11 @@ public class Courses extends AppCompatActivity  {
             Toast.makeText(Courses.this,"New row added, row id: " + id + name + dueData + description + percentWorth, Toast.LENGTH_SHORT).show();
         } catch (Exception e){
             e.printStackTrace();
+            Toast.makeText(Courses.this, "name "+ name + dueData + description, Toast.LENGTH_SHORT).show();
             Toast.makeText(Courses.this,"Something wrong", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-
 
 
     @Override
@@ -256,7 +276,7 @@ public class Courses extends AppCompatActivity  {
     }
 
     // function to load data from database into spinner (drop down menu)
-    private void loadAssignmentData() {
+    public void loadAssignmentData() {
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         List <String> assignment = db.getAssignments();
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -269,7 +289,18 @@ public class Courses extends AppCompatActivity  {
         // tutorial to get data from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
     }
 
-}
+    public void ChangeFragment(View view){
+//        Fragment AssignFragment = new Fragment();
+//        Fragment fragment = AssignFragment;
+        AddAssignment_Fragment fragment = new AddAssignment_Fragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+//        ft.replace(R.id.fragment_container, fragment);
+        ft.replace(R.id.your_placeholder, fragment);
+//        ft.add(R.id.fragment_container, fragment);
+        ft.commit();
+    }
 
+}
 
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.example.hp.androidproject.AddAssignment_Fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        tools:background="@android:color/holo_red_light" />
+
+    <EditText
+        android:id="@+id/txtname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="ASSIGNMENT NAME"
+        android:inputType="textPersonName" />
+
+
+    <EditText
+        android:id="@+id/txtduedate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="DATE"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtdescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="DESCRIPTION"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtpercentworth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="PERCENTAGE WORTH"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/assignmentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_library_books_black_24dp"
+        android:padding="15dp"
+        android:text="Add Assignment"
+        android:textSize="16sp" />
+
+</LinearLayout>
