@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openUser(){
-        Intent intent = new Intent(this, User.class);
+        Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
     public void openMainActivity(){

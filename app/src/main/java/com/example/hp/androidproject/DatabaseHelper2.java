@@ -1,5 +1,6 @@
 package com.example.hp.androidproject;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,7 +18,7 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
     public static final String TABLE_NAME="StudyTimeLog";
     public static final String COL_1="Count_ID ";
     public static final String COL_2="CourseCode ";
-    public static final String COL_3="DateTime ";
+    public static final String COL_3="CourseName ";
     public static final String COL_4="TotalStudy ";
     public static final String COL_5="Interrupted ";
 
@@ -28,11 +29,39 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL_1 +"INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_2+ "VARCHAR, "+ COL_3+ "VARCHAR, "+COL_4+ "INTEGER, "+COL_5+ "INTEGER)");
+        populate(db);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME); //Drop older table if exists
         onCreate(db);
+    }
+
+    public void populate(SQLiteDatabase db){
+
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseHelper2.COL_2, "COMP41690");
+            contentValues.put(DatabaseHelper2.COL_3, "Android Programming");
+            contentValues.put(DatabaseHelper2.COL_4, 40);
+            contentValues.put(DatabaseHelper2.COL_5, 3);
+
+           // long id = db.insert(TABLE_NAME, null, contentValues);
+
+            contentValues.put(DatabaseHelper2.COL_2, "COMP47520");
+            contentValues.put(DatabaseHelper2.COL_3, "Programming for IoT");
+            contentValues.put(DatabaseHelper2.COL_4, 20);
+            contentValues.put(DatabaseHelper2.COL_5, 7);
+
+            contentValues.put(DatabaseHelper2.COL_2, "COMP41530");
+            contentValues.put(DatabaseHelper2.COL_3, "Java Programming");
+            contentValues.put(DatabaseHelper2.COL_4, 32);
+            contentValues.put(DatabaseHelper2.COL_5, 10);
+
+            long id = db.insert(TABLE_NAME, null, contentValues);
+
+
+
     }
 
     public List<String> getAssignments(){

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hp.androidproject">
 
+    <uses-sdk android:minSdkVersion="14" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".User" />
+        <activity android:name=".SearchCouses" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
         <activity android:name=".DiscussionForumMake" />
         <activity android:name=".Courses" />
         <activity android:name=".TopicOne" />
@@ -24,6 +34,9 @@
         <activity android:name=".TopicThree" />
         <activity android:name=".Assignments"/>
         <activity android:name=".StudyTimer"/>
+        <activity android:name=".User"/>
+        <activity android:name=".Settings"/>
+        <activity android:name=".EditSettings"/>
     </application>
 
 </manifest>

@@ -1,13 +1,10 @@
 package com.example.hp.androidproject;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -25,17 +22,19 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.lapism.searchview.Search;
+import com.lapism.searchview.database.SearchHistoryTable;
+import com.lapism.searchview.widget.SearchAdapter;
+import com.lapism.searchview.widget.SearchItem;
+import com.lapism.searchview.widget.SearchView;
 
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.ArrayAdapter;
@@ -50,6 +49,7 @@ public class User extends AppCompatActivity {
     private Button timeStudy;
 
 
+
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
     BarChart chart;
@@ -60,7 +60,53 @@ public class User extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user);
 
-        // initialising variables for nav bar
+
+
+
+
+//        SearchItem suggestion = new SearchItem(this);
+//        suggestion.setTitle("Title");
+//      //  suggestion.setIcon_1_resource(R.drawable.search_ic_search_black_24dp);
+//        suggestion.setSubtitle("Subtitle");
+//
+//        List<SearchItem> suggestions = new ArrayList<>();
+//        suggestions.add(suggestion);
+//
+//        final SearchHistoryTable mHistoryDatabase = new SearchHistoryTable(this);
+//
+//        SearchAdapter searchAdapter = new SearchAdapter(this);
+//        searchAdapter.setSuggestionsList(suggestions);
+//        searchAdapter.setOnSearchItemClickListener(new SearchAdapter.OnSearchItemClickListener() {
+//            @Override
+//            public void onSearchItemClick(int position, CharSequence title, CharSequence subtitle) {
+//                SearchItem item = new SearchItem(User.this);
+//                item.setTitle(title);
+//                item.setSubtitle(subtitle);
+//
+//                mHistoryDatabase.addItem(item);
+//            }
+//        });
+//
+//        SearchView searchView = findViewById(R.id.searchView);
+//        searchView.setOnQueryTextListener(new Search.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(CharSequence query) {
+//                SearchItem item = new SearchItem(User.this);
+//                item.setTitle(query);
+//
+//                mHistoryDatabase.addItem(item);
+//                return true;
+//            }
+//
+//            @Override
+//            public void onQueryTextChange(CharSequence newText) {
+//                //return false;
+//                int x = 1;
+//            }
+//        });
+
+
+            // initialising variables for nav bar
         dl = (DrawerLayout) findViewById(R.id.dl);
         abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -169,7 +215,6 @@ public class User extends AppCompatActivity {
             }
         });
     }
-
 
     public void createTextField() {
 

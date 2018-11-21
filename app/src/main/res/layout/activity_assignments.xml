@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView3"
+            android:layout_alignStart="@+id/uni_user"
             android:layout_marginTop="89dp"
             android:text="assignmentname" />
 
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView3"
+            android:layout_alignStart="@+id/uni_user"
             android:layout_marginTop="130dp"
             android:text="assignment description" />
 
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView3"
+            android:layout_alignStart="@+id/uni_user"
             android:layout_marginTop="177dp"
             android:text="assignment percent" />
 
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView3"
+            android:layout_alignStart="@+id/uni_user"
             android:layout_marginTop="221dp"
             android:text="duedate" />
     </RelativeLayout>
