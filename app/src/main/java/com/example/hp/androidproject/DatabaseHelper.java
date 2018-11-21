@@ -16,12 +16,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_4="description";
     public static final String COL_5="percentageWorth";
 
+//    public static final String TABLE2_NAME="createForum";
+//    public static final String COL2_12="ID";
+//    public static final String COL2_2="name";
+//    public static final String COL2_3="description";
+//    public static final String COL2_4="comments";
+
+
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT ,dueData TEXT ,description TEXT ,percentageWorth INTEGER)");
 
     }

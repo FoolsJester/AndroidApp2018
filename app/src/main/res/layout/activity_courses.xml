@@ -10,12 +10,7 @@
     android:id="@+id/dl">
     <!-- NavBar tutorial: https://www.youtube.com/watch?v=0WC0VU0hw2w-->
 
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--xmlns:tools="http://schemas.android.com/tools"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--tools:context=".MainActivity">-->
+
 
         <ScrollView
             android:layout_width="368dp"
@@ -71,20 +66,6 @@
                     tools:text="Introduction to Programming"
                     android:textColor="#283845"/>
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/enrolButton"
-                    android:layout_width="252dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableEnd="@drawable/ic_favorite_border_black_24dp"
-                    android:gravity="center_horizontal"
-                    android:padding="15dp"
-                    android:text="Enrol Me"
-                    app:fontFamily="sans-serif"
-                    android:tint="#E8B4BC"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
-                <!-- button tutorial: https://abhiandroid.com/ui/button-->
                 <View
                     android:id="@+id/divider1"
                     android:layout_width="match_parent"
@@ -100,50 +81,82 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
 
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/enrolButton"
+                    android:layout_width="252dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableEnd="@drawable/ic_favorite_border_black_24dp"
+                    android:gravity="center_horizontal"
+                    android:text="Enrol Me"
+                    app:fontFamily="sans-serif"
+                    android:tint="#E8B4BC"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
+                <!-- button tutorial: https://abhiandroid.com/ui/button-->
+
+
                 <TextView
                     android:id="@+id/ViewAssignments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#d3d3d3"
-                    android:text="View Assignments"
+                    android:layout_marginTop="8dp"
+                    android:padding="4dp"
+                    android:text="Assignments"
                     android:textAlignment="textStart"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
                     android:textColor="#283845"/>
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/spin"
+
+                <TextView
+                    android:id="@+id/SelectAssignments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/assignment_names"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    app:fontFamily="sans-serif">
-
-                </android.support.v7.widget.AppCompatSpinner>
-                <!-- Spinner tutorial: https://www.youtube.com/watch?v=NoSri0OSOaA-->
-
+                    android:layout_marginTop="8dp"
+                    android:text="Select Assignments"
+                    android:textAlignment="textStart"
+                    android:textSize="15sp"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#283845"/>
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:fontFamily="sans-serif"
-                    android:textColor="#283845"
+                    android:layout_marginTop="8dp"
                     android:padding="15dp"
-                    android:textSize="20sp">
+                    android:textColor="#283845"
+                    android:textSize="20sp"
+                    app:fontFamily="sans-serif"
+                    >
+
                 </android.support.v7.widget.AppCompatSpinner>
+                <!-- Spinner tutorial: https://www.youtube.com/watch?v=NoSri0OSOaA-->
 
 
-
+                <TextView
+                    android:id="@+id/SubmitAssignments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="4dp"
+                    android:text="Add an Assignment"
+                    android:textAlignment="textStart"
+                    android:textSize="15sp"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#283845"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/assignmentFragButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
-                    android:padding="15dp"
-                    android:text="Add Assignment"
+                    android:text="Click to Add"
                     app:fontFamily="sans-serif"
                     android:textColor="#F2D492"
                     app:backgroundTint="#283845"/>
@@ -151,37 +164,38 @@
                 <FrameLayout
                     android:id="@+id/placeholder"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp">
                 </FrameLayout>
+
+                <TextView
+                    android:id="@+id/MessageGmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Message a Friend"
+                    android:textAlignment="textStart"
+                    android:textSize="15sp"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#283845"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/openGmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="open gmail"
                     app:fontFamily="sans-serif"
                     android:textColor="#F2D492"
                     app:backgroundTint="#283845"/>
-
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="?android:attr/listDivider"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="#283845"/>
 
                 <TextView
                     android:id="@+id/DiscussionForum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#d3d3d3"
+                    android:layout_marginTop="8dp"
+                    android:padding="4dp"
                     android:text="Discussion Forum"
                     android:textAlignment="textStart"
                     android:textSize="20sp"
@@ -189,39 +203,85 @@
                     app:fontFamily="sans-serif"
                     android:textColor="#283845"/>
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/topic1"
+                <TextView
+                    android:id="@+id/SelectTopic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Topic One"
+                    android:layout_marginTop="8dp"
+                    android:text="Select A Topic"
+                    android:textAlignment="textStart"
+                    android:textSize="15sp"
                     app:fontFamily="sans-serif"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
+                    android:textColor="#283845"/>
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/topic2"
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/ForumSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Topic Two"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/forum_list"
                     app:fontFamily="sans-serif"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
+                    android:textColor="#283845"
+                    android:padding="15dp"
+                    android:textSize="20sp">
+                </android.support.v7.widget.AppCompatSpinner>
+                <!-- Spinner tutorial: https://www.youtube.com/watch?v=NoSri0OSOaA-->
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/topic3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Topic Three"
-                    app:fontFamily="sans-serif"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
+                <!--<android.support.v7.widget.AppCompatButton-->
+                    <!--android:id="@+id/topic1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:text="Topic One"-->
+                    <!--app:fontFamily="sans-serif"-->
+                    <!--android:textColor="#F2D492"-->
+                    <!--app:backgroundTint="#283845"/>-->
+
+                <!--<android.support.v7.widget.AppCompatButton-->
+                    <!--android:id="@+id/topic2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:text="Topic Two"-->
+                    <!--app:fontFamily="sans-serif"-->
+                    <!--android:textColor="#F2D492"-->
+                    <!--app:backgroundTint="#283845"/>-->
+
+                <!--<android.support.v7.widget.AppCompatButton-->
+                    <!--android:id="@+id/topic3"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:text="Topic Three"-->
+                    <!--app:fontFamily="sans-serif"-->
+                    <!--android:textColor="#F2D492"-->
+                    <!--app:backgroundTint="#283845"/>-->
 
 
 
                 <!-- button tutorial: https://abhiandroid.com/ui/button-->
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/addForumTopic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:text="Click to Add"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#F2D492"
+                    app:backgroundTint="#283845"/>
+
+                <FrameLayout
+                    android:id="@+id/forumPlaceholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp">
+                </FrameLayout>
+
             </LinearLayout>
         </ScrollView>
-    <!--</RelativeLayout>-->
+
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"

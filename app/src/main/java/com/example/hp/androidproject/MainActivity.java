@@ -16,6 +16,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
@@ -32,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         abdt.setDrawerIndicatorEnabled(true);
         dl.addDrawerListener(abdt);
         abdt.syncState();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

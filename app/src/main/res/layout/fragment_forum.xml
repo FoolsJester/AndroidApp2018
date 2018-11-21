@@ -4,32 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.example.hp.androidproject.AddAssignment_Fragment">
+    tools:context="com.example.hp.androidproject.ForumFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:background="@android:color/holo_red_light" />
 
     <EditText
-        android:id="@+id/txtname"
+        android:id="@+id/topicname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Assignment Name"
+        android:hint="Topic Name"
         android:inputType="textPersonName" />
 
 
     <EditText
-        android:id="@+id/txtduedate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="textPersonName|date" />
-
-    <EditText
-        android:id="@+id/txtdescription"
+        android:id="@+id/topicdescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -37,20 +25,19 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/txtpercentworth"
+        android:id="@+id/addquestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Percentage Worth"
+        android:hint="Add Question"
         android:inputType="number" />
 
     <Button
-        android:id="@+id/assignmentButton"
+        android:id="@+id/forumButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_library_books_black_24dp"
         android:padding="15dp"
-        android:text="Add"
+        android:text="Add Topic"
         android:textSize="16sp" />
 
 </LinearLayout>

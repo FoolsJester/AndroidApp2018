@@ -7,12 +7,14 @@
     <string name="title"> Enter Title</string>
     <string name="enter_text">Write a detailed Description</string>
 
-    <string-array name="assignment_names">
-        <item>Assignment1</item>
-        <item>Assignment2</item>
-        <item>Assignment3</item>
-        <item>Assignment4</item>
+    <string-array name="forum_list">
+        <item>Topic1</item>
+        <item>Topic2</item>
+        <item>Topic3</item>
+        <item>Topic4</item>
     </string-array>
+
+    <string name="assignment_prompt">See Assignments</string>
 
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>

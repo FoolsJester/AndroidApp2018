@@ -69,13 +69,9 @@ public class AddAssignment_Fragment extends Fragment {
 
                 Activity act = getActivity();
                 if (act instanceof Courses) {
-                    ((Courses) act).testing(name, dueData, description, percentWorth);
+                    ((Courses) act).populateSpinner(name, dueData, description, percentWorth);
                 }
 
-//                Toast.makeText(getActivity(), "assignment is added", Toast.LENGTH_LONG).show();
-//                if (act instanceof Courses) {
-//                    ((Courses) act).loadAssignmentData();
-//                }
 
             }
         });

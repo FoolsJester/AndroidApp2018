@@ -33,12 +33,14 @@ public class Courses extends AppCompatActivity  {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
-    Button enrolButton, assignmentButton, openGmail, addAssignmentFrag;
+    Button enrolButton, assignmentButton, openGmail, addAssignmentFrag, addForumTopic;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
     EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
-    Spinner spinner;
-    private Button topic1, topic2, topic3;
+    Spinner Assignmentspinner, ForumSpinner;
+//    private Button topic1, topic2, topic3;
+    int delaySelect = 0;
+    int delayForumSelect = 0;
 
 
 
@@ -67,19 +69,29 @@ public class Courses extends AppCompatActivity  {
         _txtduedate = (EditText)findViewById(R.id.txtduedate);
         _txtdescription = (EditText)findViewById(R.id.txtdescription);
         _txtpercentworth = (EditText)findViewById(R.id.txtpercentworth);
-        topic1 = (Button)findViewById(R.id.topic1);
-        topic2 = (Button)findViewById(R.id.topic2);
-        topic3 = (Button)findViewById(R.id.topic3);
+//        topic1 = (Button)findViewById(R.id.topic1);
+//        topic2 = (Button)findViewById(R.id.topic2);
+//        topic3 = (Button)findViewById(R.id.topic3);
         addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
         openGmail = (Button)findViewById(R.id.openGmail);
-        spinner = (Spinner) findViewById(R.id.spinner);
+        addForumTopic = (Button)findViewById(R.id.addForumTopic);
+        Assignmentspinner = (Spinner) findViewById(R.id.spinner);
+        ForumSpinner = (Spinner) findViewById(R.id.ForumSpinner);
         loadAssignmentData();
+
 
 
         addAssignmentFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChangeFragment(addAssignmentFrag);
+            }
+        });
+
+        addForumTopic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                topicFragment(addForumTopic);
             }
         });
 
@@ -129,13 +141,38 @@ public class Courses extends AppCompatActivity  {
             }
         });
 
-        Spinner s = (Spinner) findViewById(R.id.spin);
+        Assignmentspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(Courses.this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+
+                if(delaySelect != position) {
+                    openActivityAssignments();
+                }
+                else{
+                    return;
+                }
+                delaySelect = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ForumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(delayForumSelect != position) {
+                    openActivityTopicOne();
+                }
+                else{
+                    return;
+                }
+                delayForumSelect = position;
             }
 
             @Override
@@ -154,30 +191,31 @@ public class Courses extends AppCompatActivity  {
         });
 
 //       button tutorial: https://abhiandroid.com/ui/button
-
-        topic1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openActivityTopicOne();
-            }
-        });
-        topic2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openActivityTopicTwo();
-            }
-        });
-        topic3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openActivityTopicThree();
-            }
-        });
+//
+//        topic1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openActivityTopicOne();
+//            }
+//        });
+//        topic2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openActivityTopicTwo();
+//            }
+//        });
+//        topic3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openActivityTopicThree();
+//            }
+//        });
 
 
     }
 
-    public void testing(String name, String dueData, String description, Integer percentWorth){
+    public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
+        delaySelect = 0;
         db = openHelper.getWritableDatabase();
         insertData(name, dueData, description, percentWorth);
         Toast.makeText(getApplicationContext(), "assignment is added", Toast.LENGTH_LONG).show();
@@ -226,11 +264,9 @@ public class Courses extends AppCompatActivity  {
             contentValues.put(DatabaseHelper.COL_4, description);
             contentValues.put(DatabaseHelper.COL_5, percentWorth);
             long id = db.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
-            Toast.makeText(Courses.this,"New row added, row id: " + id + name + dueData + description + percentWorth, Toast.LENGTH_SHORT).show();
         } catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(Courses.this, "name "+ name + dueData + description, Toast.LENGTH_SHORT).show();
-            Toast.makeText(Courses.this,"Something wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Courses.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -250,7 +286,7 @@ public class Courses extends AppCompatActivity  {
         dataAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner.setAdapter(dataAdapter);
+        Assignmentspinner.setAdapter(dataAdapter);
 
         // tutorial to get data from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
     }
@@ -262,6 +298,23 @@ public class Courses extends AppCompatActivity  {
         if(fragment == null) {
             fragment = new AddAssignment_Fragment();
             ft.add(R.id.placeholder, fragment, "tag");
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+        } else {  // already added
+
+            ft.remove(fragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        }
+        ft.commit();
+    }
+
+    public void topicFragment(View view){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ForumFragment fragment = (ForumFragment) fm.findFragmentByTag("tag");
+        if(fragment == null) {
+            fragment = new ForumFragment();
+            ft.add(R.id.forumPlaceholder, fragment, "tag");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         } else {  // already added
