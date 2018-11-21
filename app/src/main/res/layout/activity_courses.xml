@@ -7,8 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/dl">
+    android:id="@+id/dl"
+    >
     <!-- NavBar tutorial: https://www.youtube.com/watch?v=0WC0VU0hw2w-->
+
+
 
 
 
@@ -117,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Select Assignments"
+                    android:text="Search Assignments"
                     android:textAlignment="textStart"
                     android:textSize="15sp"
                     app:fontFamily="sans-serif"
@@ -138,25 +141,13 @@
                 <!-- Spinner tutorial: https://www.youtube.com/watch?v=NoSri0OSOaA-->
 
 
-                <TextView
-                    android:id="@+id/SubmitAssignments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:padding="4dp"
-                    android:text="Add an Assignment"
-                    android:textAlignment="textStart"
-                    android:textSize="15sp"
-                    app:fontFamily="sans-serif"
-                    android:textColor="#283845"/>
-
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/assignmentFragButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
-                    android:text="Click to Add"
+                    android:text="Add Assignment"
                     app:fontFamily="sans-serif"
                     android:textColor="#F2D492"
                     app:backgroundTint="#283845"/>
@@ -169,11 +160,39 @@
                 </FrameLayout>
 
                 <TextView
+                    android:id="@+id/courseMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#d3d3d3"
+                    android:layout_marginTop="8dp"
+                    android:padding="4dp"
+                    android:text="Course Members"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif"
+                    android:textColor="#283845"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/memberSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="textStart"
+                    android:padding="15dp"
+                    android:textColor="#283845"
+                    android:textSize="20sp"
+                    android:entries="@array/member_names"
+                    app:fontFamily="sans-serif"
+                    >
+
+                </android.support.v7.widget.AppCompatSpinner>
+
+                <TextView
                     android:id="@+id/MessageGmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Message a Friend"
+                    android:text="Message a Member"
                     android:textAlignment="textStart"
                     android:textSize="15sp"
                     app:fontFamily="sans-serif"
@@ -208,7 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Select A Topic"
+                    android:text="Search Topics"
                     android:textAlignment="textStart"
                     android:textSize="15sp"
                     app:fontFamily="sans-serif"
@@ -227,36 +246,6 @@
                 </android.support.v7.widget.AppCompatSpinner>
                 <!-- Spinner tutorial: https://www.youtube.com/watch?v=NoSri0OSOaA-->
 
-                <!--<android.support.v7.widget.AppCompatButton-->
-                    <!--android:id="@+id/topic1"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:text="Topic One"-->
-                    <!--app:fontFamily="sans-serif"-->
-                    <!--android:textColor="#F2D492"-->
-                    <!--app:backgroundTint="#283845"/>-->
-
-                <!--<android.support.v7.widget.AppCompatButton-->
-                    <!--android:id="@+id/topic2"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:text="Topic Two"-->
-                    <!--app:fontFamily="sans-serif"-->
-                    <!--android:textColor="#F2D492"-->
-                    <!--app:backgroundTint="#283845"/>-->
-
-                <!--<android.support.v7.widget.AppCompatButton-->
-                    <!--android:id="@+id/topic3"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:text="Topic Three"-->
-                    <!--app:fontFamily="sans-serif"-->
-                    <!--android:textColor="#F2D492"-->
-                    <!--app:backgroundTint="#283845"/>-->
-
 
 
                 <!-- button tutorial: https://abhiandroid.com/ui/button-->
@@ -267,7 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
-                    android:text="Click to Add"
+                    android:text="Add Forum Topic"
                     app:fontFamily="sans-serif"
                     android:textColor="#F2D492"
                     app:backgroundTint="#283845"/>

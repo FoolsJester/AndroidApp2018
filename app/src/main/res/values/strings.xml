@@ -16,6 +16,15 @@
 
     <string name="assignment_prompt">See Assignments</string>
 
+    <string-array name="member_names">
+        <item> </item>
+        <item>Muireann Mac Carthy</item>
+        <item>Amy McCormack</item>
+        <item>Eimear Galligan</item>
+        <item>Shane Bird</item>
+    </string-array>
+
+
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
 

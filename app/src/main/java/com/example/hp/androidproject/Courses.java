@@ -38,7 +38,6 @@ public class Courses extends AppCompatActivity  {
     SQLiteDatabase db;
     EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
     Spinner Assignmentspinner, ForumSpinner;
-//    private Button topic1, topic2, topic3;
     int delaySelect = 0;
     int delayForumSelect = 0;
 
@@ -65,13 +64,10 @@ public class Courses extends AppCompatActivity  {
         // initialising variables for assignment form and forum links
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
         openHelper = new DatabaseHelper(this);
-        _txtname = (EditText)findViewById(R.id.txtname);
-        _txtduedate = (EditText)findViewById(R.id.txtduedate);
-        _txtdescription = (EditText)findViewById(R.id.txtdescription);
-        _txtpercentworth = (EditText)findViewById(R.id.txtpercentworth);
-//        topic1 = (Button)findViewById(R.id.topic1);
-//        topic2 = (Button)findViewById(R.id.topic2);
-//        topic3 = (Button)findViewById(R.id.topic3);
+//        _txtname = (EditText)findViewById(R.id.txtname);
+//        _txtduedate = (EditText)findViewById(R.id.txtduedate);
+//        _txtdescription = (EditText)findViewById(R.id.txtdescription);
+//        _txtpercentworth = (EditText)findViewById(R.id.txtpercentworth);
         addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
         openGmail = (Button)findViewById(R.id.openGmail);
         addForumTopic = (Button)findViewById(R.id.addForumTopic);
@@ -81,6 +77,7 @@ public class Courses extends AppCompatActivity  {
 
 
 
+        // button to add assignment fragment on click
         addAssignmentFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +85,8 @@ public class Courses extends AppCompatActivity  {
             }
         });
 
+
+        // button to add forum fragment on click
         addForumTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +94,8 @@ public class Courses extends AppCompatActivity  {
             }
         });
 
+
+        // function opens users gmail on button click
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +118,7 @@ public class Courses extends AppCompatActivity  {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // opens pages when item selected in nav bar
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
             @Override
@@ -190,27 +192,6 @@ public class Courses extends AppCompatActivity  {
             }
         });
 
-//       button tutorial: https://abhiandroid.com/ui/button
-//
-//        topic1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openActivityTopicOne();
-//            }
-//        });
-//        topic2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openActivityTopicTwo();
-//            }
-//        });
-//        topic3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openActivityTopicThree();
-//            }
-//        });
-
 
     }
 
@@ -229,14 +210,6 @@ public class Courses extends AppCompatActivity  {
 
     public void openActivityTopicOne(){
         Intent intent = new Intent(this, TopicOne.class);
-        startActivity(intent);
-    }
-    public void openActivityTopicTwo(){
-        Intent intent = new Intent(this, TopicTwo.class);
-        startActivity(intent);
-    }
-    public void openActivityTopicThree(){
-        Intent intent = new Intent(this, TopicThree.class);
         startActivity(intent);
     }
 
@@ -291,6 +264,10 @@ public class Courses extends AppCompatActivity  {
         // tutorial to get data from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
     }
 
+
+    // function to check if add assignment fragment is already added. If it is not added the
+    // fragment is added. If the fragment is already present when the method is called it is
+    // removed
     public void ChangeFragment(View view){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -300,7 +277,7 @@ public class Courses extends AppCompatActivity  {
             ft.add(R.id.placeholder, fragment, "tag");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
-        } else {  // already added
+        } else {
 
             ft.remove(fragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -311,15 +288,15 @@ public class Courses extends AppCompatActivity  {
     public void topicFragment(View view){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ForumFragment fragment = (ForumFragment) fm.findFragmentByTag("tag");
-        if(fragment == null) {
-            fragment = new ForumFragment();
-            ft.add(R.id.forumPlaceholder, fragment, "tag");
+        ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtag");
+        if(forumfragment == null) {
+            forumfragment = new ForumFragment();
+            ft.add(R.id.forumPlaceholder, forumfragment, "forumtag");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
-        } else {  // already added
+        } else {
 
-            ft.remove(fragment);
+            ft.remove(forumfragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         }
         ft.commit();

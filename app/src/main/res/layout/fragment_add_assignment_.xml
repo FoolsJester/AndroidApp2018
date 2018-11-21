@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/ic_library_books_black_24dp"
         android:padding="15dp"
-        android:text="Add"
+        android:text="Submit"
         android:textSize="16sp" />
 
 </LinearLayout>

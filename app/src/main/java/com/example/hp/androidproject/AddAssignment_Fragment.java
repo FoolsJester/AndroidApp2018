@@ -24,7 +24,8 @@ public class AddAssignment_Fragment extends Fragment {
     Button assignmentButton;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
-    EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
+    EditText tname, tdate, tdescription, tpercentworth;
+    int input1, input2, input3, input4;
 
     public AddAssignment_Fragment() {
         // Required empty public constructor
@@ -50,32 +51,44 @@ public class AddAssignment_Fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        assignmentButton = (Button)view.findViewById(R.id.assignmentButton);
+        assignmentButton = (Button) view.findViewById(R.id.assignmentButton);
         openHelper = new DatabaseHelper(getActivity());
-        _txtname = (EditText)view.findViewById(R.id.txtname);
-        _txtduedate = (EditText)view.findViewById(R.id.txtduedate);
-        _txtdescription = (EditText)view.findViewById(R.id.txtdescription);
-        _txtpercentworth = (EditText)view.findViewById(R.id.txtpercentworth);
+        tname = (EditText) view.findViewById(R.id.txtname);
+        tdate = (EditText) view.findViewById(R.id.txtduedate);
+        tdescription = (EditText) view.findViewById(R.id.txtdescription);
+        tpercentworth = (EditText) view.findViewById(R.id.txtpercentworth);
 
 
-        assignmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db = openHelper.getWritableDatabase();
-                String name = _txtname.getText().toString();
-                String dueData = _txtduedate.getText().toString();
-                String description = _txtdescription.getText().toString();
-                Integer percentWorth = Integer.valueOf(_txtpercentworth.getText().toString());
 
-                Activity act = getActivity();
-                if (act instanceof Courses) {
-                    ((Courses) act).populateSpinner(name, dueData, description, percentWorth);
+
+
+
+            assignmentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    input1 = tname.getText().toString().trim().length();
+                    input2 = tdate.getText().toString().trim().length();
+                    input3 = tdescription.getText().toString().trim().length();
+                    input4 = tpercentworth.getText().toString().trim().length();
+                    if (input1> 0 & + input2 > 0 & input3 > 0 & input4 > 0) {
+                        db = openHelper.getWritableDatabase();
+                        String name = tname.getText().toString();
+                        String dueData =tdate.getText().toString();
+                        String description = tdescription.getText().toString();
+                        Integer percentWorth = Integer.valueOf(tpercentworth.getText().toString());
+
+
+                        Activity act = getActivity();
+                        if (act instanceof Courses) {
+                            ((Courses) act).populateSpinner(name, dueData, description, percentWorth);
+                        }
+                    }
+                    else{
+                        Toast.makeText(getContext(), "Error... empty field " , Toast.LENGTH_LONG).show();
+                    }
+
                 }
-
-
-            }
-        });
-
+            });
 
     }
 
