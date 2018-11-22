@@ -1,30 +1,45 @@
 package com.example.hp.androidproject.Objects;
 import java.util.ArrayList;
 
+/*
+ * Object for Forum entries
+ *
+ * Used when creating a forum object to push to the database and also
+ * when pulling data from the database. The query is pulled and cast to the
+ * forum object. Much easier to deal with and manipulate
+ *
+ * */
+
 public class ForumObject {
-    String CourseCode;
-    String MainPost;
-    ArrayList<String> ReplyList;
+    //initialise relevanct variables
+    private String title;
+    private String content;
 
-    ForumObject(String Code, String Post){
-        CourseCode = Code;
-        MainPost = Post;
+    public ForumObject(){
+        //default constructor used when casting database read
     }
 
-    public String getCode(){
-        return CourseCode;
+    public ForumObject(String title, String content){
+        //overloaded constructor used when pushing to DB
+        this.title = title;
+        this.content = content;
     }
 
-    public String getMainPost(){
-        return MainPost;
+    //relevant getter and setter methods all auto-generated
+    public String getTitle() {
+        return title;
     }
 
-    public ArrayList<String> getReplyList(){
-        return ReplyList;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
+    public String getContent() {
+        return content;
+    }
 
-    public void AddReply(String Reply){
-        this.ReplyList.add(Reply);
+    public void setContent(String content) {
+        this.content = content;
     }
 }
+
