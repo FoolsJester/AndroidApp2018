@@ -78,6 +78,7 @@ public class Courses extends AppCompatActivity  {
                 Object value = dataSnapshot.getValue();
                 globalSnapshot = dataSnapshot;
                 loadAssignmentData(globalSnapshot);
+                loadForumData(globalSnapshot);
             }
 
             @Override
@@ -183,9 +184,10 @@ public class Courses extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                Object obj = parent.getAdapter().getItem(position);
+                String key = obj.toString();
                 if(delaySelect != position) {
-                    String key = "assignment2";
-                    AssignmentObject assignment = globalSnapshot.child("assignments").child("assignment2").getValue(AssignmentObject.class);
+                    AssignmentObject assignment = globalSnapshot.child("assignments").child(key).getValue(AssignmentObject.class);
                     customDialog(assignment.getTitle(),
                             "Due Date: "+assignment.getDueDate()+"\nCompleted: "+assignment.isComplete()
                                     + "\n\n"+assignment.getDescription(), key, assignment.isComplete());
@@ -206,9 +208,10 @@ public class Courses extends AppCompatActivity  {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                Object obj = parent.getAdapter().getItem(position);
+                String key = obj.toString();
                 if(delayForumSelect != position) {
-                    openActivityTopicOne();
+                    openActivityTopicOne(key);
                 }
                 else{
                     return;
@@ -236,10 +239,9 @@ public class Courses extends AppCompatActivity  {
 
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
         delaySelect = 0;
-        db = openHelper.getWritableDatabase();
         insertData(name, dueData, description, percentWorth);
         Toast.makeText(getApplicationContext(), "assignment is added", Toast.LENGTH_LONG).show();
-        //loadAssignmentData(globalSnapshot);
+
     }
 
 
@@ -247,8 +249,9 @@ public class Courses extends AppCompatActivity  {
 
     // intents to open new activities
 
-    public void openActivityTopicOne(){
+    public void openActivityTopicOne(String key){
         Intent intent = new Intent(this, DisplayContent.class);
+        intent.putExtra("key", "Forum1");
         startActivity(intent);
     }
 
@@ -272,7 +275,7 @@ public class Courses extends AppCompatActivity  {
         //changed to write to Firebase instead of Local DB
         try {
             Log.d(TAG, "myRef is : " + myRef);
-            myRef.child("assignments").child("assignment2").setValue(new AssignmentObject(name, dueData, description, percentWorth));
+            myRef.child("assignments").child(name).setValue(new AssignmentObject(name, dueData, description, percentWorth));
         } catch (Exception e){
             e.printStackTrace();
             Toast.makeText(Courses.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
@@ -291,6 +294,7 @@ public class Courses extends AppCompatActivity  {
     // function to load data from database into spinner (drop down menu)
     public void loadAssignmentData(DataSnapshot globalSnapshot) {
         ArrayList <String> assignment = new ArrayList<>();
+        assignment.add("Please Select an Assignment");
         for(DataSnapshot ds: globalSnapshot.child("assignments").getChildren()) {
             assignment.add(ds.child("title").getValue().toString());
         }
@@ -300,6 +304,21 @@ public class Courses extends AppCompatActivity  {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Assignmentspinner.setAdapter(dataAdapter);
+
+        // tutorial to get data from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
+    }
+    public void loadForumData(DataSnapshot globalSnapshot) {
+        ArrayList <String> assignment = new ArrayList<>();
+        assignment.add("Please Select a Forum");
+        for(DataSnapshot ds: globalSnapshot.child("forum").getChildren()) {
+            assignment.add(ds.child("title").getValue().toString());
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, assignment);
+        dataAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ForumSpinner.setAdapter(dataAdapter);
 
         // tutorial to get data from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
     }

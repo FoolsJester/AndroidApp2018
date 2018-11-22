@@ -1,5 +1,6 @@
 package com.example.hp.androidproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,15 +42,19 @@ public class DisplayContent extends AppCompatActivity {
     private TextView mTitle, mContent;
     private EditText mAuthor, mReply;
     private Button mSendReply;
+    private  String intentKey;
     ArrayList<ReplyObject> replies;
     RecyclerView rvReplyObjects;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_content);
-
+        intentKey = getIntent().getExtras().getString("key");
         //Instantiate xml components for writing new forums and generating replies
+
 
         mTitle = findViewById(R.id.title);
         mContent = findViewById(R.id.content);
@@ -91,7 +96,7 @@ public class DisplayContent extends AppCompatActivity {
                 String reply = mReply.getText().toString();
 
                 if (!author.equals("") && !reply.equals("")) {
-                    myRef.child("replies").child("Forum1").child(author).setValue(new ReplyObject(author, reply));
+                    myRef.child("replies").child(intentKey).child(author).setValue(new ReplyObject(author, reply));
                 }
             }
 
@@ -109,7 +114,7 @@ public class DisplayContent extends AppCompatActivity {
     * */
     public void populateData(DataSnapshot dataSnapshot){
 
-        ForumObject forumEntry = dataSnapshot.child("forum/Forum1").getValue(ForumObject.class);//casting red to forum class
+        ForumObject forumEntry = dataSnapshot.child("forum/"+intentKey).getValue(ForumObject.class);//casting red to forum class
         String title = forumEntry.getTitle();
         String content = forumEntry.getContent();
         Log.d(TAG, "Object reads in as: " + title + "    " + content);
@@ -119,10 +124,10 @@ public class DisplayContent extends AppCompatActivity {
 
 
         //second read is for the list of replies, if there are any
-        if(dataSnapshot.child("replies") != null){
+        if(dataSnapshot.child("replies/"+intentKey) != null){
             ArrayList<ReplyObject> replies = new ArrayList<>();// new array list to store all reply objects
 
-            for(DataSnapshot ds : dataSnapshot.child("replies").child("Forum1").getChildren()){//for loop iterating through each relevant reply
+            for(DataSnapshot ds : dataSnapshot.child("replies").child(intentKey).getChildren()){//for loop iterating through each relevant reply
                 ReplyObject replyObject = ds.getValue(ReplyObject.class);//casting to reply object
                 String author = replyObject.getAuthor();
                 String reply = replyObject.getReply();
