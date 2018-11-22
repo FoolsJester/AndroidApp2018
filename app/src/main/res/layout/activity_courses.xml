@@ -257,9 +257,9 @@
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
                     android:text="Add Forum Topic"
-                    app:fontFamily="sans-serif"
                     android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
+                    app:backgroundTint="#283845"
+                    app:fontFamily="sans-serif" />
 
                 <FrameLayout
                     android:id="@+id/forumPlaceholder"

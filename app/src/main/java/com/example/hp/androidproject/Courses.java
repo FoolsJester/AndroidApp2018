@@ -1,16 +1,19 @@
 package com.example.hp.androidproject;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,12 +28,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-
-
+import com.example.hp.androidproject.Objects.AssignmentObject;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Courses extends AppCompatActivity  {
 
+    private  DatabaseReference myRef;
+    private DataSnapshot globalSnapshot;
+    private static final String TAG = "Courses";
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
     Button enrolButton, assignmentButton, openGmail, addAssignmentFrag, addForumTopic;
@@ -51,6 +61,31 @@ public class Courses extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
+
+        /*
+        Initialise firebase DB and get reference for it. As will be writing and reading from several
+        spots in the DB, reference must be empty(root of tree)
+        */
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Object value = dataSnapshot.getValue();
+                globalSnapshot = dataSnapshot;
+                loadAssignmentData(globalSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         // initialising variables
         dl = (DrawerLayout)findViewById(R.id.dl);
@@ -73,7 +108,7 @@ public class Courses extends AppCompatActivity  {
         addForumTopic = (Button)findViewById(R.id.addForumTopic);
         Assignmentspinner = (Spinner) findViewById(R.id.spinner);
         ForumSpinner = (Spinner) findViewById(R.id.ForumSpinner);
-        loadAssignmentData();
+
 
 
 
@@ -149,7 +184,11 @@ public class Courses extends AppCompatActivity  {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if(delaySelect != position) {
-                    openActivityAssignments();
+                    String key = "assignment2";
+                    AssignmentObject assignment = globalSnapshot.child("assignments").child("assignment2").getValue(AssignmentObject.class);
+                    customDialog(assignment.getTitle(),
+                            "Due Date: "+assignment.getDueDate()+"\nCompleted: "+assignment.isComplete()
+                                    + "\n\n"+assignment.getDescription(), key, assignment.isComplete());
                 }
                 else{
                     return;
@@ -200,7 +239,7 @@ public class Courses extends AppCompatActivity  {
         db = openHelper.getWritableDatabase();
         insertData(name, dueData, description, percentWorth);
         Toast.makeText(getApplicationContext(), "assignment is added", Toast.LENGTH_LONG).show();
-        loadAssignmentData();
+        //loadAssignmentData(globalSnapshot);
     }
 
 
@@ -209,7 +248,7 @@ public class Courses extends AppCompatActivity  {
     // intents to open new activities
 
     public void openActivityTopicOne(){
-        Intent intent = new Intent(this, TopicOne.class);
+        Intent intent = new Intent(this, DisplayContent.class);
         startActivity(intent);
     }
 
@@ -230,17 +269,16 @@ public class Courses extends AppCompatActivity  {
 
     // method that inserts value from form into database
     public void insertData(String name, String dueData, String description, Integer percentWorth){
+        //changed to write to Firebase instead of Local DB
         try {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseHelper.COL_2, name);
-            contentValues.put(DatabaseHelper.COL_3, dueData);
-            contentValues.put(DatabaseHelper.COL_4, description);
-            contentValues.put(DatabaseHelper.COL_5, percentWorth);
-            long id = db.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
+            Log.d(TAG, "myRef is : " + myRef);
+            myRef.child("assignments").child("assignment2").setValue(new AssignmentObject(name, dueData, description, percentWorth));
         } catch (Exception e){
             e.printStackTrace();
             Toast.makeText(Courses.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
         }
+
+
 
     }
 
@@ -251,9 +289,11 @@ public class Courses extends AppCompatActivity  {
     }
 
     // function to load data from database into spinner (drop down menu)
-    public void loadAssignmentData() {
-        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        List <String> assignment = db.getAssignments();
+    public void loadAssignmentData(DataSnapshot globalSnapshot) {
+        ArrayList <String> assignment = new ArrayList<>();
+        for(DataSnapshot ds: globalSnapshot.child("assignments").getChildren()) {
+            assignment.add(ds.child("title").getValue().toString());
+        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, assignment);
         dataAdapter
@@ -300,6 +340,90 @@ public class Courses extends AppCompatActivity  {
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         }
         ft.commit();
+    }
+
+    /*
+     * Method for making custom Dialog Box.
+     *
+     * Uses Alert Dialog box and thus uses builder for same class. No need to initiate
+     * buttons in the method header as these will always call the same functions, just with
+     * different parameters
+     * */
+    public void customDialog(String title, String message,final String key, Boolean completeness){
+        final android.support.v7.app.AlertDialog.Builder builderSingle = new android.support.v7.app.AlertDialog.Builder(this);
+        //builderSingle.setIcon(R.mipmap.ic_notification);
+        builderSingle.setTitle(title); //constructing both title and message for display in dialog
+        builderSingle.setMessage(message);
+
+        //all relevant buttons below. Negative, positive etc hold no relevance. Just method requires them be called that
+        if (completeness){
+            builderSingle.setNegativeButton(
+                    "Mark as Incomplete",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            markIncomplete(key);
+                        }
+                    }
+            );
+        }
+
+        else {
+            builderSingle.setNegativeButton(
+                    "Mark as Complete",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            markComplete(key);
+                        }
+                    }
+            );
+        }
+
+        builderSingle.setPositiveButton(
+                "Work on Assignment",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        goToStudy();
+                    }
+                }
+        );
+
+        builderSingle.setNeutralButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }
+        );
+
+        builderSingle.show();
+    }
+
+    private void markComplete( String key){
+        myRef.child("assignments").child(key).child("complete").setValue(true);
+        toastMessage("Marked as Completed");
+    }
+
+    private void markIncomplete( String key){
+        myRef.child("assignments").child(key).child("complete").setValue(false);
+        toastMessage("Marked as Incomplete");
+    }
+
+    private void goToStudy(){
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    private void cancelDialog(){
+        toastMessage("Cancel");
+    }
+
+    public void toastMessage(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 }

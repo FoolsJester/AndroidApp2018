@@ -15,16 +15,18 @@ public class AssignmentObject {
     private String title;
     private String dueDate;
     private String description;
+    private Integer percentWorth;
     private boolean complete;
 
     public AssignmentObject(){//need a default constructor when pulling from DB
 
     }
 
-    public AssignmentObject(String title, String date, String desc){//overloaded constructor for pushing to DB
+    public AssignmentObject(String title, String date, String desc, Integer percentWorth){//overloaded constructor for pushing to DB
         this.title=title;
         this.dueDate=date;
         this.description=desc;
+        this.percentWorth = percentWorth;
         this.complete=false;
     }
 
@@ -51,6 +53,14 @@ public class AssignmentObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getPercentWorth() {
+        return percentWorth;
+    }
+
+    public void setPercentWorth(Integer percentWorth) {
+        this.percentWorth = percentWorth;
     }
 
     public boolean isComplete() {
