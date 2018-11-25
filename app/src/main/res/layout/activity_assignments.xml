@@ -89,6 +89,8 @@
             app:fontFamily="sans-serif"
             android:textColor="#283845"/>
 
+
+
         <TextView
             android:id="@+id/assignment_description"
             android:layout_width="match_parent"
@@ -110,6 +112,7 @@
             app:fontFamily="sans-serif"
             android:textColor="#283845"/>
 
+
         <TextView
             android:id="@+id/assignment_percent"
             android:layout_width="match_parent"
@@ -121,6 +124,7 @@
             android:id="@+id/AssignmentDueDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:background="#d3d3d3"
             android:layout_marginTop="8dp"
             android:text="Assignment Due Date"
@@ -130,13 +134,20 @@
             app:fontFamily="sans-serif"
             android:textColor="#283845"/>
 
+
         <TextView
             android:id="@+id/assignment_duedate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_marginTop="8dp"
             android:text="duedate goes here" />
+
     </LinearLayout>
+
+
+
+
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"

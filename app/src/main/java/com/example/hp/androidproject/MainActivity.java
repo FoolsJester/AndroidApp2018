@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                 else if( id == R.id.course){
                     openCourses();
                 }
+                else if( id == R.id.settings){
+                    openSettings();
+                }
                 else if(id == R.id.login){
                     openMainActivity();
                 }
@@ -69,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, User.class);
         startActivity(intent);
     }
+
+    public void openSettings(){
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
