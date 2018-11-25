@@ -59,7 +59,6 @@
                             android:id="@+id/name_settings"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Amy McCormack"
                             android:textAlignment="center"
                             android:textSize="18sp" />
 
@@ -67,7 +66,6 @@
                             android:id="@+id/email_settings"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="amy.mccormack@ucdconnecti.ie"
                             android:textAlignment="center"
                             android:textSize="18sp" />
 
@@ -77,7 +75,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="15sp"
-                            android:text="Couse Details"
+                            android:text="Course Details"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -87,7 +85,6 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="University College Dublin"
                             android:textSize="18sp" />
 
                         <TextView
@@ -97,7 +94,6 @@
 
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="MSc Computer Science"
                             android:textSize="18sp" />
 
                         <TextView

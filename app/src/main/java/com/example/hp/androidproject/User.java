@@ -61,9 +61,6 @@ public class User extends AppCompatActivity {
         setContentView(R.layout.user);
 
 
-
-
-
 //        SearchItem suggestion = new SearchItem(this);
 //        suggestion.setTitle("Title");
 //      //  suggestion.setIcon_1_resource(R.drawable.search_ic_search_black_24dp);
@@ -140,6 +137,7 @@ public class User extends AppCompatActivity {
         setSpinner();
         barChart();
         createTextField();
+        setText();
 
         openHelper = new DatabaseHelper2(this);
 
@@ -224,11 +222,11 @@ public class User extends AppCompatActivity {
         db = openHelper.getReadableDatabase();
 
         DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
-        List<String> courses = db.getAssignments();
+        List<String> courses = db.getCourseNames();
 
         int[] myIntArray = new int[courses.size()];
 
-        for (int i = 0; i < courses.size(); i++) {
+        for (int i = 0; i < courses.size(); i+=2) {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -238,13 +236,13 @@ public class User extends AppCompatActivity {
             final Button toCourse = new Button(this);
 
             course.setLayoutParams(lparams);
-            course.setText(courses.get(i));
+            course.setText(courses.get(i)+" - "+courses.get(i+1));
             course.setId(i+1);
             assignment.setLayoutParams(lparams);
             assignment.setVisibility(View.GONE);
             assignment.setText("\tProgramming Lab 2: INCOMPLETE\n\t Average Completion Time: 30 minutes");
             toCourse.setLayoutParams(lparams);
-            toCourse.setText("View "+courses.get(i));
+            toCourse.setText("View "+courses.get(i+1));
             toCourse.setId(i+1);
             toCourse.setVisibility(View.GONE);
 
@@ -288,6 +286,24 @@ public class User extends AppCompatActivity {
 
     }
 
+    public void setText() {
+
+        TextView name = (TextView) findViewById(R.id.name_user);
+        TextView uni = (TextView) findViewById(R.id.uni_user);
+        TextView course = (TextView) findViewById(R.id.course_user);
+
+        openHelper = new DatabaseHelper2(this);
+        db = openHelper.getReadableDatabase();
+
+        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        List<String> info = db.getUserInfo();
+
+        name.setText(info.get(0));
+        uni.setText(info.get(2));
+        course.setText(info.get(3));
+
+    }
+
     public void insertdata(String courseCode, int hours, int productiveStudy) {
 
 
@@ -306,11 +322,12 @@ public class User extends AppCompatActivity {
         DatabaseHelper2 database = new DatabaseHelper2(getApplicationContext());
         List<String> current_hours = database.getAll();
 
-        int old_total = 0; int old_interupted = 0; int id = 0;
+        int old_total = 0; int old_interupted = 0; int id = 0; String courseName = " ";
 
         for (int i = 1; i < current_hours.size(); i+=4) {
             if (courseCode.equals(current_hours.get(i))){
                 id = Integer.parseInt(current_hours.get(i-1));
+                courseName = current_hours.get(i);
                 old_total = Integer.parseInt(current_hours.get(i+1));
                 old_interupted = Integer.parseInt(current_hours.get(i+2));
             }
@@ -319,7 +336,7 @@ public class User extends AppCompatActivity {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper2.COL_2, courseCode);
-        contentValues.put(DatabaseHelper2.COL_3, "12/11/2018");
+        contentValues.put(DatabaseHelper2.COL_3, courseName);
         contentValues.put(DatabaseHelper2.COL_4, newTotal);
         contentValues.put(DatabaseHelper2.COL_5, newInterupted);
         db.update(DatabaseHelper2.TABLE_NAME, contentValues, "Count_ID ="+id, null);

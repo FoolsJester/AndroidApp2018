@@ -29,15 +29,14 @@
 
         <LinearLayout
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
-
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
@@ -55,7 +54,6 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Amy McCormack"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -69,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:text="University College Dublin"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:text="MSc Computer Science"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +103,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#d3d3d3"
+                android:background="#86a3a8"
                 android:text="Courses"
                 android:textAlignment="textStart"
                 android:textSize="20sp"
@@ -122,54 +118,10 @@
         </LinearLayout>
 
             <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="COMP 30670 - Operating Systems"
-                android:textSize="16sp"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="246dp" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="COMP 40740 - Android Programming"
-                android:textSize="16sp"
-                tools:layout_editor_absoluteX="47dp"
-                tools:layout_editor_absoluteY="273dp" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="COMP 41360 - Programming for IoT"
-                android:textSize="16sp"
-                tools:layout_editor_absoluteX="27dp"
-                tools:layout_editor_absoluteY="283dp" />
-
-            <com.lapism.searchview.widget.SearchBar
-                android:id="@+id/searchBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:search_logo="arrow"
-                app:search_shape="classic"
-                app:search_theme="play"
-                app:search_version_margins="menu_item"
-                />
-
-            <com.lapism.searchview.widget.SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/search_behavior"
-                />
-
-            <TextView
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#d3d3d3"
+                android:background="#86a3a8"
                 android:text="Stats"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -177,21 +129,21 @@
 
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/BarChart"
-                        android:layout_width="350dp"
-                        android:layout_height="350dp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"/>
 
 
 
             <Button
                 android:id="@+id/button1"
                 android:layout_width="match_parent"
-                android:layout_height="47dp"
-                android:text="Time Study" />
+                android:layout_height="wrap_content"
+                android:text="Start Study Time" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="match_parent"
-                android:layout_height="47dp"
+                android:layout_height="wrap_content"
                 android:text="Add More Study Time" />
 
             <Spinner
@@ -201,7 +153,6 @@
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
                 android:visibility="gone" />
-            <!--   android:visibility="gone" -->
 
             <EditText
                 android:id="@+id/editText"
@@ -232,18 +183,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#d3d3d3"
-                android:text="Calander"
+                android:text="Friends"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="68dp"
                 tools:layout_editor_absoluteY="391dp" />
 
-            <CalendarView
-                android:id="@+id/calendarView5"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/FriendImage1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:layout_editor_absoluteX="52dp"
-                tools:layout_editor_absoluteY="405dp" />
+                android:layout_weight=".33"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                app:srcCompat="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/FriendImage2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".33"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                app:srcCompat="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/FriendImage3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".33"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                app:srcCompat="@mipmap/ic_launcher" />
+
+
+        </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

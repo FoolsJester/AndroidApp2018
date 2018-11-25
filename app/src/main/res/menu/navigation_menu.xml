@@ -20,6 +20,12 @@
     </item>
 
     <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_adb_black_24dp">
+    </item>
+
+    <item
         android:id="@+id/login"
         android:title="Log In/Out"
         android:icon="@drawable/ic_person_pin_circle_black_24dp">
