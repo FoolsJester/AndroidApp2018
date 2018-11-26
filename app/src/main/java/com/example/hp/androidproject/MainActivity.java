@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 else if( id == R.id.settings){
                     openSettings();
                 }
+                else if( id == R.id.search){
+                    openSearch();
+                }
                 else if(id == R.id.login){
                     openMainActivity();
                 }
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void openCourses(){
         Intent intent = new Intent(this, Courses.class);
@@ -74,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSettings(){
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
         Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
     }

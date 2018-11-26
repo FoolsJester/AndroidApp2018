@@ -26,6 +26,12 @@
     </item>
 
     <item
+        android:id="@+id/search"
+        android:title="Search Friends  &amp; Courses"
+        android:icon="@drawable/ic_action_action_search">
+    </item>
+
+    <item
         android:id="@+id/login"
         android:title="Log In/Out"
         android:icon="@drawable/ic_person_pin_circle_black_24dp">

@@ -25,7 +25,9 @@ import java.util.List;
 public class SearchCouses extends AppCompatActivity {
 
     private ListView search_course;
+    private ListView test_course;
     private ArrayAdapter<String> searchable;
+    private ArrayAdapter<String> test_search;
 
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
@@ -41,6 +43,8 @@ public class SearchCouses extends AppCompatActivity {
         DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
         List<String> courses = db.getAssignments();
 
+        List<String> test = db.getAssignments();
+        test_course = (ListView) findViewById(R.id.test_course);
         search_course = (ListView) findViewById(R.id.search_course);
 
         search_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -53,12 +57,20 @@ public class SearchCouses extends AppCompatActivity {
                                              }
                                          });
 
+
         searchable = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 courses
         );
+
+        test_search = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                test
+        );
         search_course.setAdapter(searchable);
+        test_course.setAdapter(test_search);
 
 
     }
@@ -97,6 +109,7 @@ public class SearchCouses extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchable.getFilter().filter(newText);
+                test_search.getFilter().filter(newText);
                 return false;
             }
 
