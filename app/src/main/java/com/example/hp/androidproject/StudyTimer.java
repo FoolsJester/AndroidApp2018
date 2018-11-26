@@ -24,9 +24,6 @@ import android.widget.Toast;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class StudyTimer extends Activity {
@@ -44,10 +41,10 @@ public class StudyTimer extends Activity {
     SensorManager sm = null;
     List list;
 
+    /*
+     * Creates a phoneLock object that supports a property change listener. This notifies the app when the lock state of the device changes
+     */
     public class PhoneLockObject {
-        /*
-         * Creates a phoneLock object that supports a property change listener. This notifies the app when the lock state of the device changes
-         */
         private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
         public boolean phoneIsLocked;
 
@@ -71,11 +68,11 @@ public class StudyTimer extends Activity {
 
     }
 
+    /*
+     * Checks the lock state of the phone using the keygaurd manager
+     * https://stackoverflow.com/questions/8317331/detecting-when-screen-is-locked
+     */
     public static boolean isDeviceLocked(Context context) {
-        /*
-         * Checks the lock state of the phone using the keygaurd manager
-         * https://stackoverflow.com/questions/8317331/detecting-when-screen-is-locked
-         */
         boolean isLocked;
 
         //Checking the locked state
@@ -154,7 +151,7 @@ public class StudyTimer extends Activity {
         setContentView(R.layout.chronometer);
 
         //Declaring variables
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         studyChronometer = (Chronometer) findViewById(R.id.simpleChronometer);
         interactionTime = (Chronometer) findViewById(R.id.interactChron);
         startBtn = (Button) findViewById(R.id.btStart);
@@ -178,27 +175,24 @@ public class StudyTimer extends Activity {
             }
         };
 
-//        //Initialising dropdown to display courses - hardcoded for now
-        openHelper = new DatabaseHelper2(this);
+
+        //Initialising dropdown to display courses - hardcoded for now
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
-        List<String> assignment = db.getAssignments();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, assignment);
+        final DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
+        List<String> courseNames = db.getCourseNameOnly();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, courseNames);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         dropdown.setAdapter(dataAdapter);
 
-        //Start timer
+        /*
+         * Starts the study timer, begins to listen for sensor events and device lock changes, disables the start button.
+         */
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                 * Starts the study timer, begins to listen for sensor events and device lock changes, disables the start button.
-                 */
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Date date = new Date();
-                studyStartTime = dateFormat.format(date);
                 studyChronometer.setBase(SystemClock.elapsedRealtime() + studyStopTime);
                 interactionTime.setBase(SystemClock.elapsedRealtime() + interactStopTime);
                 studyChronometer.start();
@@ -262,8 +256,17 @@ public class StudyTimer extends Activity {
                     handleStopTime = 0;
                     interactStopTime = 0;
                     InterruptedStudyTime = Math.round(saveHandleTime / 1000) + Math.round(saveInteractTime / 1000);
-                    String course = dropdown.getSelectedItem().toString();
-                    insertData(course, studyStartTime, Math.round(saveStudyTime / 1000), InterruptedStudyTime);
+                    //getting course name from dropdown
+                    String courseName = dropdown.getSelectedItem().toString();
+                    List<String> courseCodes = db.getCourseName();
+                    String courseCode="";
+                    //retrieving corresponding course code
+                    for (int i=1; i<courseCodes.size(); i+=2){
+                        if (courseName.equals(courseCodes.get(i))){
+                            courseCode = courseCodes.get(i-1);
+                        };
+                    }
+                    updateData(courseCode, courseName, Math.round(saveStudyTime / 1000), InterruptedStudyTime);
                     startBtn.setVisibility(View.VISIBLE);
                     stopBtn.setVisibility(View.GONE);
                 }
@@ -272,21 +275,44 @@ public class StudyTimer extends Activity {
 
     }
 
-
-    private void insertData(String CourseCode, String SDate, int STime, int SInterrupt) {
-        /*
-         * Takes informaton about the study session and logs it to the database
-         */
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper2.COL_2, CourseCode);
-        contentValues.put(DatabaseHelper2.COL_3, SDate);
-        contentValues.put(DatabaseHelper2.COL_4, STime);
-        contentValues.put(DatabaseHelper2.COL_5, SInterrupt);
-        long count = db.insert(DatabaseHelper2.TABLE_NAME, null, contentValues);
+    /*
+     * Takes informaton about the study session and logs it to the database
+     */
+    public void updateData(String courseCode,String courseName, int STime, int SInterrupt) {
+        float productivity;
         //Getting productivity percentage
         int productiveTime = (STime - SInterrupt);
-        float productivity = ((float) productiveTime / (float) STime) * 100;
+        if (productiveTime < 0){
+            productivity = 0;
+        }
+        else{
+            productivity = ((float) productiveTime / (float) STime) * 100;
+        }
+
+        //Getting current info on the course from the database
+        DatabaseHelperLocalDB database = new DatabaseHelperLocalDB(getApplicationContext());
+        List<String> current_hours = database.getAll();
+
+        int old_total = 0; int old_interupted = 0; int id = 0;
+
+        for (int i = 1; i < current_hours.size(); i+=4) {
+            if (courseCode.equals(current_hours.get(i))){
+                id = Integer.parseInt(current_hours.get(i-1));
+                old_total = Integer.parseInt(current_hours.get(i+1));
+                old_interupted = Integer.parseInt(current_hours.get(i+2));
+            }
+        }
+        int newTotal = old_total + Math.round(STime/360); int newInterupted = old_interupted + Math.round(SInterrupt/360);
+
+        //Updating the values in the database
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelperLocalDB.COL_2, courseCode);
+        contentValues.put(DatabaseHelperLocalDB.COL_3, courseName);
+        contentValues.put(DatabaseHelperLocalDB.COL_4, newTotal);
+        contentValues.put(DatabaseHelperLocalDB.COL_5, newInterupted);
+        db.update(DatabaseHelperLocalDB.TABLE_NAME, contentValues, "Count_ID ="+id, null);
         Toast.makeText(this, "Study time logged successfully.\n" + (int) productivity + "% productivity in this session.", Toast.LENGTH_LONG).show();
     }
+
 
 }

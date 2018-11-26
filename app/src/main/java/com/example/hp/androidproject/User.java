@@ -4,17 +4,22 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,23 +28,9 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.lapism.searchview.Search;
-import com.lapism.searchview.database.SearchHistoryTable;
-import com.lapism.searchview.widget.SearchAdapter;
-import com.lapism.searchview.widget.SearchItem;
-import com.lapism.searchview.widget.SearchView;
 
-
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Button;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class User extends AppCompatActivity {
@@ -146,7 +137,7 @@ public class User extends AppCompatActivity {
         createTextField();
         setText();
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
 
 
 //        chart = (BarChart) findViewById(R.id.bar_chart);
@@ -232,13 +223,11 @@ public class User extends AppCompatActivity {
 
         LinearLayout check = (LinearLayout) findViewById(R.id.linearLayout);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
-        List<String> courses = db.getCourseNames();
-
-        int[] myIntArray = new int[courses.size()];
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
+        List<String> courses = db.getCourseName();
 
         for (int i = 0; i < courses.size(); i+=2) {
 
@@ -282,18 +271,16 @@ public class User extends AppCompatActivity {
                 //https://stackoverflow.com/questions/4203506/how-to-add-a-textview-to-a-linearlayout-dynamically-in-android
         }
 
-
-
     public void setSpinner() {
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
         Spinner dropdown = findViewById(R.id.spinner1);
 
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
-        List<String> assignment = db.getAssignments();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, assignment);
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
+        List<String> courseName = db.getCourseNameOnly();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, courseName);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         dropdown.setAdapter(dataAdapter);
@@ -306,10 +293,10 @@ public class User extends AppCompatActivity {
         TextView uni = (TextView) findViewById(R.id.uni_user);
         TextView course = (TextView) findViewById(R.id.course_user);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> info = db.getUserInfo();
 
         name.setText(info.get(0));
@@ -322,18 +309,18 @@ public class User extends AppCompatActivity {
 
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper2.COL_2, courseCode);
-        contentValues.put(DatabaseHelper2.COL_3, "12/11/2018");
-        contentValues.put(DatabaseHelper2.COL_4, hours);
-        contentValues.put(DatabaseHelper2.COL_5, productiveStudy);
+        contentValues.put(DatabaseHelperLocalDB.COL_2, courseCode);
+        contentValues.put(DatabaseHelperLocalDB.COL_3, "12/11/2018");
+        contentValues.put(DatabaseHelperLocalDB.COL_4, hours);
+        contentValues.put(DatabaseHelperLocalDB.COL_5, productiveStudy);
 
-        long id = db.insert(DatabaseHelper2.TABLE_NAME, null, contentValues);
+        long id = db.insert(DatabaseHelperLocalDB.TABLE_NAME, null, contentValues);
         Toast.makeText(getApplicationContext(), "ID="+id, Toast.LENGTH_LONG).show();
     }
 
     public void updateData(String courseCode, int hours, int productiveStudy) {
 
-        DatabaseHelper2 database = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB database = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> current_hours = database.getAll();
 
         int old_total = 0; int old_interupted = 0; int id = 0; String courseName = " ";
@@ -349,20 +336,20 @@ public class User extends AppCompatActivity {
         int newTotal = old_total + hours; int newInterupted = old_interupted + productiveStudy;
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper2.COL_2, courseCode);
-        contentValues.put(DatabaseHelper2.COL_3, courseName);
-        contentValues.put(DatabaseHelper2.COL_4, newTotal);
-        contentValues.put(DatabaseHelper2.COL_5, newInterupted);
-        db.update(DatabaseHelper2.TABLE_NAME, contentValues, "Count_ID ="+id, null);
+        contentValues.put(DatabaseHelperLocalDB.COL_2, courseCode);
+        contentValues.put(DatabaseHelperLocalDB.COL_3, courseName);
+        contentValues.put(DatabaseHelperLocalDB.COL_4, newTotal);
+        contentValues.put(DatabaseHelperLocalDB.COL_5, newInterupted);
+        db.update(DatabaseHelperLocalDB.TABLE_NAME, contentValues, "Count_ID ="+id, null);
 
     }
 
     public void barChart() {
 
-        openHelper=new DatabaseHelper2(this);
+        openHelper=new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> assignment = db.getHours();
 
         chart = (BarChart) findViewById(R.id.BarChart);
@@ -388,7 +375,7 @@ public class User extends AppCompatActivity {
 
         BarData data = new BarData(dataSets);
 
-        List<String> labels = db.getAssignments();
+        List<String> labels = db.getCourseName();
 
         chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);

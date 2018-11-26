@@ -37,10 +37,10 @@ public class Database extends SQLiteOpenHelper {
     public void populate(SQLiteDatabase db){
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper2.COL_2, "Amy McCormack");
-        contentValues.put(DatabaseHelper2.COL_3, "amy.mccormack@ucdconnect.ie");
-        contentValues.put(DatabaseHelper2.COL_4, "University College Dublin");
-        contentValues.put(DatabaseHelper2.COL_5, "MSc Computer Science");
+        contentValues.put(DatabaseHelperLocalDB.COL_2, "Amy McCormack");
+        contentValues.put(DatabaseHelperLocalDB.COL_3, "amy.mccormack@ucdconnect.ie");
+        contentValues.put(DatabaseHelperLocalDB.COL_4, "University College Dublin");
+        contentValues.put(DatabaseHelperLocalDB.COL_5, "MSc Computer Science");
 
         long id = db.insert(TABLE_NAME, null, contentValues);
 

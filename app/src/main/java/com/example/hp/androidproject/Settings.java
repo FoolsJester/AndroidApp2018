@@ -9,15 +9,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -89,10 +86,10 @@ public class Settings extends AppCompatActivity {
         TextView uni = (TextView) findViewById(R.id.uni_settings);
         TextView course = (TextView) findViewById(R.id.course_settings);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> info = db.getUserInfo();
 
         name.setText(info.get(0));
@@ -107,10 +104,10 @@ public class Settings extends AppCompatActivity {
 
         LinearLayout check = (LinearLayout) findViewById(R.id.LinearLayout);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> courses = db.getAll();
 
         for (int i = 0; i < courses.size(); i += 4) {

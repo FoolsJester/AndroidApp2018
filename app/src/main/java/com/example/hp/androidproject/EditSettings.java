@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -54,13 +53,13 @@ public class EditSettings extends AppCompatActivity {
                 String new_course = course.getText().toString();
 
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(DatabaseHelper2.STUDENT_2, new_name);
-                contentValues.put(DatabaseHelper2.STUDENT_3, new_mail);
-                contentValues.put(DatabaseHelper2.STUDENT_4, new_uni);
-                contentValues.put(DatabaseHelper2.STUDENT_5, new_course);
-                db.update(DatabaseHelper2.STUDENT_TABLE, contentValues, "Count_ID ="+1, null);
+                contentValues.put(DatabaseHelperLocalDB.STUDENT_2, new_name);
+                contentValues.put(DatabaseHelperLocalDB.STUDENT_3, new_mail);
+                contentValues.put(DatabaseHelperLocalDB.STUDENT_4, new_uni);
+                contentValues.put(DatabaseHelperLocalDB.STUDENT_5, new_course);
+                db.update(DatabaseHelperLocalDB.STUDENT_TABLE, contentValues, "Count_ID ="+1, null);
 
-                openHelper = new DatabaseHelper2(EditSettings.this);
+                openHelper = new DatabaseHelperLocalDB(EditSettings.this);
                 db = openHelper.getReadableDatabase();
 
                 for (int i = 0; i < 2; i ++) {
@@ -78,10 +77,10 @@ public class EditSettings extends AppCompatActivity {
 
     public void setText(){
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> info = db.getUserInfo();
 
         EditText name = (EditText) findViewById(R.id.edit_name);
@@ -108,10 +107,10 @@ public class EditSettings extends AppCompatActivity {
 
         LinearLayout check = (LinearLayout) findViewById(R.id.LinearLayout);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        final DatabaseHelper2 db1 = new DatabaseHelper2(getApplicationContext());
+        final DatabaseHelperLocalDB db1 = new DatabaseHelperLocalDB(getApplicationContext());
         final List<String> courses = db1.getAll();
 
         for (int i = 0; i < courses.size(); i += 4) {
@@ -159,8 +158,8 @@ public class EditSettings extends AppCompatActivity {
             delete.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                  //  db.execSQL("DELETE FROM "+DatabaseHelper2.TABLE_NAME+" WHERE "+DatabaseHelper2.COL_1+" = '"+id+"'");
-                  db.delete(DatabaseHelper2.TABLE_NAME, DatabaseHelper2.COL_1+"=?", new String[]{id});
+                  //  db.execSQL("DELETE FROM "+DatabaseHelperLocalDB.TABLE_NAME+" WHERE "+DatabaseHelperLocalDB.COL_1+" = '"+id+"'");
+                  db.delete(DatabaseHelperLocalDB.TABLE_NAME, DatabaseHelperLocalDB.COL_1+"=?", new String[]{id});
 
                   layout.removeAllViews();
 
