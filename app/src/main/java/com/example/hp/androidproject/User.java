@@ -44,7 +44,7 @@ import android.widget.Toast;
 
 public class User extends AppCompatActivity {
 
-    private DrawerLayout dl;
+    private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
     private Button timeStudy;
 
@@ -104,10 +104,10 @@ public class User extends AppCompatActivity {
 
 
             // initialising variables for nav bar
-        dl = (DrawerLayout) findViewById(R.id.dl);
-        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
+        drawerlayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open, R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
-        dl.addDrawerListener(abdt);
+        drawerlayout.addDrawerListener(abdt);
         abdt.syncState();
         timeStudy = (Button)findViewById(R.id.button1);
 
@@ -127,6 +127,13 @@ public class User extends AppCompatActivity {
                     openCoursesActivity();
                 } else if (id == R.id.login) {
                     openMainActivity();
+                }
+                else if(id == R.id.settings){
+                    openSettings();
+
+                }
+                else if( id == R.id.search){
+                    openSearch();
                 }
 
                 return true;
@@ -401,6 +408,12 @@ public class User extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
     // intents to open activities for nav bar
 
     public void openMainActivity(){
@@ -420,6 +433,16 @@ public class User extends AppCompatActivity {
 
     public void openStudyTimerActivity() {
         Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openSettings(){
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
+        Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
     }
     }

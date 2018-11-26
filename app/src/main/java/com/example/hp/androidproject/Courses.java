@@ -41,7 +41,7 @@ public class Courses extends AppCompatActivity  {
     private  DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
     private static final String TAG = "Courses";
-    private DrawerLayout dl;
+    private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
     Button enrolButton, assignmentButton, openGmail, addAssignmentFrag, addForumTopic;
     SQLiteOpenHelper openHelper;
@@ -89,10 +89,10 @@ public class Courses extends AppCompatActivity  {
         });
 
         // initialising variables
-        dl = (DrawerLayout)findViewById(R.id.dl);
-        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open,R.string.Close);
+        drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
-        dl.addDrawerListener(abdt);
+        drawerlayout.addDrawerListener(abdt);
         abdt.syncState();
 
 
@@ -174,6 +174,13 @@ public class Courses extends AppCompatActivity  {
                 else if(id == R.id.login){
                     openMainActivity();
                 }
+                else if(id == R.id.settings){
+                    openSettings();
+                }
+                else if( id == R.id.search){
+                    openSearch();
+                }
+
 
                 return true;
             }
@@ -267,6 +274,16 @@ public class Courses extends AppCompatActivity  {
 
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSettings() {
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
+        Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
     }
 

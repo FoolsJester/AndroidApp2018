@@ -20,7 +20,7 @@ import android.support.v4.app.FragmentTransaction;
 
 
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout dl;
+    private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
 
 
@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // initialising variables for nav bar
-        dl = (DrawerLayout)findViewById(R.id.dl);
-        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open,R.string.Close);
+        drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
-        dl.addDrawerListener(abdt);
+        drawerlayout.addDrawerListener(abdt);
         abdt.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

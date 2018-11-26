@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/dl"
+    android:id="@+id/drawerlayout"
     >
     <!-- NavBar tutorial: https://www.youtube.com/watch?v=0WC0VU0hw2w-->
 
@@ -115,17 +115,6 @@
                     app:fontFamily="sans-serif"
                     android:textColor="#283845"/>
 
-                <TextView
-                    android:id="@+id/SelectAssignments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Search Assignments"
-                    android:textAlignment="textStart"
-                    android:textSize="15sp"
-                    app:fontFamily="sans-serif"
-                    android:textColor="#283845"/>
-
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
@@ -219,17 +208,6 @@
                     android:textAlignment="textStart"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:fontFamily="sans-serif"
-                    android:textColor="#283845"/>
-
-                <TextView
-                    android:id="@+id/SelectTopic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Search Topics"
-                    android:textAlignment="textStart"
-                    android:textSize="15sp"
                     app:fontFamily="sans-serif"
                     android:textColor="#283845"/>
 
