@@ -42,7 +42,8 @@ public class DisplayContent extends AppCompatActivity {
     private TextView mTitle, mContent;
     private EditText mAuthor, mReply;
     private Button mSendReply;
-    private  String intentKey;
+    private String intentKey;
+    private String courseName;
     ArrayList<ReplyObject> replies;
     RecyclerView rvReplyObjects;
 
@@ -52,7 +53,9 @@ public class DisplayContent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_content);
-        intentKey = getIntent().getExtras().getString("key");
+        Bundle extras = getIntent().getExtras();
+        intentKey = extras.getString("key");
+        courseName = extras.getString("course");
         //Instantiate xml components for writing new forums and generating replies
 
 
@@ -68,7 +71,7 @@ public class DisplayContent extends AppCompatActivity {
 
         //Get firebase instance and initialise reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference();
+        final DatabaseReference myRef = database.getReference(courseName);
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -96,7 +99,9 @@ public class DisplayContent extends AppCompatActivity {
                 String reply = mReply.getText().toString();
 
                 if (!author.equals("") && !reply.equals("")) {
-                    myRef.child("replies").child(intentKey).child(author).setValue(new ReplyObject(author, reply));
+                    //myRef.child("replies").child(intentKey).child(author).setValue(new ReplyObject(author, reply));
+
+                    myRef.child("replies").child(intentKey).push().setValue(new ReplyObject(author, reply));
                 }
             }
 

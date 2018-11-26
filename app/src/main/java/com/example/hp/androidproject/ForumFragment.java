@@ -12,13 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class ForumFragment extends Fragment {
     Button forumButton;
-//    SQLiteOpenHelper openHelper;
-//    SQLiteDatabase db;
+    SQLiteOpenHelper openHelper;
+    SQLiteDatabase db;
     EditText topicname, topicdescription, topicquestion;
+    int input1, input2, input3;
 
 
 
@@ -41,7 +43,7 @@ public class ForumFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         forumButton = (Button)view.findViewById(R.id.forumButton);
-//        openHelper = new DatabaseHelper(getActivity());
+        openHelper = new DatabaseHelper(getActivity());
         topicname = (EditText)view.findViewById(R.id.topicname);
         topicdescription = (EditText)view.findViewById(R.id.topicdescription);
         topicquestion = (EditText)view.findViewById(R.id.addquestion);
@@ -51,16 +53,25 @@ public class ForumFragment extends Fragment {
         forumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                db = openHelper.getWritableDatabase();
-//                String name = _txtname.getText().toString();
-//                String dueData = _txtduedate.getText().toString();
-//                String description = _txtdescription.getText().toString();
-//                Integer percentWorth = Integer.valueOf(_txtpercentworth.getText().toString());
-//
-//                Activity act = getActivity();
-//                if (act instanceof Courses) {
-//                    ((Courses) act).populateSpinner(name, dueData, description, percentWorth);
- //               }
+
+
+                input1 = topicname.getText().toString().trim().length();
+                input2 = topicdescription.getText().toString().trim().length();
+                input3 = topicquestion.getText().toString().trim().length();
+                if (input1> 0 & + input2 > 0 & input3 > 0) {
+                    db = openHelper.getWritableDatabase();
+                    String name = topicname.getText().toString();
+                    String desc =topicdescription.getText().toString();
+
+                    Activity act = getActivity();
+                    if (act instanceof Courses) {
+                        ((Courses) act).sendForum(name, desc);
+                    }
+                }
+
+                else{
+                    Toast.makeText(getContext(), "Error... empty field " , Toast.LENGTH_LONG).show();
+                }
 
 
             }

@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.hp.androidproject.Objects.AssignmentObject;
+import com.example.hp.androidproject.Objects.ForumObject;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class Courses extends AppCompatActivity  {
-
+    private static final String courseName = "COMP10280";
     private  DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
     private static final String TAG = "Courses";
@@ -67,7 +68,7 @@ public class Courses extends AppCompatActivity  {
         spots in the DB, reference must be empty(root of tree)
         */
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+        myRef = database.getReference(courseName);
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -247,8 +248,20 @@ public class Courses extends AppCompatActivity  {
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
         delaySelect = 0;
         insertData(name, dueData, description, percentWorth);
-        Toast.makeText(getApplicationContext(), "assignment is added", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Assignment is added", Toast.LENGTH_LONG).show();
 
+    }
+
+    public void sendForum(String name, String desc){
+        try {
+            Log.d(TAG, "myRef is : " + myRef);
+            myRef.child("forum").child(name).setValue(new ForumObject(name, desc));
+
+            Toast.makeText(getApplicationContext(), "Forum is added", Toast.LENGTH_LONG).show();
+        } catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(Courses.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -258,7 +271,9 @@ public class Courses extends AppCompatActivity  {
 
     public void openActivityTopicOne(String key){
         Intent intent = new Intent(this, DisplayContent.class);
-        intent.putExtra("key", "Forum1");
+        Bundle bundle = new Bundle();
+        intent.putExtra("course", courseName);
+        intent.putExtra("key", key);
         startActivity(intent);
     }
 
