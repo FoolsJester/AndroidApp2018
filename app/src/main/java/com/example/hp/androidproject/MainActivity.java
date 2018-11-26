@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSettings(){
-        Intent intent = new Intent(this, Settings.class);
+        Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
     }
 

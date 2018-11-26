@@ -180,10 +180,17 @@ public class User extends AppCompatActivity {
         Button addStudy = (Button) findViewById(R.id.button3);
         addStudy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                dropdown.setVisibility(View.VISIBLE);
-                set.setVisibility(View.VISIBLE);
-                hours.setVisibility(View.VISIBLE);
-                productive.setVisibility(View.VISIBLE);
+
+                if(dropdown.getVisibility()==View.GONE){
+                    dropdown.setVisibility(View.VISIBLE);
+                    set.setVisibility(View.VISIBLE);
+                    hours.setVisibility(View.VISIBLE);
+                    productive.setVisibility(View.VISIBLE);}
+                else if(dropdown.getVisibility()==View.VISIBLE){
+                    dropdown.setVisibility(View.GONE);
+                    set.setVisibility(View.GONE);
+                    hours.setVisibility(View.GONE);
+                    productive.setVisibility(View.GONE);}
 
             }
         });
