@@ -1,16 +1,22 @@
 package com.example.hp.androidproject;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,11 +35,21 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 
 public class User extends AppCompatActivity {
+    private NotificationManagerCompat notificationManager;
+
 
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
@@ -50,6 +66,11 @@ public class User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user);
+
+        DownloadTask task = new DownloadTask();
+        task.execute("https://api.openweathermap.org/data/2.5/weather?q=Dublin,ie&units=metric&appid=00a79b7ecabf9125273b86a8736392d6");
+
+        notificationManager = NotificationManagerCompat.from(this);
 
 
 //        SearchItem suggestion = new SearchItem(this);
@@ -431,5 +452,80 @@ public class User extends AppCompatActivity {
     public void openSearch(){
         Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
+    }
+
+    public class DownloadTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String result = "";
+            URL url;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                url = new URL(urls[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+                int data = reader.read();
+
+                while (data != -1) {
+                    char current = (char) data;
+                    result += current;
+                    data = reader.read();
+                }
+
+                return result;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                String weatherInfo = jsonObject.getString("weather");
+                String tempInfo = jsonObject.getString("main");
+                JSONArray weatherArr = new JSONArray(weatherInfo);
+                JSONObject weatherDescription =  weatherArr.getJSONObject(0);
+                JSONObject temp = new JSONObject(tempInfo);
+                String description = weatherDescription.getString("main");
+                String temperature = temp.getString("temp");
+                float tempFloat = Float.parseFloat(temperature);
+                int tempInt = (int) Math.round(tempFloat);
+                String title = "Today's weather: "+description+", "+tempInt+"°C";
+                String message = "";
+                if (tempInt < 6){
+                    message = "Brrrrr ⛄! It's cold out today, best stay indoors and study. \uD83D\uDE09";
+                }
+                else if (description.equals("Thunderstorm") || description.equals("Drizzle") || description.equals("Rain") || description.equals("Snow") || description.equals("Atmosphere")){
+                    message = "Oh dear \uD83D\uDE25! Not a great day today, best stay indoors and study. \uD83D\uDE09";
+                }
+                else{
+                    message = "Nice out today. Remember fresh air helps improve productivity, we recommend taking a walk outside during your study break. \uD83D\uDEB6";
+                }
+                weatherNotification(title, message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void weatherNotification(String Title, String Message){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
+                .setSmallIcon(R.drawable.ic_weather_update)
+                .setContentTitle(Title)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(Message))
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
+        notificationManager.notify(0, notification);
     }
     }
