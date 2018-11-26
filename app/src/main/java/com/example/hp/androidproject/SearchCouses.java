@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -41,6 +42,16 @@ public class SearchCouses extends AppCompatActivity {
         List<String> courses = db.getAssignments();
 
         search_course = (ListView) findViewById(R.id.search_course);
+
+        search_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                             @Override
+                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                 Object selectedFromList = (search_course.getItemAtPosition(position));
+                                                 Log.d("test",selectedFromList.toString());
+                                                 Intent intent=new Intent(getBaseContext(),User.class);
+                                                 startActivity(intent);
+                                             }
+                                         });
 
         searchable = new ArrayAdapter<String>(
                 this,
@@ -92,6 +103,12 @@ public class SearchCouses extends AppCompatActivity {
         });
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        openUser();
+        return super.onOptionsItemSelected(item);
     }
 
     public void openUser() {
