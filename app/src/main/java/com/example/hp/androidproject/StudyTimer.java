@@ -41,6 +41,7 @@ public class StudyTimer extends Activity {
     SensorManager sm = null;
     List list;
 
+
     /*
      * Creates a phoneLock object that supports a property change listener. This notifies the app when the lock state of the device changes
      */

@@ -32,15 +32,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AndroidProgramming extends AppCompatActivity {
+public class IOTprogramming extends AppCompatActivity {
 
-    private static final String courseName = "COMP41690";
+    private static final String courseName = "COMP47520";
     private DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
     private static final String TAG = "Courses";
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
-    Button enrolButton, assignmentButton, openGmail, addAssignmentFragAP, addForumTopic;
+    Button enrolButton, assignmentButton, openGmail, addAssignmentFragIOT, addForumTopic;
     Spinner Assignmentspinner, ForumSpinner, memberSpinner;
     int delaySelect = 0;
     int delayForumSelect = 0;
@@ -50,7 +50,7 @@ public class AndroidProgramming extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_android_programming2);
+        setContentView(R.layout.activity_iotprogramming);
 
         /*
         Initialise firebase DB and get reference for it. As will be writing and reading from several
@@ -89,21 +89,21 @@ public class AndroidProgramming extends AppCompatActivity {
 
         // initialising variables for assignment form and forum links
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
-        addAssignmentFragAP = (Button)findViewById(R.id.assignmentFragButtonAP);
-        openGmail = (Button)findViewById(R.id.openGmailAP);
-        addForumTopic = (Button)findViewById(R.id.addForumTopicAP);
-        Assignmentspinner = (Spinner) findViewById(R.id.spinnerAP);
-        ForumSpinner = (Spinner) findViewById(R.id.ForumSpinnerAP);
-        memberSpinner = (Spinner) findViewById(R.id.memberSpinnerAP);
+        addAssignmentFragIOT = (Button)findViewById(R.id.assignmentFragButtonIOT);
+        openGmail = (Button)findViewById(R.id.openGmailIOT);
+        addForumTopic = (Button)findViewById(R.id.addForumTopicIOT);
+        Assignmentspinner = (Spinner) findViewById(R.id.spinnerIOT);
+        ForumSpinner = (Spinner) findViewById(R.id.ForumSpinnerIOT);
+        memberSpinner = (Spinner) findViewById(R.id.memberSpinnerIOT);
 
 
 
 
         // button to add assignment fragment on click
-        addAssignmentFragAP.setOnClickListener(new View.OnClickListener() {
+        addAssignmentFragIOT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChangeFragment(addAssignmentFragAP);
+                ChangeFragment(addAssignmentFragIOT);
             }
         });
 
@@ -124,7 +124,7 @@ public class AndroidProgramming extends AppCompatActivity {
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
                 emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Message Subject");
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Programming for Internet of Things");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
@@ -151,10 +151,10 @@ public class AndroidProgramming extends AppCompatActivity {
                     openUser();
                 }
                 else if( id == R.id.study){
-                    Toast.makeText(AndroidProgramming.this, "Study Page", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IOTprogramming.this, "Study Page", Toast.LENGTH_SHORT).show();
                 }
                 else if( id == R.id.course){
-                    Toast.makeText(AndroidProgramming.this, "Course Page", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IOTprogramming.this, "Course Page", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.login){
                     openMainActivity();
@@ -214,7 +214,7 @@ public class AndroidProgramming extends AppCompatActivity {
                         openShanesPage();
                     }
                     else{
-                        Toast.makeText(AndroidProgramming.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(IOTprogramming.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -254,7 +254,7 @@ public class AndroidProgramming extends AppCompatActivity {
         });
 
 
-        Button enrol = (Button) findViewById(R.id.enrolButtonAP);
+        Button enrol = (Button) findViewById(R.id.enrolButtonIOT);
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,7 +280,7 @@ public class AndroidProgramming extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Forum is added", Toast.LENGTH_LONG).show();
         } catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(AndroidProgramming.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(IOTprogramming.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -297,15 +297,7 @@ public class AndroidProgramming extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openMuireannsPage(){
-        Intent intent = new Intent(this, muireannUser.class);
-        startActivity(intent);
-    }
 
-    public void openShanesPage(){
-        Intent intent = new Intent(this, shaneUser.class);
-        startActivity(intent);
-    }
 
     public void openUser(){
         Intent intent = new Intent(this, User.class);
@@ -332,6 +324,17 @@ public class AndroidProgramming extends AppCompatActivity {
 
     }
 
+    public void openMuireannsPage(){
+
+        Intent intent = new Intent(this, muireannUser.class);
+        startActivity(intent);
+    }
+
+    public void openShanesPage(){
+        Intent intent = new Intent(this, shaneUser.class);
+        startActivity(intent);
+    }
+
     // method that inserts value from form into database
     public void insertData(String name, String dueData, String description, Integer percentWorth){
         //changed to write to Firebase instead of Local DB
@@ -340,7 +343,7 @@ public class AndroidProgramming extends AppCompatActivity {
             myRef.child("assignments").child(name).setValue(new AssignmentObject(name, dueData, description, percentWorth));
         } catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(AndroidProgramming.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(IOTprogramming.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -392,10 +395,10 @@ public class AndroidProgramming extends AppCompatActivity {
     public void ChangeFragment(View view){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tagAP");
+        AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tagIOT");
         if(fragment == null) {
             fragment = new AddAssignment_Fragment();
-            ft.add(R.id.placeholderAP, fragment, "tagAP");
+            ft.add(R.id.placeholderIOT, fragment, "tagIOT");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         } else {
@@ -409,10 +412,10 @@ public class AndroidProgramming extends AppCompatActivity {
     public void topicFragment(View view){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtagAP");
+        ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtagIOT");
         if(forumfragment == null) {
             forumfragment = new ForumFragment();
-            ft.add(R.id.forumPlaceholderAP, forumfragment, "forumtagAP");
+            ft.add(R.id.forumPlaceholderIOT, forumfragment, "forumtagIOT");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         } else {

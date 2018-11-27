@@ -220,6 +220,13 @@ public class Courses extends AppCompatActivity  {
                     if(key.equals("Amy McCormack")){
                         openAmysPage();
                     }
+                    if(key.equals("Muireann Mac Carthy")){
+                        openMuireannsPage();
+
+                    }
+                    if(key.equals("Shane Bird")){
+                        openShanesPage();
+                    }
                     else{
                         Toast.makeText(Courses.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
                     }
@@ -332,6 +339,16 @@ public class Courses extends AppCompatActivity  {
         Intent intent = new Intent(this, User.class);
         startActivity(intent);
 
+    }
+
+    public void openMuireannsPage(){
+        Intent intent = new Intent(this, muireannUser.class);
+        startActivity(intent);
+    }
+
+    public void openShanesPage(){
+        Intent intent = new Intent(this, shaneUser.class);
+        startActivity(intent);
     }
 
     // method that inserts value from form into database

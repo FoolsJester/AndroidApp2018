@@ -68,6 +68,9 @@ public class ForumFragment extends Fragment {
                     else if(act instanceof AndroidProgramming){
                         ((AndroidProgramming) act).sendForum(name, desc);
                     }
+                    else if(act instanceof IOTprogramming){
+                        ((IOTprogramming) act).sendForum(name, desc);
+                    }
                 }
 
                 else{

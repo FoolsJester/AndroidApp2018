@@ -4,9 +4,14 @@
     package="com.example.hp.androidproject">
 
     <uses-sdk android:minSdkVersion="14" />
+
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".BaseApp"
         android:allowBackup="true"
@@ -16,9 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            tools:replace="android:value"
             android:name="android.support.VERSION"
-            android:value="26.0.0" />
+            android:value="26.0.0"
+            tools:replace="android:value" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,41 +32,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".SearchCouses" >-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.SEARCH" />-->
-            <!--</intent-filter>-->
-            <!--<meta-data android:name="android.app.searchable"-->
-                <!--android:resource="@xml/searchable"/>-->
-        <!--</activity>-->
+        <!-- <activity android:name=".SearchCouses" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.SEARCH" /> -->
+        <!-- </intent-filter> -->
+        <!-- <meta-data android:name="android.app.searchable" -->
+        <!-- android:resource="@xml/searchable"/> -->
+        <!-- </activity> -->
         <activity android:name=".DiscussionForumMake" />
         <activity android:name=".Courses" />
         <activity android:name=".TopicOne" />
         <activity android:name=".TopicTwo" />
         <activity android:name=".TopicThree" />
-        <activity android:name=".Assignments"/>
-        <activity android:name=".StudyTimer"/>
-        <activity android:name=".DisplayContent"/>
-        <activity android:name=".User"/>
-        <activity android:name=".Settings"/>
-        <activity android:name=".EditSettings"/>
-        <activity android:name=".shaneUser"/>
-        <activity android:name=".amyUser"/>
-        <activity android:name=".muireannUser"/>
-        <activity android:name=".eimearUser"/>
-
+        <activity android:name=".Assignments" />
+        <activity android:name=".StudyTimer" />
+        <activity android:name=".DisplayContent" />
+        <activity android:name=".User" />
+        <activity android:name=".Settings" />
+        <activity android:name=".EditSettings" />
+        <activity android:name=".shaneUser" />
+        <activity android:name=".amyUser" />
+        <activity android:name=".muireannUser" />
+        <activity android:name=".eimearUser" />
+        <activity android:name=".IOTprogramming" />
+        <activity android:name=".AndroidProgramming" />
         <activity
             android:name=".SearchCouses"
-            android:screenOrientation="portrait"
             android:configChanges="orientation"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
+                android:resource="@xml/searchable"></meta-data>
         </activity>
-
+        <activity android:name=".IOTprogramming"></activity>
     </application>
 
 </manifest>
