@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.solver.widgets.Snapshot;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -31,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hp.androidproject.Objects.ForumObject;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -38,6 +40,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,12 +61,13 @@ import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 
 public class User extends AppCompatActivity {
     private NotificationManagerCompat notificationManager;
-
+    private final String TAG = "UserInfo";
 
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
     private Button timeStudy;
-
+    private DatabaseReference myRef;
+    private DataSnapshot globalSnapshot;
 
 
     SQLiteOpenHelper openHelper;
@@ -71,6 +79,27 @@ public class User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user);
+
+        //Get firebase instance and initialise reference
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                globalSnapshot = dataSnapshot;
+                createTextField();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         DownloadTask task = new DownloadTask();
         task.execute("https://api.openweathermap.org/data/2.5/weather?q=Dublin,ie&units=metric&appid=00a79b7ecabf9125273b86a8736392d6");
@@ -118,7 +147,6 @@ public class User extends AppCompatActivity {
 
         setSpinner();
         barChart();
-        createTextField();
         setText();
 
         openHelper = new DatabaseHelperLocalDB(this);
@@ -266,9 +294,36 @@ public class User extends AppCompatActivity {
             toCourse.setVisibility(View.GONE);
             toCourse.setTransformationMethod(null);
 
+
+            /*
+            * Just a lil' function to take assignments from DB
+            *
+            * Takes items from the global dataSnapshot for each of the courses the user is
+            * enrolled in. If there are no assignments in that course it says so.
+            * */
+            String courseCode = courses.get(i);
+            if(globalSnapshot.child(courses.get(i)).hasChild("assignments")){//checks to see if has any assignments
+
+                for (DataSnapshot ds: globalSnapshot.child(courseCode).child("assignments").getChildren()){// for each assignment
+                    //initialise 2 variables for returning
+                    String dbAassig = ds.child("title").getValue().toString();
+                    String dbComp;
+                    if (ds.child("title").getValue().toString()=="true"){ // this isn't the best way to do this but it'll do for now
+                        dbComp = "COMPLETED";
+                    }
+                    else{
+                        dbComp = "INCOMPLETE";
+                    }
+                }
+            }
+            else{
+                assignment.setText("No assignments yet in this course");
+            }
+
+
+
             course.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
                     if(assignment.getVisibility()==View.GONE){
                         assignment.setVisibility(View.VISIBLE);
                         toCourse.setVisibility(View.VISIBLE);}
