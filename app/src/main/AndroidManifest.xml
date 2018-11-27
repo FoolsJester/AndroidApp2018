@@ -44,6 +44,10 @@
         <activity android:name=".User"/>
         <activity android:name=".Settings"/>
         <activity android:name=".EditSettings"/>
+        <activity android:name=".shaneUser"/>
+        <activity android:name=".amyUser"/>
+        <activity android:name=".muireannUser"/>
+        <activity android:name=".eimearUser"/>
 
         <activity
             android:name=".SearchCouses"

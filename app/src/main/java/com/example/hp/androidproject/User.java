@@ -461,35 +461,39 @@ public class User extends AppCompatActivity {
     }
 
     public void openShane() {
-        Intent intent = new Intent(this, StudyTimer.class);
+        Intent intent = new Intent(this, shaneUser.class);
         startActivity(intent);
     }
 
     public void openShaneV(View view) {
-        Intent intent = new Intent(this, StudyTimer.class);
+        Intent intent = new Intent(this, shaneUser.class);
         startActivity(intent);
     }
 
     public void openAmyV(View view) {
-        Intent intent = new Intent(this, StudyTimer.class);
+        Intent intent = new Intent(this, amyUser.class);
         startActivity(intent);
     }
 
     public void openMuireannV(View view) {
-        Intent intent = new Intent(this, StudyTimer.class);
+        Intent intent = new Intent(this, muireannUser.class);
+        startActivity(intent);
+    }
+
+    public void openEimearV(View view) {
+        Intent intent = new Intent(this, eimearUser.class);
         startActivity(intent);
     }
 
     public void openAmy() {
-        Intent intent = new Intent(this, StudyTimer.class);
+        Intent intent = new Intent(this, amyUser.class);
         startActivity(intent);
     }
 
     public void openMuireann() {
-        Intent intent = new Intent(this, StudyTimer.class);
+        Intent intent = new Intent(this, muireannUser.class);
         startActivity(intent);
     }
-
 
     public void openSettings(){
         Intent intent = new Intent(this, Settings.class);
