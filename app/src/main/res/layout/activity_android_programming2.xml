@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="COMP10280"
+                android:text="COMP41690"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -57,17 +57,16 @@
                 android:id="@+id/textViewCourseName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Introduction to Programming"
+                android:text="Android Programming"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 app:fontFamily="sans-serif"
-                tools:text="Introduction to Programming"
-
+                tools:text="Android Programming"
                 />
 
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/enrolButton"
+                android:id="@+id/enrolButtonAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -96,7 +95,7 @@
                 android:textColor="#FFFFFF"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/spinner"
+                android:id="@+id/spinnerAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -112,7 +111,7 @@
 
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/assignmentFragButton"
+                android:id="@+id/assignmentFragButtonAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -124,7 +123,7 @@
                 />
 
             <FrameLayout
-                android:id="@+id/placeholder"
+                android:id="@+id/placeholderAP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -132,7 +131,7 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/courseMembers"
+                android:id="@+id/courseMembersAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2C8C99"
@@ -145,7 +144,7 @@
                 android:textColor="#FFFFFF"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/memberSpinner"
+                android:id="@+id/memberSpinnerAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -162,7 +161,7 @@
             </android.support.v7.widget.AppCompatSpinner>
 
             <TextView
-                android:id="@+id/MessageGmail"
+                android:id="@+id/MessageGmailAP"
                 android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -173,7 +172,7 @@
                 app:fontFamily="sans-serif" />
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/openGmail"
+                android:id="@+id/openGmailAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -187,7 +186,7 @@
                 />
 
             <TextView
-                android:id="@+id/DiscussionForum"
+                android:id="@+id/DiscussionForumAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2C8C99"
@@ -202,7 +201,7 @@
                 android:textColor="#FFFFFF"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/ForumSpinner"
+                android:id="@+id/ForumSpinnerAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -220,7 +219,7 @@
             <!-- button tutorial: https://abhiandroid.com/ui/button-->
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/addForumTopic"
+                android:id="@+id/addForumTopicAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -231,7 +230,7 @@
                 app:fontFamily="sans-serif" />
 
             <FrameLayout
-                android:id="@+id/forumPlaceholder"
+                android:id="@+id/forumPlaceholderAP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp">

@@ -63,32 +63,35 @@ public class AddAssignment_Fragment extends Fragment {
 
 
 
-            assignmentButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    input1 = tname.getText().toString().trim().length();
-                    input2 = tdate.getText().toString().trim().length();
-                    input3 = tdescription.getText().toString().trim().length();
-                    input4 = tpercentworth.getText().toString().trim().length();
-                    if (input1> 0 & + input2 > 0 & input3 > 0 & input4 > 0) {
-                        db = openHelper.getWritableDatabase();
-                        String name = tname.getText().toString();
-                        String dueData =tdate.getText().toString();
-                        String description = tdescription.getText().toString();
-                        Integer percentWorth = Integer.valueOf(tpercentworth.getText().toString());
+        assignmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input1 = tname.getText().toString().trim().length();
+                input2 = tdate.getText().toString().trim().length();
+                input3 = tdescription.getText().toString().trim().length();
+                input4 = tpercentworth.getText().toString().trim().length();
+                if (input1> 0 & + input2 > 0 & input3 > 0 & input4 > 0) {
+                    db = openHelper.getWritableDatabase();
+                    String name = tname.getText().toString();
+                    String dueData =tdate.getText().toString();
+                    String description = tdescription.getText().toString();
+                    Integer percentWorth = Integer.valueOf(tpercentworth.getText().toString());
 
 
-                        Activity act = getActivity();
-                        if (act instanceof Courses) {
-                            ((Courses) act).populateSpinner(name, dueData, description, percentWorth);
-                        }
+                    Activity act = getActivity();
+                    if (act instanceof Courses) {
+                        ((Courses) act).populateSpinner(name, dueData, description, percentWorth);
                     }
-                    else{
-                        Toast.makeText(getContext(), "Error... empty field " , Toast.LENGTH_LONG).show();
+                    else if(act instanceof AndroidProgramming){
+                        ((AndroidProgramming) act).populateSpinner(name, dueData, description, percentWorth);
                     }
-
                 }
-            });
+                else{
+                    Toast.makeText(getContext(), "Error... empty field " , Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
 
     }
 
