@@ -38,7 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class Courses extends AppCompatActivity  {
-    private static final String courseName = "COMP10280";
+    private static final String courseName = "COMP41690";
     private  DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
     private static final String TAG = "Courses";
