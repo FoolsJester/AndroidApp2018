@@ -9,7 +9,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class Settings extends AppCompatActivity {
 
-//    private DrawerLayout dl;
-//    private ActionBarDrawerToggle abdt;
+    private DrawerLayout drawerlayout;
+    private ActionBarDrawerToggle abdt;
 
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
@@ -37,36 +34,39 @@ public class Settings extends AppCompatActivity {
         createTextField();
         setText();
 
-//        // initialising variables for nav bar
-//        dl = (DrawerLayout) findViewById(R.id.dl);
-//        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
-//        abdt.setDrawerIndicatorEnabled(true);
-//        dl.addDrawerListener(abdt);
-//        abdt.syncState();
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-//        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                int id = item.getItemId();
-//
-//                if (id == R.id.myprofile) {
-//                    openUser();
-//                } else if (id == R.id.study) {
-//                    Toast.makeText(Settings.this, "Study Page", Toast.LENGTH_SHORT).show();
-//                } else if (id == R.id.course) {
-//                    openCourses();
-//                } else if (id == R.id.settings) {
-//                    openSettings();
-//                } else if (id == R.id.login) {
-//                    openMainActivity();
-//                }
-//
-//                return true;
-//            }
-//        });
+        // initialising variables for nav bar
+        drawerlayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open, R.string.Close);
+        abdt.setDrawerIndicatorEnabled(true);
+        drawerlayout.addDrawerListener(abdt);
+        abdt.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.myprofile) {
+                    openUser();
+                } else if (id == R.id.study) {
+                    Toast.makeText(Settings.this, "Study Page", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.course) {
+                    openCourses();
+                } else if (id == R.id.settings) {
+                    openSettings();
+                } else if (id == R.id.login) {
+                    openMainActivity();
+                }
+                else if( id == R.id.search){
+                    openSearch();
+                }
+
+                return true;
+            }
+        });
 
 
         Button addStudy = (Button) findViewById(R.id.button4);
@@ -86,10 +86,10 @@ public class Settings extends AppCompatActivity {
         TextView uni = (TextView) findViewById(R.id.uni_settings);
         TextView course = (TextView) findViewById(R.id.course_settings);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> info = db.getUserInfo();
 
         name.setText(info.get(0));
@@ -104,10 +104,10 @@ public class Settings extends AppCompatActivity {
 
         LinearLayout check = (LinearLayout) findViewById(R.id.LinearLayout);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> courses = db.getAll();
 
         for (int i = 0; i < courses.size(); i += 4) {
@@ -130,6 +130,11 @@ public class Settings extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
     public void openEditSettingsActivity() {
         Intent intent = new Intent(this, EditSettings.class);
         startActivity(intent);
@@ -147,6 +152,11 @@ public class Settings extends AppCompatActivity {
 
     public void openSettings() {
         Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
+        Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
     }
 

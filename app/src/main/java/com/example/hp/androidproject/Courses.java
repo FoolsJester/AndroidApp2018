@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.hp.androidproject.Objects.AssignmentObject;
+import com.example.hp.androidproject.Objects.ForumObject;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,19 +38,19 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class Courses extends AppCompatActivity  {
-
+    private static final String courseName = "COMP10280";
     private  DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
     private static final String TAG = "Courses";
-    private DrawerLayout dl;
+    private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
     Button enrolButton, assignmentButton, openGmail, addAssignmentFrag, addForumTopic;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
-    EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
-    Spinner Assignmentspinner, ForumSpinner;
+    Spinner Assignmentspinner, ForumSpinner, memberSpinner;
     int delaySelect = 0;
     int delayForumSelect = 0;
+    int delayMemberSelect = 0;
 
 
 
@@ -67,7 +68,7 @@ public class Courses extends AppCompatActivity  {
         spots in the DB, reference must be empty(root of tree)
         */
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+        myRef = database.getReference(courseName);
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -89,10 +90,10 @@ public class Courses extends AppCompatActivity  {
         });
 
         // initialising variables
-        dl = (DrawerLayout)findViewById(R.id.dl);
-        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open,R.string.Close);
+        drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
-        dl.addDrawerListener(abdt);
+        drawerlayout.addDrawerListener(abdt);
         abdt.syncState();
 
 
@@ -100,15 +101,12 @@ public class Courses extends AppCompatActivity  {
         // initialising variables for assignment form and forum links
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
         openHelper = new DatabaseHelper(this);
-//        _txtname = (EditText)findViewById(R.id.txtname);
-//        _txtduedate = (EditText)findViewById(R.id.txtduedate);
-//        _txtdescription = (EditText)findViewById(R.id.txtdescription);
-//        _txtpercentworth = (EditText)findViewById(R.id.txtpercentworth);
         addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
         openGmail = (Button)findViewById(R.id.openGmail);
         addForumTopic = (Button)findViewById(R.id.addForumTopic);
         Assignmentspinner = (Spinner) findViewById(R.id.spinner);
         ForumSpinner = (Spinner) findViewById(R.id.ForumSpinner);
+        memberSpinner = (Spinner) findViewById(R.id.memberSpinner);
 
 
 
@@ -137,13 +135,13 @@ public class Courses extends AppCompatActivity  {
             public void onClick(View v) {
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
-                emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"testEmail@gmail.com"});
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Put your Subject here");
+                emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Message Subject");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
                 else
-                    Toast.makeText(getApplicationContext(), "Gmail App is not installed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Gmail App is not installed on your device",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -174,6 +172,13 @@ public class Courses extends AppCompatActivity  {
                 else if(id == R.id.login){
                     openMainActivity();
                 }
+                else if(id == R.id.settings){
+                    openSettings();
+                }
+                else if( id == R.id.search){
+                    openSearch();
+                }
+
 
                 return true;
             }
@@ -196,6 +201,34 @@ public class Courses extends AppCompatActivity  {
                     return;
                 }
                 delaySelect = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        memberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Object obj = parent.getAdapter().getItem(position);
+                String key = obj.toString();
+                if(delayMemberSelect != position) {
+                    if(key.equals("Amy McCormack")){
+                        openAmysPage();
+                    }
+                    else{
+                        Toast.makeText(Courses.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else{
+                    return;
+                }
+                delayMemberSelect = position;
+
             }
 
             @Override
@@ -230,7 +263,7 @@ public class Courses extends AppCompatActivity  {
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "you are now enrolled", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Waiting for admins approval", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -240,8 +273,20 @@ public class Courses extends AppCompatActivity  {
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
         delaySelect = 0;
         insertData(name, dueData, description, percentWorth);
-        Toast.makeText(getApplicationContext(), "assignment is added", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Assignment is added", Toast.LENGTH_LONG).show();
 
+    }
+
+    public void sendForum(String name, String desc){
+        try {
+            Log.d(TAG, "myRef is : " + myRef);
+            myRef.child("forum").child(name).setValue(new ForumObject(name, desc));
+
+            Toast.makeText(getApplicationContext(), "Forum is added", Toast.LENGTH_LONG).show();
+        } catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(Courses.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -251,7 +296,9 @@ public class Courses extends AppCompatActivity  {
 
     public void openActivityTopicOne(String key){
         Intent intent = new Intent(this, DisplayContent.class);
-        intent.putExtra("key", "Forum1");
+        Bundle bundle = new Bundle();
+        intent.putExtra("course", courseName);
+        intent.putExtra("key", key);
         startActivity(intent);
     }
 
@@ -268,6 +315,21 @@ public class Courses extends AppCompatActivity  {
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void openSettings() {
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
+        Intent intent = new Intent(this, SearchCouses.class);
+        startActivity(intent);
+    }
+    public void openAmysPage(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+
     }
 
     // method that inserts value from form into database

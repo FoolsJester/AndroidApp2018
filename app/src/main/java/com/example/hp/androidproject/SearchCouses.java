@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +36,12 @@ public class SearchCouses extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_courses);
 
-        openHelper = new DatabaseHelper2(this);
+        openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
-        DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
-        List<String> courses = db.getAssignments();
+
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
+        List<String> courses = db.getCourseNameOnly();
         List<String> friends = new ArrayList<String>(4);
         friends.add("Shane Bird");
         friends.add("Eimear Galligan");

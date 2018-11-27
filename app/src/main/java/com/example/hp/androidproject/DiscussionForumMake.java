@@ -23,7 +23,7 @@ public class DiscussionForumMake extends AppCompatActivity {
     public void postDiscussion(View view){
         EditText title = (EditText)findViewById(R.id.title);
         EditText content =  (EditText)findViewById(R.id.content);
-        String concatText = title.getText().toString() + ": Is being posted to the forum";
+        String concatText = title.getText().toString() + ": is being posted to the forum";
 
         Toast toast = Toast.makeText(getApplicationContext(), concatText, Toast.LENGTH_SHORT);
         toast.show();
