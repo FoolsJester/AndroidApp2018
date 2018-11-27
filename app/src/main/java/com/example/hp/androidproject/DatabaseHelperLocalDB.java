@@ -79,6 +79,13 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
 
             db.insert(TABLE_NAME, null, contentValues);
 
+            contentValues.put(COL_2, "COMP47350");
+            contentValues.put(COL_3, "Data Analytics");
+            contentValues.put(COL_4, 28);
+            contentValues.put(COL_5, 6);
+
+            db.insert(TABLE_NAME, null, contentValues);
+
 
 
     }

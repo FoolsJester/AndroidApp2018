@@ -6,8 +6,12 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import android.graphics.Color;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
@@ -45,6 +49,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 
 public class User extends AppCompatActivity {
@@ -71,48 +76,6 @@ public class User extends AppCompatActivity {
         task.execute("https://api.openweathermap.org/data/2.5/weather?q=Dublin,ie&units=metric&appid=00a79b7ecabf9125273b86a8736392d6");
 
         notificationManager = NotificationManagerCompat.from(this);
-
-
-//        SearchItem suggestion = new SearchItem(this);
-//        suggestion.setTitle("Title");
-//      //  suggestion.setIcon_1_resource(R.drawable.search_ic_search_black_24dp);
-//        suggestion.setSubtitle("Subtitle");
-//
-//        List<SearchItem> suggestions = new ArrayList<>();
-//        suggestions.add(suggestion);
-//
-//        final SearchHistoryTable mHistoryDatabase = new SearchHistoryTable(this);
-//
-//        SearchAdapter searchAdapter = new SearchAdapter(this);
-//        searchAdapter.setSuggestionsList(suggestions);
-//        searchAdapter.setOnSearchItemClickListener(new SearchAdapter.OnSearchItemClickListener() {
-//            @Override
-//            public void onSearchItemClick(int position, CharSequence title, CharSequence subtitle) {
-//                SearchItem item = new SearchItem(User.this);
-//                item.setTitle(title);
-//                item.setSubtitle(subtitle);
-//
-//                mHistoryDatabase.addItem(item);
-//            }
-//        });
-//
-//        SearchView searchView = findViewById(R.id.searchView);
-//        searchView.setOnQueryTextListener(new Search.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(CharSequence query) {
-//                SearchItem item = new SearchItem(User.this);
-//                item.setTitle(query);
-//
-//                mHistoryDatabase.addItem(item);
-//                return true;
-//            }
-//
-//            @Override
-//            public void onQueryTextChange(CharSequence newText) {
-//                //return false;
-//                int x = 1;
-//            }
-//        });
 
 
             // initialising variables for nav bar
@@ -189,11 +152,29 @@ public class User extends AppCompatActivity {
         final Spinner dropdown = findViewById(R.id.spinner1);
         final EditText productive = findViewById(R.id.editText2);
 
-//        String[] labels = {"COMP30650", "COMP50650", "COMP20650", "COMP40650", "COMP10650", "COMP60650"};
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        dropdown.setAdapter(dataAdapter);
+        Button shane = (Button) findViewById(R.id.ShaneButton);
+        shane.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openShane();
+            }
+        });
+
+        Button amy = (Button) findViewById(R.id.AmyButton);
+        amy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAmy();
+            }
+        });
+
+        Button muireann = (Button) findViewById(R.id.MuireannButton);
+        muireann.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMuireann();
+            }
+        });
 
 
         Button addStudy = (Button) findViewById(R.id.button3);
@@ -247,13 +228,19 @@ public class User extends AppCompatActivity {
         openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
+
         DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> courses = db.getCourseName();
 
         for (int i = 0; i < courses.size(); i+=2) {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            lparams.setMargins(35,5,0,5);
+
+            LinearLayout.LayoutParams newActivityParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 70);
+            newActivityParams.setMargins(80,0,80,5);
 
             Button course = new Button(this);
             final TextView assignment = new TextView(this);
@@ -262,13 +249,22 @@ public class User extends AppCompatActivity {
             course.setLayoutParams(lparams);
             course.setText(courses.get(i)+" - "+courses.get(i+1));
             course.setId(i+1);
+            course.setPadding(10,0,10,0);
+            course.setBackgroundColor(Color.WHITE);
+            course.setTransformationMethod(null);
+
             assignment.setLayoutParams(lparams);
             assignment.setVisibility(View.GONE);
-            assignment.setText("\tProgramming Lab 2: INCOMPLETE\n\t Average Completion Time: 30 minutes");
-            toCourse.setLayoutParams(lparams);
+            assignment.setTextSize(15);
+            assignment.setText("\tProgramming Lab 2: INCOMPLETE\n\tAverage Completion Time: 30 minutes\n");
+
+            toCourse.setLayoutParams(newActivityParams);
             toCourse.setText("View "+courses.get(i+1));
             toCourse.setId(i+1);
+            toCourse.setPadding(0,0,0,0);
+            toCourse.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
             toCourse.setVisibility(View.GONE);
+            toCourse.setTransformationMethod(null);
 
             course.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -398,12 +394,32 @@ public class User extends AppCompatActivity {
 
         List<String> labels = db.getCourseName();
 
-        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chart.getXAxis().setLabelCount(labels.size());
 
+        XAxis xAxis = chart.getXAxis();
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setCenterAxisLabels(false);
+        xAxis.setGranularity(1f);
+        xAxis.setTextSize(12);
+
+        //xAxis.setLabelRotationAngle(30);
+        xAxis.setLabelCount(4);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+
+        //chart.setFitBars(true);
+//;
+//        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+//        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+//
+//        chart.getXAxis().setTextSize(12);
+//        chart.getXAxis().setLabelCount(3    , true);
+//        chart.getXAxis().
 
         chart.setDrawGridBackground(false);
+        chart.getDescription().setEnabled(false);
 
         if (chart.getData() != null && chart.getData().getDataSetCount() > 0){
             chart.setData(data);
@@ -443,6 +459,37 @@ public class User extends AppCompatActivity {
         Intent intent = new Intent(this, StudyTimer.class);
         startActivity(intent);
     }
+
+    public void openShane() {
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openShaneV(View view) {
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openAmyV(View view) {
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openMuireannV(View view) {
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openAmy() {
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openMuireann() {
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
 
     public void openSettings(){
         Intent intent = new Intent(this, Settings.class);
