@@ -25,9 +25,9 @@ import java.util.List;
 public class SearchCouses extends AppCompatActivity {
 
     private ListView search_course;
-    private ListView test_course;
+    private ListView search_friends;
     private ArrayAdapter<String> searchable;
-    private ArrayAdapter<String> test_search;
+    private ArrayAdapter<String> friend_searchable;
 
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
@@ -42,9 +42,14 @@ public class SearchCouses extends AppCompatActivity {
 
         DatabaseHelper2 db = new DatabaseHelper2(getApplicationContext());
         List<String> courses = db.getAssignments();
+        List<String> friends = new ArrayList<String>(4);
+        friends.add("Shane Bird");
+        friends.add("Eimear Galligan");
+        friends.add("Muireann MacCarthy");
+        friends.add("Amy McCormack");
 
-        List<String> test = db.getAssignments();
-        test_course = (ListView) findViewById(R.id.test_course);
+
+        search_friends = (ListView) findViewById(R.id.test_course);
         search_course = (ListView) findViewById(R.id.search_course);
 
         search_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,6 +62,30 @@ public class SearchCouses extends AppCompatActivity {
                                              }
                                          });
 
+        search_friends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object selectedFromList = (search_friends.getItemAtPosition(position));
+                String user = selectedFromList.toString();
+                if (user.equals("Amy McCormack")){
+                    Intent intent=new Intent(getBaseContext(),User.class);
+                    startActivity(intent);
+                }
+                else if (user.equals("Muireann MacCarthy")){
+                    Intent intent=new Intent(getBaseContext(),User.class);
+                    startActivity(intent);
+                }
+                else if (user.equals("Shane Bird")){
+                    Intent intent=new Intent(getBaseContext(),User.class);
+                    startActivity(intent);
+                }
+                else if (user.equals("Eimear Galligan")){
+                    Intent intent=new Intent(getBaseContext(),User.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
 
         searchable = new ArrayAdapter<String>(
                 this,
@@ -64,13 +93,13 @@ public class SearchCouses extends AppCompatActivity {
                 courses
         );
 
-        test_search = new ArrayAdapter<String>(
+        friend_searchable = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                test
+                friends
         );
         search_course.setAdapter(searchable);
-        test_course.setAdapter(test_search);
+        search_friends.setAdapter(friend_searchable);
 
 
     }
@@ -109,7 +138,7 @@ public class SearchCouses extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchable.getFilter().filter(newText);
-                test_search.getFilter().filter(newText);
+                friend_searchable.getFilter().filter(newText);
                 return false;
             }
 

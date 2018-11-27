@@ -83,6 +83,13 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
 
             db.insert(TABLE_NAME, null, contentValues);
 
+            contentValues.put(COL_2, "COMP47350");
+            contentValues.put(COL_3, "Data Analytics");
+            contentValues.put(COL_4, 28);
+            contentValues.put(COL_5, 6);
+
+            db.insert(TABLE_NAME, null, contentValues);
+
 
 
     }
@@ -125,7 +132,6 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 assignmentNames.add(cursor.getString(1));
-                assignmentNames.add(cursor.getString(2));
             } while (cursor.moveToNext());
         }
 

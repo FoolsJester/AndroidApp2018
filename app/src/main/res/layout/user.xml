@@ -36,7 +36,7 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
+                android:layout_height="170dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
@@ -45,7 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                app:srcCompat="@drawable/dcoyle_image" />
 
             <TextView
                 android:id="@+id/name_user"
@@ -103,26 +103,35 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#86a3a8"
+                android:background="@color/colorPrimaryDark"
                 android:text="Courses"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:layout_marginHorizontal="10dp"
                 android:textAlignment="textStart"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
         </LinearLayout>
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#86a3a8"
-                android:text="Stats"
+                android:background="@color/colorPrimaryDark"
+                android:text="Statistics"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:textAlignment="textStart"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -130,6 +139,7 @@
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/BarChart"
                         android:layout_width="match_parent"
+                        android:layout_margin="10dp"
                         android:layout_height="300dp"/>
 
 
@@ -137,13 +147,20 @@
             <Button
                 android:id="@+id/button1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/colorAccent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="5dp"
                 android:text="Start Study Time" />
+
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/colorAccent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="5dp"
                 android:text="Add More Study Time" />
 
             <Spinner
@@ -151,6 +168,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5dp"
                 android:spinnerMode="dropdown"
                 android:visibility="gone" />
 
@@ -159,7 +180,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="How many hours?"
+                android:layout_marginHorizontal="20dp"
+                android:hint="Total hours Studied"
                 android:inputType="number|numberDecimal"
                 android:visibility="gone" />
 
@@ -168,61 +190,117 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:layout_marginHorizontal="20dp"
+                android:hint="Total Productive Hours Studied"
                 android:inputType="number|numberDecimal"
                 android:visibility="gone"/>
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/colorAccent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="5dp"
                 android:text="Set"
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/Friends"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#d3d3d3"
+                android:background="@color/colorPrimaryDark"
                 android:text="Friends"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="10dp"
+                android:textAlignment="textStart"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="68dp"
-                tools:layout_editor_absoluteY="391dp" />
+                android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/FriendImage1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight=".33"
-                android:paddingRight="20dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="20dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                android:onClick="openShaneV"
+                app:srcCompat="@drawable/shaneprofile" />
 
             <ImageView
                 android:id="@+id/FriendImage2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight=".33"
-                android:paddingRight="20dp"
-                android:paddingTop="20dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:onClick="openAmyV"
+                app:srcCompat="@drawable/amyprofile" />
 
             <ImageView
                 android:id="@+id/FriendImage3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight=".33"
-                android:paddingTop="20dp"
-                android:paddingRight="20dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:onClick="openMuireannV"
+                app:srcCompat="@drawable/muireannprofile" />
 
 
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/ShaneButton"
+                    android:layout_width="wrap_content"
+                    android:background="@color/white"
+                    android:textAllCaps="false"
+                    android:layout_weight=".33"
+                    android:paddingTop="5dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="30dp"
+                    android:text = "Shane Bird"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/AmyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:textAllCaps="false"
+                    android:layout_weight=".33"
+                    android:paddingTop="5dp"
+                    android:text = "Amy McCormack"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"/>
+
+                <Button
+                    android:id="@+id/MuireannButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:textAllCaps="false"
+                    android:layout_weight=".33"
+                    android:paddingTop="5dp"
+                    android:text="Muireann MaCarthy"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
