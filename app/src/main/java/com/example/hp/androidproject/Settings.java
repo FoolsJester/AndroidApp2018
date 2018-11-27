@@ -1,11 +1,15 @@
 package com.example.hp.androidproject;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-
+import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 public class Settings extends AppCompatActivity {
+    private NotificationManagerCompat notificationManager;
+
 
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
@@ -30,7 +36,7 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-
+        notificationManager = NotificationManagerCompat.from(this);
         createTextField();
         setText();
 
@@ -136,6 +142,7 @@ public class Settings extends AppCompatActivity {
     }
 
     public void openEditSettingsActivity() {
+        discussionForum();
         Intent intent = new Intent(this, EditSettings.class);
         startActivity(intent);
     }
@@ -165,7 +172,21 @@ public class Settings extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public void discussionForum(){
+        Intent intent = new Intent(this, IOTprogramming.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
+                .setSmallIcon(R.drawable.ic_discussion_forum)
+                .setContentTitle("New Discussion Forum")
+                .setContentText("A new discussion forum has been created in COMP47520")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
 
+        notificationManager.notify(2, notification);
+    }
 
 }
 

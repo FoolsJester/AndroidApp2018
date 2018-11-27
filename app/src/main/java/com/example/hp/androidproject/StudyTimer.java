@@ -1,9 +1,9 @@
 package com.example.hp.androidproject;
 
-import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.hardware.Sensor;
@@ -14,6 +14,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,8 +32,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-public class StudyTimer extends Activity {
+public class StudyTimer extends AppCompatActivity {
     //Declaring variables
+    private DrawerLayout drawerlayout;
+    private ActionBarDrawerToggle abdt;
     Chronometer studyChronometer, handlingTime, interactionTime;
     Button startBtn, stopBtn, saveBtn;
     long studyStopTime, handleStopTime, interactStopTime = 0;
@@ -40,7 +48,6 @@ public class StudyTimer extends Activity {
     public PropertyChangeListener listener;
     SensorManager sm = null;
     List list;
-
 
     /*
      * Creates a phoneLock object that supports a property change listener. This notifies the app when the lock state of the device changes
@@ -150,6 +157,43 @@ public class StudyTimer extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chronometer);
+        // initialising variables for nav bar
+        drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
+        abdt.setDrawerIndicatorEnabled(true);
+        drawerlayout.addDrawerListener(abdt);
+        abdt.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item){
+                int id = item.getItemId();
+
+                if( id == R.id.myprofile){
+                    openUser();
+                }
+                else if( id == R.id.study){
+                    openStudy();
+                }
+                else if( id == R.id.course){
+                    openCourses();
+                }
+                else if( id == R.id.settings){
+                    openSettings();
+                }
+                else if( id == R.id.search){
+                    openSearch();
+                }
+                else if(id == R.id.login){
+                    openMainActivity();
+                }
+
+                return true;
+            }
+        });
 
         //Declaring variables
         openHelper = new DatabaseHelperLocalDB(this);
@@ -314,6 +358,40 @@ public class StudyTimer extends Activity {
         db.update(DatabaseHelperLocalDB.TABLE_NAME, contentValues, "Count_ID ="+id, null);
         Toast.makeText(this, "Study time logged successfully.\n" + (int) productivity + "% productivity in this session.", Toast.LENGTH_LONG).show();
     }
+    public void openCourses(){
+        Intent intent = new Intent(this, Courses.class);
+        startActivity(intent);
+    }
 
+    public void openUser(){
+        Intent intent = new Intent(this, muireannUser.class);
+        startActivity(intent);
+    }
+
+    public void openSettings(){
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openStudy(){
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
+        Intent intent = new Intent(this, SearchCouses.class);
+        startActivity(intent);
+    }
+
+    public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 
 }
