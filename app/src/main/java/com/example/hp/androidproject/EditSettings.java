@@ -4,21 +4,29 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 public class EditSettings extends AppCompatActivity {
-
+    private Button uploadImage;
+    private ImageView newProfilePic;
+    private static final int CAMERA_REQUEST_CODE = 1;
+    private ProgressBar imageUploadProgress;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
 
@@ -35,12 +43,24 @@ public class EditSettings extends AppCompatActivity {
         createTextField();
         setText();
 
-
+        uploadImage = (Button) findViewById(R.id.uploadImage);
+        newProfilePic = (ImageView) findViewById(R.id.imageView2);
         Button submit = (Button) findViewById(R.id.submit);
         final EditText name = (EditText) findViewById(R.id.edit_name);
         final EditText email = (EditText) findViewById(R.id.edit_email);
         final EditText uni = (EditText) findViewById(R.id.edit_uni);
         final EditText course = (EditText) findViewById(R.id.edit_course);
+        imageUploadProgress = new ProgressBar(this);
+
+        uploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        });
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -57,12 +77,12 @@ public class EditSettings extends AppCompatActivity {
                 contentValues.put(DatabaseHelperLocalDB.STUDENT_3, new_mail);
                 contentValues.put(DatabaseHelperLocalDB.STUDENT_4, new_uni);
                 contentValues.put(DatabaseHelperLocalDB.STUDENT_5, new_course);
-                db.update(DatabaseHelperLocalDB.STUDENT_TABLE, contentValues, "Count_ID ="+1, null);
+                db.update(DatabaseHelperLocalDB.STUDENT_TABLE, contentValues, "Count_ID =" + 1, null);
 
                 openHelper = new DatabaseHelperLocalDB(EditSettings.this);
                 db = openHelper.getReadableDatabase();
 
-                for (int i = 0; i < 2; i ++) {
+                for (int i = 0; i < 2; i++) {
 
                     Toast.makeText(getApplicationContext(), "Changed Hours must be approved by Course Administrator", Toast.LENGTH_LONG).show();
                 }
@@ -73,9 +93,23 @@ public class EditSettings extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
 
-    public void setText(){
+            Uri uri = data.getData();
+            Bitmap getphoto = (Bitmap) data.getExtras().get("data");
+            newProfilePic.setImageBitmap(getphoto);
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        //Tutorial on how to store access camera https://www.youtube.com/watch?v=Zy2DKo0v-OY"
+        }
+    }
+
+    public void setText() {
 
         openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
@@ -94,12 +128,7 @@ public class EditSettings extends AppCompatActivity {
         course.setText(info.get(3));
 
 
-
-
-
     }
-
-
 
     public void createTextField() {
 
@@ -133,7 +162,7 @@ public class EditSettings extends AppCompatActivity {
 
             coursecode.setLayoutParams(textparams);
             coursecode.setTextSize(18);
-            coursecode.setText(courses.get(i+1));
+            coursecode.setText(courses.get(i + 1));
             coursecode.setGravity(Gravity.CENTER);
             coursecode.setId(View.generateViewId());
 
@@ -158,10 +187,10 @@ public class EditSettings extends AppCompatActivity {
             delete.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                  //  db.execSQL("DELETE FROM "+DatabaseHelperLocalDB.TABLE_NAME+" WHERE "+DatabaseHelperLocalDB.COL_1+" = '"+id+"'");
-                  db.delete(DatabaseHelperLocalDB.TABLE_NAME, DatabaseHelperLocalDB.COL_1+"=?", new String[]{id});
+                    //  db.execSQL("DELETE FROM "+DatabaseHelperLocalDB.TABLE_NAME+" WHERE "+DatabaseHelperLocalDB.COL_1+" = '"+id+"'");
+                    db.delete(DatabaseHelperLocalDB.TABLE_NAME, DatabaseHelperLocalDB.COL_1 + "=?", new String[]{id});
 
-                  layout.removeAllViews();
+                    layout.removeAllViews();
 
                 }
             });
@@ -181,5 +210,4 @@ public class EditSettings extends AppCompatActivity {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
-
 }

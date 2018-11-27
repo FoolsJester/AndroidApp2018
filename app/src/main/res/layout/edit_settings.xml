@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,6 +47,12 @@
                 android:textAlignment="textStart"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/uploadImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change profile picture" />
 
             <ImageView
                 android:id="@+id/imageView2"
