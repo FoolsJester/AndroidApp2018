@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     openUser();
                 }
                 else if( id == R.id.study){
-                    Toast.makeText(MainActivity.this, "Study Page", Toast.LENGTH_SHORT).show();
+                    openStudy();
                 }
                 else if( id == R.id.course){
                     openCourses();
@@ -81,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openSettings(){
         Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openStudy(){
+        Intent intent = new Intent(this, StudyTimer.class);
         startActivity(intent);
     }
 

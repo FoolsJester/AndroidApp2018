@@ -1,33 +1,27 @@
 package com.example.hp.androidproject;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
-import java.util.List;
 import android.widget.ArrayAdapter;
-import java.util.ArrayList;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.example.hp.androidproject.Objects.AssignmentObject;
 import com.example.hp.androidproject.Objects.ForumObject;
 import com.google.firebase.database.DataSnapshot;
@@ -36,32 +30,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 
-public class Courses extends AppCompatActivity  {
+public class AndroidProgramming extends AppCompatActivity {
+
     private static final String courseName = "COMP41690";
-    private  DatabaseReference myRef;
+    private DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
     private static final String TAG = "Courses";
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
-    Button enrolButton, assignmentButton, openGmail, addAssignmentFrag, addForumTopic;
-    SQLiteOpenHelper openHelper;
-    SQLiteDatabase db;
+    Button enrolButton, assignmentButton, openGmail, addAssignmentFragAP, addForumTopic;
     Spinner Assignmentspinner, ForumSpinner, memberSpinner;
     int delaySelect = 0;
     int delayForumSelect = 0;
     int delayMemberSelect = 0;
 
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_courses);
+        setContentView(R.layout.activity_android_programming2);
 
         /*
         Initialise firebase DB and get reference for it. As will be writing and reading from several
@@ -100,22 +89,21 @@ public class Courses extends AppCompatActivity  {
 
         // initialising variables for assignment form and forum links
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
-        openHelper = new DatabaseHelper(this);
-        addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
-        openGmail = (Button)findViewById(R.id.openGmail);
-        addForumTopic = (Button)findViewById(R.id.addForumTopic);
-        Assignmentspinner = (Spinner) findViewById(R.id.spinner);
-        ForumSpinner = (Spinner) findViewById(R.id.ForumSpinner);
-        memberSpinner = (Spinner) findViewById(R.id.memberSpinner);
+        addAssignmentFragAP = (Button)findViewById(R.id.assignmentFragButtonAP);
+        openGmail = (Button)findViewById(R.id.openGmailAP);
+        addForumTopic = (Button)findViewById(R.id.addForumTopicAP);
+        Assignmentspinner = (Spinner) findViewById(R.id.spinnerAP);
+        ForumSpinner = (Spinner) findViewById(R.id.ForumSpinnerAP);
+        memberSpinner = (Spinner) findViewById(R.id.memberSpinnerAP);
 
 
 
 
         // button to add assignment fragment on click
-        addAssignmentFrag.setOnClickListener(new View.OnClickListener() {
+        addAssignmentFragAP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChangeFragment(addAssignmentFrag);
+                ChangeFragment(addAssignmentFragAP);
             }
         });
 
@@ -160,15 +148,13 @@ public class Courses extends AppCompatActivity  {
                 int id = item.getItemId();
 
                 if( id == R.id.myprofile){
-                    Toast.makeText(Courses.this, "MyProfile", Toast.LENGTH_SHORT).show();
                     openUser();
                 }
                 else if( id == R.id.study){
-                    Toast.makeText(Courses.this, "Study Page", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AndroidProgramming.this, "Study Page", Toast.LENGTH_SHORT).show();
                 }
                 else if( id == R.id.course){
-                    Toast.makeText(Courses.this, "Already in Course Page", Toast.LENGTH_SHORT).show();
-                    openAndroid();
+                    Toast.makeText(AndroidProgramming.this, "Course Page", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.login){
                     openMainActivity();
@@ -220,15 +206,15 @@ public class Courses extends AppCompatActivity  {
                     if(key.equals("Amy McCormack")){
                         openAmysPage();
                     }
-                    if(key.equals("Muireann Mac Carthy")){
+                    else if(key.equals("Muireann Mac Carthy")){
                         openMuireannsPage();
 
                     }
-                    if(key.equals("Shane Bird")){
+                    else if(key.equals("Shane Bird")){
                         openShanesPage();
                     }
                     else{
-                        Toast.makeText(Courses.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AndroidProgramming.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -268,7 +254,7 @@ public class Courses extends AppCompatActivity  {
         });
 
 
-        Button enrol = (Button) findViewById(R.id.enrolButton);
+        Button enrol = (Button) findViewById(R.id.enrolButtonAP);
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -294,7 +280,7 @@ public class Courses extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), "Forum is added", Toast.LENGTH_LONG).show();
         } catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(Courses.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AndroidProgramming.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -311,8 +297,13 @@ public class Courses extends AppCompatActivity  {
         startActivity(intent);
     }
 
-    public void openAndroid(){
-        Intent intent = new Intent(this, AndroidProgramming.class);
+    public void openMuireannsPage(){
+        Intent intent = new Intent(this, muireannUser.class);
+        startActivity(intent);
+    }
+
+    public void openShanesPage(){
+        Intent intent = new Intent(this, shaneUser.class);
         startActivity(intent);
     }
 
@@ -341,16 +332,6 @@ public class Courses extends AppCompatActivity  {
 
     }
 
-    public void openMuireannsPage(){
-        Intent intent = new Intent(this, muireannUser.class);
-        startActivity(intent);
-    }
-
-    public void openShanesPage(){
-        Intent intent = new Intent(this, shaneUser.class);
-        startActivity(intent);
-    }
-
     // method that inserts value from form into database
     public void insertData(String name, String dueData, String description, Integer percentWorth){
         //changed to write to Firebase instead of Local DB
@@ -359,7 +340,7 @@ public class Courses extends AppCompatActivity  {
             myRef.child("assignments").child(name).setValue(new AssignmentObject(name, dueData, description, percentWorth));
         } catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(Courses.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AndroidProgramming.this,"Oops... Something went wrong", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -374,7 +355,7 @@ public class Courses extends AppCompatActivity  {
 
     // function to load data from database into spinner (drop down menu)
     public void loadAssignmentData(DataSnapshot globalSnapshot) {
-        ArrayList <String> assignment = new ArrayList<>();
+        ArrayList<String> assignment = new ArrayList<>();
         assignment.add("Please Select an Assignment");
         for(DataSnapshot ds: globalSnapshot.child("assignments").getChildren()) {
             assignment.add(ds.child("title").getValue().toString());
@@ -411,10 +392,10 @@ public class Courses extends AppCompatActivity  {
     public void ChangeFragment(View view){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tag");
+        AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tagAP");
         if(fragment == null) {
             fragment = new AddAssignment_Fragment();
-            ft.add(R.id.placeholder, fragment, "tag");
+            ft.add(R.id.placeholderAP, fragment, "tagAP");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         } else {
@@ -428,10 +409,10 @@ public class Courses extends AppCompatActivity  {
     public void topicFragment(View view){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtag");
+        ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtagAP");
         if(forumfragment == null) {
             forumfragment = new ForumFragment();
-            ft.add(R.id.forumPlaceholder, forumfragment, "forumtag");
+            ft.add(R.id.forumPlaceholderAP, forumfragment, "forumtagAP");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         } else {
@@ -527,5 +508,4 @@ public class Courses extends AppCompatActivity  {
     }
 
 }
-
 

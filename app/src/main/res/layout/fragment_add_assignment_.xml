@@ -48,15 +48,14 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/assignmentButton"
-        android:layout_width="101dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/ic_add_black_24dp"
         android:text="Add"
-        android:textColor="#000000"
         app:backgroundTint="#86A3A8"
-        app:fontFamily="sans-serif" />
-
-
+        app:fontFamily="sans-serif"
+        android:textStyle="bold"
+        />
 </LinearLayout>
