@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -24,20 +25,17 @@
         android:hint="Description"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/addquestion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Add Question"
-        android:inputType="number" />
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/forumButton"
-        android:layout_width="match_parent"
+        android:layout_width="101dp"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:text="Submit"
-        android:textSize="16sp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/ic_add_black_24dp"
+        android:text="Add"
+        android:textColor="#000000"
+        app:backgroundTint="#86A3A8"
+        app:fontFamily="sans-serif" />
 
 </LinearLayout>

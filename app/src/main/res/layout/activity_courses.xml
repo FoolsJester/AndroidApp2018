@@ -52,7 +52,7 @@
                     android:textSize="19sp"
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
-                    android:textColor="#283845"
+                    android:textColor="#000000"
                     />
 
                 <TextView
@@ -67,37 +67,23 @@
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
                     tools:text="Introduction to Programming"
-                    android:textColor="#283845"/>
-
-                <View
-                    android:id="@+id/divider1"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="#283845"
-                    android:background="?android:attr/listDivider"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="#000000"
                     />
+
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/enrolButton"
-                    android:layout_width="252dp"
+                    android:layout_width="236dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/ic_favorite_border_black_24dp"
-                    android:gravity="center_horizontal"
                     android:text="Enrol Me"
-                    app:fontFamily="sans-serif"
+                    android:textColor="#000000"
                     android:tint="#E8B4BC"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
+                    app:backgroundTint="#86A3A8"
+                    app:fontFamily="sans-serif" />
                 <!-- button tutorial: https://abhiandroid.com/ui/button-->
 
 
@@ -105,7 +91,7 @@
                     android:id="@+id/ViewAssignments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#d3d3d3"
+                    android:background="#2C8C99"
                     android:layout_marginTop="8dp"
                     android:padding="4dp"
                     android:text="Assignments"
@@ -113,7 +99,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
-                    android:textColor="#283845"/>
+                    android:textColor="#FFFFFF"/>
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinner"
@@ -121,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:padding="15dp"
-                    android:textColor="#283845"
+                    android:textColor="#000000"
                     android:textSize="20sp"
                     app:fontFamily="sans-serif"
                     >
@@ -132,14 +118,15 @@
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/assignmentFragButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="236dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
                     android:text="Add Assignment"
+                    android:textColor="#000000"
+                    app:backgroundTint="#86A3A8"
                     app:fontFamily="sans-serif"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
+                    android:layout_gravity="center"/>
 
                 <FrameLayout
                     android:id="@+id/placeholder"
@@ -152,14 +139,14 @@
                     android:id="@+id/courseMembers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#d3d3d3"
+                    android:background="#2C8C99"
                     android:layout_marginTop="8dp"
                     android:padding="4dp"
                     android:text="Course Members"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
-                    android:textColor="#283845"/>
+                    android:textColor="#FFFFFF"/>
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/memberSpinner"
@@ -168,40 +155,44 @@
                     android:layout_marginTop="8dp"
                     android:textAlignment="textStart"
                     android:padding="15dp"
-                    android:textColor="#283845"
+                    android:textColor="#000000"
                     android:textSize="20sp"
                     android:entries="@array/member_names"
                     app:fontFamily="sans-serif"
+
                     >
 
                 </android.support.v7.widget.AppCompatSpinner>
 
                 <TextView
                     android:id="@+id/MessageGmail"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:text="Message a Member"
                     android:textAlignment="textStart"
+                    android:textColor="#000000"
                     android:textSize="15sp"
-                    app:fontFamily="sans-serif"
-                    android:textColor="#283845"/>
+                    app:fontFamily="sans-serif" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/openGmail"
-                    android:layout_width="match_parent"
+                    android:layout_width="236dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:text="open gmail"
+                    android:textColor="#000000"
+                    app:backgroundTint="#86A3A8"
                     app:fontFamily="sans-serif"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"/>
+                    android:drawableEnd="@drawable/ic_email_black_24dp"/>
 
                 <TextView
                     android:id="@+id/DiscussionForum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#d3d3d3"
+                    android:background="#2C8C99"
                     android:layout_marginTop="8dp"
                     android:padding="4dp"
                     android:text="Discussion Forum"
@@ -209,7 +200,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:fontFamily="sans-serif"
-                    android:textColor="#283845"/>
+                    android:textColor="#FFFFFF"/>
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/ForumSpinner"
@@ -218,7 +209,7 @@
                     android:layout_marginTop="8dp"
                     android:entries="@array/forum_list"
                     app:fontFamily="sans-serif"
-                    android:textColor="#283845"
+                    android:textColor="#000000"
                     android:padding="15dp"
                     android:textSize="20sp">
                 </android.support.v7.widget.AppCompatSpinner>
@@ -230,13 +221,14 @@
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/addForumTopic"
-                    android:layout_width="match_parent"
+                    android:layout_width="236dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
                     android:text="Add Forum Topic"
-                    android:textColor="#F2D492"
-                    app:backgroundTint="#283845"
+                    android:textColor="#000000"
+                    app:backgroundTint="#86A3A8"
                     app:fontFamily="sans-serif" />
 
                 <FrameLayout

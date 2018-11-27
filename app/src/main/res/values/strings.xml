@@ -17,7 +17,7 @@
     <string name="assignment_prompt">See Assignments</string>
 
     <string-array name="member_names">
-        <item> </item>
+        <item>Select a Member</item>
         <item>Muireann Mac Carthy</item>
         <item>Amy McCormack</item>
         <item>Eimear Galligan</item>

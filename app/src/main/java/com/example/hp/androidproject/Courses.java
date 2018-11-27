@@ -47,10 +47,10 @@ public class Courses extends AppCompatActivity  {
     Button enrolButton, assignmentButton, openGmail, addAssignmentFrag, addForumTopic;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
-    EditText _txtname, _txtduedate, _txtdescription, _txtpercentworth;
-    Spinner Assignmentspinner, ForumSpinner;
+    Spinner Assignmentspinner, ForumSpinner, memberSpinner;
     int delaySelect = 0;
     int delayForumSelect = 0;
+    int delayMemberSelect = 0;
 
 
 
@@ -101,15 +101,12 @@ public class Courses extends AppCompatActivity  {
         // initialising variables for assignment form and forum links
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
         openHelper = new DatabaseHelper(this);
-//        _txtname = (EditText)findViewById(R.id.txtname);
-//        _txtduedate = (EditText)findViewById(R.id.txtduedate);
-//        _txtdescription = (EditText)findViewById(R.id.txtdescription);
-//        _txtpercentworth = (EditText)findViewById(R.id.txtpercentworth);
         addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
         openGmail = (Button)findViewById(R.id.openGmail);
         addForumTopic = (Button)findViewById(R.id.addForumTopic);
         Assignmentspinner = (Spinner) findViewById(R.id.spinner);
         ForumSpinner = (Spinner) findViewById(R.id.ForumSpinner);
+        memberSpinner = (Spinner) findViewById(R.id.memberSpinner);
 
 
 
@@ -138,13 +135,13 @@ public class Courses extends AppCompatActivity  {
             public void onClick(View v) {
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
-                emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"testEmail@gmail.com"});
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Put your Subject here");
+                emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Message Subject");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
                 else
-                    Toast.makeText(getApplicationContext(), "Gmail App is not installed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Gmail App is not installed on your device",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -212,6 +209,34 @@ public class Courses extends AppCompatActivity  {
             }
         });
 
+        memberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Object obj = parent.getAdapter().getItem(position);
+                String key = obj.toString();
+                if(delayMemberSelect != position) {
+                    if(key.equals("Amy McCormack")){
+                        openAmysPage();
+                    }
+                    else{
+                        Toast.makeText(Courses.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else{
+                    return;
+                }
+                delayMemberSelect = position;
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         ForumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -238,7 +263,7 @@ public class Courses extends AppCompatActivity  {
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "you are now enrolled", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Waiting for admins approval", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -300,6 +325,11 @@ public class Courses extends AppCompatActivity  {
     public void openSearch(){
         Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
+    }
+    public void openAmysPage(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+
     }
 
     // method that inserts value from form into database

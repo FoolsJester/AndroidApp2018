@@ -19,8 +19,8 @@ public class ForumFragment extends Fragment {
     Button forumButton;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
-    EditText topicname, topicdescription, topicquestion;
-    int input1, input2, input3;
+    EditText topicname, topicdescription;
+    int input1, input2;
 
 
 
@@ -46,7 +46,6 @@ public class ForumFragment extends Fragment {
         openHelper = new DatabaseHelper(getActivity());
         topicname = (EditText)view.findViewById(R.id.topicname);
         topicdescription = (EditText)view.findViewById(R.id.topicdescription);
-        topicquestion = (EditText)view.findViewById(R.id.addquestion);
 
 
 
@@ -57,8 +56,7 @@ public class ForumFragment extends Fragment {
 
                 input1 = topicname.getText().toString().trim().length();
                 input2 = topicdescription.getText().toString().trim().length();
-                input3 = topicquestion.getText().toString().trim().length();
-                if (input1> 0 & + input2 > 0 & input3 > 0) {
+                if (input1> 0 & + input2 >  0) {
                     db = openHelper.getWritableDatabase();
                     String name = topicname.getText().toString();
                     String desc =topicdescription.getText().toString();
