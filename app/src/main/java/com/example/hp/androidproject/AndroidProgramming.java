@@ -2,10 +2,7 @@ package com.example.hp.androidproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,18 +18,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.hp.androidproject.Objects.AssignmentObject;
 import com.example.hp.androidproject.Objects.ForumObject;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AndroidProgramming extends AppCompatActivity {
@@ -165,9 +157,6 @@ public class AndroidProgramming extends AppCompatActivity {
                 }
                 else if( id == R.id.study){
                     Toast.makeText(AndroidProgramming.this, "Study Page", Toast.LENGTH_SHORT).show();
-                }
-                else if( id == R.id.course){
-                    Toast.makeText(AndroidProgramming.this, "Course Page", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.login){
                     openMainActivity();
@@ -392,7 +381,7 @@ public class AndroidProgramming extends AppCompatActivity {
         startActivity(intent);
     }
     public void openAmysPage(){
-        Intent intent = new Intent(this, User.class);
+        Intent intent = new Intent(this, amyUser.class);
         startActivity(intent);
 
     }

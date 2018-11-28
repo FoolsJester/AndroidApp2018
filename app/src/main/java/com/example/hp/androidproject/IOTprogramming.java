@@ -2,8 +2,6 @@ package com.example.hp.androidproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.hp.androidproject.Objects.AssignmentObject;
 import com.example.hp.androidproject.Objects.ForumObject;
 import com.github.mikephil.charting.charts.PieChart;
@@ -161,10 +158,6 @@ public class IOTprogramming extends AppCompatActivity {
                 }
                 else if( id == R.id.study){
                     Toast.makeText(IOTprogramming.this, "Study Page", Toast.LENGTH_SHORT).show();
-                }
-                else if( id == R.id.course){
-                    Toast.makeText(IOTprogramming.this, "Course Page", Toast.LENGTH_SHORT).show();
-                    openJavaPage();
                 }
                 else if(id == R.id.login){
                     openMainActivity();
@@ -374,7 +367,7 @@ public class IOTprogramming extends AppCompatActivity {
         startActivity(intent);
     }
     public void openAmysPage(){
-        Intent intent = new Intent(this, User.class);
+        Intent intent = new Intent(this, amyUser.class);
         startActivity(intent);
 
     }
@@ -383,12 +376,6 @@ public class IOTprogramming extends AppCompatActivity {
         Intent intent = new Intent(this, eimearUser.class);
         startActivity(intent);
     }
-
-    public void openJavaPage(){
-        Intent intent = new Intent(this, JavaProgramming.class);
-        startActivity(intent);
-    }
-
     public void openMuireannsPage(){
 
         Intent intent = new Intent(this, muireannUser.class);

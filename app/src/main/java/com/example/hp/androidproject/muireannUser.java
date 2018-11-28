@@ -1,24 +1,22 @@
 package com.example.hp.androidproject;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-
-
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -26,7 +24,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,10 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class muireannUser extends AppCompatActivity {
@@ -99,8 +95,6 @@ public class muireannUser extends AppCompatActivity {
                     openUserActivity();
                 } else if (id == R.id.study) {
                     openStudyTimerActivity();
-                } else if (id == R.id.course) {
-                    openCoursesActivity();
                 } else if (id == R.id.login) {
                     openMainActivity();
                 }
@@ -300,11 +294,6 @@ public class muireannUser extends AppCompatActivity {
 
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void openCoursesActivity(){
-        Intent intent = new Intent(this, Courses.class);
         startActivity(intent);
     }
 

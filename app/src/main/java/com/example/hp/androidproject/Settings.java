@@ -59,8 +59,6 @@ public class Settings extends AppCompatActivity {
                     openUser();
                 } else if (id == R.id.study) {
                     Toast.makeText(Settings.this, "Study Page", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.course) {
-                    openCourses();
                 } else if (id == R.id.settings) {
                     openSettings();
                 } else if (id == R.id.login) {
@@ -142,11 +140,6 @@ public class Settings extends AppCompatActivity {
     public void openEditSettingsActivity() {
         discussionForum();
         Intent intent = new Intent(this, EditSettings.class);
-        startActivity(intent);
-    }
-
-    public void openCourses() {
-        Intent intent = new Intent(this, Courses.class);
         startActivity(intent);
     }
 

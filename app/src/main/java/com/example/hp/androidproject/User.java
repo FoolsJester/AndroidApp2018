@@ -123,8 +123,6 @@ public class User extends AppCompatActivity {
                     openUserActivity();
                 } else if (id == R.id.study) {
                     openStudyTimerActivity();
-                } else if (id == R.id.course) {
-                    openCoursesActivity();
                 } else if (id == R.id.login) {
                     openMainActivity();
                 }
@@ -499,11 +497,6 @@ public class User extends AppCompatActivity {
 
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void openCoursesActivity(){
-        Intent intent = new Intent(this, Courses.class);
         startActivity(intent);
     }
 
