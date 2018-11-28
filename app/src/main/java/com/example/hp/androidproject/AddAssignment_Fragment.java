@@ -88,6 +88,9 @@ public class AddAssignment_Fragment extends Fragment {
                     else if(act instanceof IOTprogramming){
                         ((IOTprogramming) act).populateSpinner(name, dueData, description, percentWorth);
                     }
+                    else if(act instanceof JavaProgramming){
+                        ((JavaProgramming) act).populateSpinner(name, dueData, description, percentWorth);
+                    }
                 }
                 else{
                     Toast.makeText(getContext(), "Error... empty field " , Toast.LENGTH_LONG).show();
