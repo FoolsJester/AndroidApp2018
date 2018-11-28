@@ -6,14 +6,10 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import android.graphics.Color;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.support.annotation.NonNull;
-import android.support.constraint.solver.widgets.Snapshot;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -32,7 +28,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hp.androidproject.Objects.ForumObject;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -56,7 +51,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
 
 import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 
@@ -525,6 +519,7 @@ public class User extends AppCompatActivity {
     }
 
     public void openShaneV(View view) {
+        assignmentPostedNotification();
         Intent intent = new Intent(this, shaneUser.class);
         startActivity(intent);
     }
@@ -560,10 +555,15 @@ public class User extends AppCompatActivity {
     }
 
     public void openSearch(){
+        courseJoinNotification();
         Intent intent = new Intent(this, SearchCouses.class);
         startActivity(intent);
+
     }
 
+    /*
+    * Asynchronous task that makes a call to an OpenWeatherMap API and reads the data that is returned
+    */
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -593,6 +593,10 @@ public class User extends AppCompatActivity {
             }
         }
 
+        /*
+        Reads the JSON data returned from the API call and assigns a title and message depending on weather information observed
+        Title and message are passed to the weatherNotification method
+        */
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -624,6 +628,9 @@ public class User extends AppCompatActivity {
             }
         }
     }
+    /*
+    * Notifies the user of the weather conditions by making a call to an OpenWeatherMap API and advises on how best to spend their day
+    */
     public void weatherNotification(String Title, String Message){
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -635,7 +642,45 @@ public class User extends AppCompatActivity {
                         .bigText(Message))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setAutoCancel(true)
                 .build();
         notificationManager.notify(0, notification);
     }
+    /*
+    * Notifies the user that an assignment has been posted
+    */
+    public void assignmentPostedNotification(){
+        Intent intent = new Intent(this, AndroidProgramming.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
+                .setSmallIcon(R.drawable.ic_assignment)
+                .setContentTitle("New Assignment Posted")
+                .setContentText("Assignment 2 for COMP41690 is due on 07/12/18")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(1, notification);
     }
+    /*
+     * Notifies the user that a member has joined a course
+     */
+    public void courseJoinNotification() {
+        Intent intent = new Intent(this, AndroidProgramming.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
+                .setSmallIcon(R.drawable.ic_course_join)
+                .setContentTitle("COMP41234")
+                .setContentText("Eimear has joined COMP41530")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(2, notification);
+    }
+}

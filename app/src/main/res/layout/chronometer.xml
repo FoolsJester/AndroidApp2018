@@ -1,157 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    tools:context=".MainActivity">
-
-    <Chronometer
-        android:id="@+id/simpleChronometer"
+    android:orientation="vertical"
+    android:id="@+id/drawerlayout"
+    android:background="#ffffff">
+    <!-- NavBar tutorial: https://www.youtube.com/watch?v=0WC0VU0hw2w-->
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="154dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:textColor="#aaaaaa"
-        android:textSize="60dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/spinner1"
+            android:background="#ffffff"
+            android:text="Instructions:\n1. Pick a module from the dropdown\n2. Make sure phone is flat\n3. Start the timer\n4. Lock screen once timer has started"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:textSize="18sp"
+            app:fontFamily="sans-serif"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_chainStyle="packed"
+             />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#931621"
+            android:text="Study Timer"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            app:fontFamily="sans-serif"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25" />
+
+        <Chronometer
+            android:id="@+id/simpleChronometer"
+            android:layout_width="match_parent"
+            android:layout_height="131dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="4dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:textColor="#931621"
+            android:textSize="60dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/text2"
+        />
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            app:layout_constraintTop_toBottomOf="@+id/simpleChronometer" />
+
+        <Button
+            android:id="@+id/btStart2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="#86a3a8"
+            android:text="Start"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif"
+            app:layout_constraintTop_toBottomOf="@+id/spinner1" />
+
+        <Button
+            android:id="@+id/btStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="#2c8c99"
+            android:text="Start"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif"
+            app:layout_constraintTop_toBottomOf="@+id/spinner1" />
+
+        <Button
+            android:id="@+id/btStop2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#86a3a8"
+            android:text="Stop"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:fontFamily="sans-serif"
+            app:layout_constraintTop_toBottomOf="@+id/btStart2" />
+
+        <Button
+            android:id="@+id/btStop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#2c8c99"
+            android:text="Stop"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:fontFamily="sans-serif"
+            app:layout_constraintTop_toBottomOf="@+id/btStart2" />
+
+        <Button
+            android:id="@+id/btSave2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="72dp"
+            android:background="#86a3a8"
+            android:text="Save"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:fontFamily="sans-serif"
+            app:layout_constraintTop_toBottomOf="@+id/btStop2"/>
+
+        <Button
+            android:id="@+id/btSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="72dp"
+            android:background="#2c8c99"
+            android:text="Save"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:fontFamily="sans-serif"
+            app:layout_constraintTop_toBottomOf="@+id/btStop2"
+            />
+
+        <Chronometer
+            android:id="@+id/interactChron"
+            android:layout_width="201dp"
+            android:layout_height="153dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="0dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="50dp"
+            android:visibility="gone" />
+
+        <Chronometer
+            android:id="@+id/handlingChron"
+            android:layout_width="181dp"
+            android:layout_height="153dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="50dp"
+            android:textColor="#aaaaaa"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
 
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_above="@+id/spinner1"
-
-        android:layout_marginBottom="-218dp"
-        android:background="#ffffff"
-        android:text="Make sure phone is flat before beginning study!"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="295dp"
+    </android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="221dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown" />
+        android:id="@+id/nav_view"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_menu">
 
-    <Button
-        android:id="@+id/btStart2"
-        android:layout_width="295dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="192dp"
-        android:background="#aaaaaa"
-        android:text="Start"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:typeface="sans" />
+    </android.support.design.widget.NavigationView>
 
-    <Button
-        android:id="@+id/btStart"
-        style="@android:style/Widget.Button.Inset"
-        android:layout_width="295dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btStart2"
-        android:layout_centerHorizontal="true"
-        android:background="#2c8c99"
-        android:text="Start"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:typeface="sans" />
 
-    <Button
-        android:id="@+id/btStop2"
-        android:layout_width="295dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="133dp"
-        android:background="#aaaaaa"
-        android:text="Stop"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-        android:visibility="visible" />
+</android.support.v4.widget.DrawerLayout>
 
-    <Button
-        android:id="@+id/btStop"
-        android:layout_width="295dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btStop2"
-        android:layout_centerHorizontal="true"
-        android:background="#2c8c99"
-        android:text="Stop"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/btSave2"
-        android:layout_width="295dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="77dp"
-        android:background="#aaaaaa"
-        android:text="Save"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-        android:visibility="visible" />
-
-    <Button
-        android:id="@+id/btSave"
-        android:layout_width="295dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btSave2"
-        android:layout_centerHorizontal="true"
-        android:background="#2c8c99"
-        android:text="Save"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-        android:visibility="gone" />
-
-    <Chronometer
-        android:id="@+id/interactChron"
-        android:layout_width="201dp"
-        android:layout_height="153dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:padding="50dp"
-        android:visibility="gone" />
-
-    <Chronometer
-        android:id="@+id/handlingChron"
-        android:layout_width="181dp"
-        android:layout_height="153dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:padding="50dp"
-        android:textColor="#aaaaaa"
-        android:textSize="50dp"
-        android:textStyle="bold"
-        android:visibility="gone" />
-
-</RelativeLayout>
