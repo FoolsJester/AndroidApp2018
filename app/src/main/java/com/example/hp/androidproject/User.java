@@ -55,18 +55,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 
 public class User extends AppCompatActivity {
     private NotificationManagerCompat notificationManager;
-    private final String TAG = "UserInfo";
+
 
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
     private Button timeStudy;
     private DatabaseReference myRef;
+    private final String TAG = "UserInfo";
     private DataSnapshot globalSnapshot;
 
 
@@ -126,7 +128,7 @@ public class User extends AppCompatActivity {
                 if (id == R.id.myprofile) {
                     openUserActivity();
                 } else if (id == R.id.study) {
-                    Toast.makeText(User.this, "Study Page", Toast.LENGTH_SHORT).show();
+                    openStudyTimerActivity();
                 } else if (id == R.id.course) {
                     openCoursesActivity();
                 } else if (id == R.id.login) {
@@ -134,7 +136,6 @@ public class User extends AppCompatActivity {
                 }
                 else if(id == R.id.settings){
                     openSettings();
-
                 }
                 else if( id == R.id.search){
                     openSearch();
@@ -284,7 +285,6 @@ public class User extends AppCompatActivity {
             assignment.setLayoutParams(lparams);
             assignment.setVisibility(View.GONE);
             assignment.setTextSize(15);
-            assignment.setText("\tProgramming Lab 2: INCOMPLETE\n\tAverage Completion Time: 30 minutes\n");
 
             toCourse.setLayoutParams(newActivityParams);
             toCourse.setText("View "+courses.get(i+1));
@@ -308,12 +308,16 @@ public class User extends AppCompatActivity {
                     //initialise 2 variables for returning
                     String dbAassig = ds.child("title").getValue().toString();
                     String dbComp;
+                    //Log.d("Test", dbAassig);
                     if (ds.child("title").getValue().toString()=="true"){ // this isn't the best way to do this but it'll do for now
                         dbComp = "COMPLETED";
                     }
                     else{
                         dbComp = "INCOMPLETE";
                     }
+                    int randomNum = ThreadLocalRandom.current().nextInt(20, 120);
+
+                    assignment.setText("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes");
                 }
             }
             else{

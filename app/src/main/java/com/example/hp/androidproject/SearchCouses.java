@@ -68,20 +68,16 @@ public class SearchCouses extends AppCompatActivity {
                 Object selectedFromList = (search_friends.getItemAtPosition(position));
                 String user = selectedFromList.toString();
                 if (user.equals("Amy McCormack")){
-                    Intent intent=new Intent(getBaseContext(),User.class);
-                    startActivity(intent);
+                    openAmy();
                 }
                 else if (user.equals("Muireann MacCarthy")){
-                    Intent intent=new Intent(getBaseContext(),User.class);
-                    startActivity(intent);
+                    openMuireann();
                 }
                 else if (user.equals("Shane Bird")){
-                    Intent intent=new Intent(getBaseContext(),User.class);
-                    startActivity(intent);
+                    openShane();
                 }
                 else if (user.equals("Eimear Galligan")){
-                    Intent intent=new Intent(getBaseContext(),User.class);
-                    startActivity(intent);
+                    openEimear();
                 }
             }
         });
@@ -131,7 +127,7 @@ public class SearchCouses extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                openUser();
+
                 return false;
             }
 
@@ -147,14 +143,22 @@ public class SearchCouses extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        openUser();
-        return super.onOptionsItemSelected(item);
+    public void openEimear() {
+        Intent intent = new Intent(this, eimearUser.class);
+        startActivity(intent);
+    }
+    public void openShane() {
+        Intent intent = new Intent(this, shaneUser.class);
+        startActivity(intent);
     }
 
-    public void openUser() {
-        Intent intent = new Intent(this, User.class);
+    public void openAmy() {
+        Intent intent = new Intent(this, amyUser.class);
+        startActivity(intent);
+    }
+
+    public void openMuireann() {
+        Intent intent = new Intent(this, muireannUser.class);
         startActivity(intent);
     }
 }

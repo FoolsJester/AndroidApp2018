@@ -113,11 +113,9 @@ public class Settings extends AppCompatActivity {
         for (int i = 0; i < courses.size(); i += 4) {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             final TextView coursecode = new TextView(this);
-            final TextView productiveHours = new TextView(this);
-            final TextView TotalHours = new TextView(this);
 
 
             coursecode.setLayoutParams(lparams);
@@ -165,7 +163,5 @@ public class Settings extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-
 }
 

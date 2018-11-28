@@ -45,10 +45,10 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     public void populate_student(SQLiteDatabase db){
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(STUDENT_2, "Amy McCormack");
-        contentValues.put(STUDENT_3, "amy.mccormack@ucdconnect.ie");
+        contentValues.put(STUDENT_2, "David Coyle");
+        contentValues.put(STUDENT_3, "d.coyle@ucd.ie");
         contentValues.put(STUDENT_4, "University College Dublin");
-        contentValues.put(STUDENT_5, "MSc Computer Science");
+        contentValues.put(STUDENT_5, "PhD Computer Science");
 
         db.insert(STUDENT_TABLE, null, contentValues);
 

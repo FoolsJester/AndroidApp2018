@@ -116,12 +116,15 @@ public class EditSettings extends AppCompatActivity {
         for (int i = 0; i < courses.size(); i += 4) {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             LinearLayout.LayoutParams textparams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.33f);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 0.33f);
 
             textparams.gravity = Gravity.CENTER_VERTICAL;
+
+            lparams.setMargins(0,0,0,0);
+            textparams.setMargins(20,0,0,10);
 
             final TextView coursecode = new TextView(this);
             final EditText productiveHours = new EditText(this);
@@ -151,6 +154,8 @@ public class EditSettings extends AppCompatActivity {
             TotalHours.setId(idTracker--);
 
             delete.setLayoutParams(textparams);
+            delete.setPadding(5,0,5,0);
+            delete.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
             delete.setText("Remove Course");
 
             final String id = courses.get(i);

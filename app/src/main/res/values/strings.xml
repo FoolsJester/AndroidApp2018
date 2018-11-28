@@ -28,6 +28,24 @@
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
 
+    <string name="courses">Courses</string>
+    <string name="stats">Statistics</string>
+    <string name="startStudy">Start Study Time</string>
+    <string name="addStudy">Add More Study Time</string>
+    <string name="addHoursHint">Total hours Studied</string>
+    <string name="addProdHoursHint">Total Productive Hours Studied</string>
+    <string name="setHours">Set</string>
+    <string name="friends">Friends</string>
+
+    <string name="shane">Shane Bird</string>
+    <string name="amy">Amy McCormack</string>
+    <string name="muireann">Muireann MacCarthy</string>
+    <string name="eimear">Eimear Galligan</string>
+    <string name="dcoyle">David Coyle</string>
+
+    <string name="uni">University College Dublin</string>
+    <string name="course">MSc Computer Science</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

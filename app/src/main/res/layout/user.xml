@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
-                android:text="Courses"
+                android:text="@string/courses"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:padding="5dp"
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
-                android:text="Statistics"
+                android:text="@string/stats"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:padding="5dp"
@@ -151,7 +151,7 @@
                 android:background="@color/colorAccent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="5dp"
-                android:text="Start Study Time" />
+                android:text="@string/startStudy" />
 
 
             <Button
@@ -161,7 +161,7 @@
                 android:background="@color/colorAccent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="5dp"
-                android:text="Add More Study Time" />
+                android:text="@string/addStudy" />
 
             <Spinner
                 android:id="@+id/spinner1"
@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:layout_marginHorizontal="20dp"
-                android:hint="Total hours Studied"
+                android:hint="@string/addHoursHint"
                 android:inputType="number|numberDecimal"
                 android:visibility="gone" />
 
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:layout_marginHorizontal="20dp"
-                android:hint="Total Productive Hours Studied"
+                android:hint="@string/addProdHoursHint"
                 android:inputType="number|numberDecimal"
                 android:visibility="gone"/>
 
@@ -202,7 +202,7 @@
                 android:background="@color/colorAccent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="5dp"
-                android:text="Set"
+                android:text="@string/setHours"
                 android:visibility="gone" />
 
             <TextView
@@ -210,7 +210,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
-                android:text="Friends"
+                android:text="@string/friends"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/white"
                 android:padding="5dp"
@@ -272,7 +272,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="40dp"
                     android:layout_marginLeft="30dp"
-                    android:text = "Shane Bird"
+                    android:text = "@string/shane"
                     android:layout_height="wrap_content" />
 
                 <Button
@@ -283,7 +283,7 @@
                     android:textAllCaps="false"
                     android:layout_weight=".33"
                     android:paddingTop="5dp"
-                    android:text = "Amy McCormack"
+                    android:text = "@string/amy"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"/>
 
@@ -295,7 +295,7 @@
                     android:textAllCaps="false"
                     android:layout_weight=".33"
                     android:paddingTop="5dp"
-                    android:text="Muireann MaCarthy"
+                    android:text="@string/muireann"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"/>
 

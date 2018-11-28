@@ -2,10 +2,13 @@ package com.example.hp.androidproject;
 
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,18 +28,26 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class amyUser extends AppCompatActivity {
 
-    private DrawerLayout dl;
+    private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
-    private Button timeStudy;
+    private DatabaseReference myRef;
+    private final String TAG = "UserInfo";
+    private DataSnapshot globalSnapshot;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
 
@@ -48,40 +59,65 @@ public class amyUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.amy_user);
 
-//        // initialising variables for nav bar
-//        dl = (DrawerLayout) findViewById(R.id.dl);
-//        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
-//        abdt.setDrawerIndicatorEnabled(true);
-//        dl.addDrawerListener(abdt);
-//        abdt.syncState();
-//        timeStudy = (Button) findViewById(R.id.button1);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-//        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                int id = item.getItemId();
-//
-//                if (id == R.id.myprofile) {
-//                    openUserActivity();
-//                } else if (id == R.id.study) {
-//                    Toast.makeText(shaneUser.this, "Study Page", Toast.LENGTH_SHORT).show();
-//                } else if (id == R.id.course) {
-//                    openCoursesActivity();
-//                } else if (id == R.id.login) {
-//                    openMainActivity();
-//                }
-//
-//                return true;
-//            }
-//
-//        });
-//
-//
+        //Get firebase instance and initialise reference
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                globalSnapshot = dataSnapshot;
+                createTextField();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+
+        // initialising variables for nav bar
+        drawerlayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open, R.string.Close);
+        abdt.setDrawerIndicatorEnabled(true);
+        drawerlayout.addDrawerListener(abdt);
+        abdt.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.myprofile) {
+                    openUserActivity();
+                } else if (id == R.id.study) {
+                    openStudyTimerActivity();
+                } else if (id == R.id.course) {
+                    openCoursesActivity();
+                } else if (id == R.id.login) {
+                    openMainActivity();
+                }
+                else if(id == R.id.settings){
+                    openSettings();
+                }
+                else if( id == R.id.search){
+                    openSearchActivity();
+                }
+
+                return true;
+            }
+        });
+
+
         barChart();
-        createTextField();
 
         Button david = (Button) findViewById(R.id.DavidButton);
         david.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +180,6 @@ public class amyUser extends AppCompatActivity {
             assignment.setLayoutParams(lparams);
             assignment.setVisibility(View.GONE);
             assignment.setTextSize(15);
-            assignment.setText("\tProgramming Lab 2: INCOMPLETE\n\tAverage Completion Time: 30 minutes\n");
 
             toCourse.setLayoutParams(newActivityParams);
             toCourse.setText("View "+courses.get(i+1));
@@ -153,6 +188,36 @@ public class amyUser extends AppCompatActivity {
             toCourse.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
             toCourse.setVisibility(View.GONE);
             toCourse.setTransformationMethod(null);
+
+            /*
+             * Just a lil' function to take assignments from DB
+             *
+             * Takes items from the global dataSnapshot for each of the courses the user is
+             * enrolled in. If there are no assignments in that course it says so.
+             * */
+            String courseCode = courses.get(i);
+            if(globalSnapshot.child(courses.get(i)).hasChild("assignments")){//checks to see if has any assignments
+
+                for (DataSnapshot ds: globalSnapshot.child(courseCode).child("assignments").getChildren()){// for each assignment
+                    //initialise 2 variables for returning
+                    String dbAassig = ds.child("title").getValue().toString();
+                    String dbComp;
+                    //Log.d("Test", dbAassig);
+                    if (ds.child("title").getValue().toString()=="true"){ // this isn't the best way to do this but it'll do for now
+                        dbComp = "INCOMPLETE";
+                    }
+                    else{
+                        dbComp = "COMPLETE";
+                    }
+                    int randomNum = ThreadLocalRandom.current().nextInt(20, 120);
+
+                    assignment.setText("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes");
+                }
+            }
+            else{
+                assignment.setText("No assignments yet in this course");
+            }
+
 
             course.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -185,9 +250,6 @@ public class amyUser extends AppCompatActivity {
 
         chart = (BarChart) findViewById(R.id.BarChart);
 
-//        int size = assignment.size();
-//        String sizeString = Integer.toString(size);
-//        Log.d("AssignmentSize", sizeString);
 
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
         for (int i =2; i < assignment.size(); i+=2){
@@ -212,9 +274,7 @@ public class amyUser extends AppCompatActivity {
         Log.d("Lables",labels.toString());
         labels.remove(0);
         labels.remove(0);
-//        labels.remove(1);
-//        labels.remove(2);
-//        labels.remove(3);
+
         Log.d("Lables",labels.toString());
 
 
@@ -236,6 +296,21 @@ public class amyUser extends AppCompatActivity {
         chart.setDrawGridBackground(false);
         chart.getDescription().setEnabled(false);
         chart.setData(data);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    public void openSearchActivity(){
+        Intent intent = new Intent(this, SearchCouses.class);
+        startActivity(intent);
+    }
+
+    public void openSettings(){
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
     }
 
     public void openMainActivity(){
@@ -278,7 +353,6 @@ public class amyUser extends AppCompatActivity {
         Intent intent = new Intent(this, User.class);
         startActivity(intent);
     }
-
 
     public void openMuireannV(View view) {
         Intent intent = new Intent(this, muireannUser.class);
