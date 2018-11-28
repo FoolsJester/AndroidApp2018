@@ -1,7 +1,5 @@
 package com.example.hp.androidproject;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -127,7 +124,7 @@ public class eimearUser extends AppCompatActivity {
             public void onClick(View v) {
                 addFriend.setText("Request Sent");
                 addFriend.setCompoundDrawables(null,null,null,null);
-                newFollower();
+               // newFollower();
             }
         });
 
@@ -372,19 +369,19 @@ public class eimearUser extends AppCompatActivity {
         Intent intent = new Intent(this, muireannUser.class);
         startActivity(intent);
     }
-    public void newFollower(){
-        Intent intent = new Intent(this, eimearUser.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
-                .setSmallIcon(R.drawable.ic_course_join)
-                .setContentTitle("New Friend")
-                .setContentText("Eimear has accepted your friend request")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .build();
-
-        notificationManager.notify(2, notification);
-    }
+//    public void newFollower(){
+//        Intent intent = new Intent(this, eimearUser.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+//        Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
+//                .setSmallIcon(R.drawable.ic_course_join)
+//                .setContentTitle("New Friend")
+//                .setContentText("Eimear has accepted your friend request")
+//                .setPriority(NotificationCompat.PRIORITY_LOW)
+//                .setContentIntent(pendingIntent)
+//                .setAutoCancel(true)
+//                .build();
+//
+//        notificationManager.notify(2, notification);
+//    }
 }

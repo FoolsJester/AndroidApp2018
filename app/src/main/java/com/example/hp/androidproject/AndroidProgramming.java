@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.example.hp.androidproject.Objects.AssignmentObject;
 import com.example.hp.androidproject.Objects.ForumObject;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -39,6 +41,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AndroidProgramming extends AppCompatActivity {
@@ -46,6 +49,7 @@ public class AndroidProgramming extends AppCompatActivity {
     private static final String courseName = "COMP41690";
     private DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
+//    private List<String> pieData;
     private static final String TAG = "Courses";
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
@@ -78,6 +82,8 @@ public class AndroidProgramming extends AppCompatActivity {
                 globalSnapshot = dataSnapshot;
                 loadAssignmentData(globalSnapshot);
                 loadForumData(globalSnapshot);
+                createPieChart();
+
             }
 
             @Override
@@ -104,8 +110,6 @@ public class AndroidProgramming extends AppCompatActivity {
         Assignmentspinner = (Spinner) findViewById(R.id.spinnerAP);
         ForumSpinner = (Spinner) findViewById(R.id.ForumSpinnerAP);
         memberSpinner = (Spinner) findViewById(R.id.memberSpinnerAP);
-
-        createPieChart();
 
 
         // button to add assignment fragment on click
@@ -274,39 +278,51 @@ public class AndroidProgramming extends AppCompatActivity {
             }
         });
 
-
     }
 
     public void createPieChart(){
+        /*
+        Function to create PieChart to Display Assignment
+        Completion Time
+         */
 
+        PieChart pieChart = (PieChart) findViewById(R.id.firstPie);
+        ArrayList<PieEntry> values = new ArrayList<PieEntry>();
 
-            PieChart pieChart = (PieChart) findViewById(R.id.firstPie);
-            pieChart.setUsePercentValues(true);
-            ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
-            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 0));
-            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 1));
-            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 1));
-            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 1));
-            PieDataSet dataSet = new PieDataSet(yvalues,"Average Completion Time");
-            ArrayList<String> xVals = new ArrayList<String>();
-            xVals.add("Assignment One");
-            xVals.add("Assignment Two");
-            PieData data = new PieData(dataSet);
+        for(DataSnapshot ds: globalSnapshot.child("assignments").getChildren()) {   //Get Assignments from Database
 
-            final int[] MY_COLORS = {Color.rgb(147,22,33), Color.rgb(134,163,168)};
-            ArrayList<Integer> colors = new ArrayList<Integer>();
+            String assignment = ds.child("title").getValue().toString();
+            int time = ThreadLocalRandom.current().nextInt(20, 121);
+            values.add(new PieEntry(time, assignment));                  //Add Assignment names to lables and assign a random completion time
 
-            for(int c: MY_COLORS) colors.add(c);
-
-            dataSet.setColors(colors);
-
-            //dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-            pieChart.setData(data);
-            pieChart.getDescription().setEnabled(false);
-            pieChart.setDrawHoleEnabled(false);
-            data.setValueTextSize(13f);
-            pieChart.setTransparentCircleRadius(58f);
         }
+
+        PieDataSet dataSet = new PieDataSet(values,"Average Completion Time (Minutes)");
+        PieData data = new PieData(dataSet);
+
+        final int[] MY_COLORS = {Color.rgb(147,22,33), Color.rgb(134,163,168),
+                Color.rgb(44,140,153)};//set colouring
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for(int c: MY_COLORS) colors.add(c);
+
+        dataSet.setColors(colors);
+
+        pieChart.getDescription().setText("Average Completion Time (Minutes)");     //style label
+        pieChart.getDescription().setTextSize(12);
+
+        pieChart.setDrawHoleEnabled(false);
+        data.setValueTextSize(13f);
+
+        Legend legend = pieChart.getLegend();   //remove legened
+        legend.setEnabled(false);
+
+
+        pieChart.setTransparentCircleRadius(58f);
+        pieChart.setData(data);                     //update and set data on change
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
+    }
 
 
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
@@ -404,10 +420,12 @@ public class AndroidProgramming extends AppCompatActivity {
 
     // function to load data from database into spinner (drop down menu)
     public void loadAssignmentData(DataSnapshot globalSnapshot) {
+
         ArrayList<String> assignment = new ArrayList<>();
         assignment.add("Please Select an Assignment");
         for(DataSnapshot ds: globalSnapshot.child("assignments").getChildren()) {
             assignment.add(ds.child("title").getValue().toString());
+            //pieData.add(ds.child("title").getValue().toString());
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, assignment);
@@ -416,9 +434,12 @@ public class AndroidProgramming extends AppCompatActivity {
 
         Assignmentspinner.setAdapter(dataAdapter);
 
+
         // tutorial to get data from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
     }
     public void loadForumData(DataSnapshot globalSnapshot) {
+
+
         ArrayList <String> assignment = new ArrayList<>();
         assignment.add("Please Select a Forum");
         for(DataSnapshot ds: globalSnapshot.child("forum").getChildren()) {
@@ -430,7 +451,6 @@ public class AndroidProgramming extends AppCompatActivity {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ForumSpinner.setAdapter(dataAdapter);
-
         // tutorial to get data from database into spinner: https://www.androidhive.info/2012/06/android-populating-spinner-data-from-sqlite-database/
     }
 

@@ -128,7 +128,7 @@ public class muireannUser extends AppCompatActivity {
         shane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openShane();
+                openEimear();
             }
         });
 
@@ -318,10 +318,7 @@ public class muireannUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openShane() {
-        Intent intent = new Intent(this, shaneUser.class);
-        startActivity(intent);
-    }
+
 
     public void openHome(View view) {
         Intent intent = new Intent(this, User.class);
@@ -329,8 +326,13 @@ public class muireannUser extends AppCompatActivity {
     }
 
 
-    public void openShaneV(View view) {
-        Intent intent = new Intent(this, shaneUser.class);
+    public void openEimearV(View view) {
+        Intent intent = new Intent(this, eimearUser.class);
+        startActivity(intent);
+    }
+
+    public void openEimear() {
+        Intent intent = new Intent(this, eimearUser.class);
         startActivity(intent);
     }
 

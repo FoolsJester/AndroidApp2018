@@ -183,7 +183,7 @@
                         android:layout_weight=".33"
                         android:layout_marginLeft="20dp"
                         android:layout_gravity="center"
-                        android:onClick="openShaneV"
+                        android:onClick="openEimearV"
                         app:srcCompat="@drawable/eimearprofile" />
 
 

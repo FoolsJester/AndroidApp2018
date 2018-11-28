@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -24,12 +25,19 @@ import android.widget.Toast;
 import java.util.List;
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.hp.androidproject.Objects.AssignmentObject;
 import com.example.hp.androidproject.Objects.ForumObject;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -80,6 +88,7 @@ public class Courses extends AppCompatActivity  {
                 globalSnapshot = dataSnapshot;
                 loadAssignmentData(globalSnapshot);
                 loadForumData(globalSnapshot);
+                createPieChart();
             }
 
             @Override
@@ -281,6 +290,51 @@ public class Courses extends AppCompatActivity  {
 
 
     }
+
+    public void createPieChart(){
+        /*
+        Function to create PieChart to Display Assignment
+        Completion Time
+         */
+
+        PieChart pieChart = (PieChart) findViewById(R.id.firstPie);
+        ArrayList<PieEntry> values = new ArrayList<PieEntry>();
+
+        for(DataSnapshot ds: globalSnapshot.child("assignments").getChildren()) {   //Get Assignments from Database
+
+            String assignment = ds.child("title").getValue().toString();
+            int time = ThreadLocalRandom.current().nextInt(20, 121);
+            values.add(new PieEntry(time, assignment));                  //Add Assignment names to lables and assign a random completion time
+
+        }
+
+        PieDataSet dataSet = new PieDataSet(values,"Average Completion Time (Minutes)");
+        PieData data = new PieData(dataSet);
+
+        final int[] MY_COLORS = {Color.rgb(147,22,33), Color.rgb(134,163,168),
+                Color.rgb(44,140,153)};//set colouring
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for(int c: MY_COLORS) colors.add(c);
+
+        dataSet.setColors(colors);
+
+        pieChart.getDescription().setText("Average Completion Time (Minutes)");     //style label
+        pieChart.getDescription().setTextSize(12);
+
+        pieChart.setDrawHoleEnabled(false);
+        data.setValueTextSize(13f);
+
+        Legend legend = pieChart.getLegend();   //remove legened
+        legend.setEnabled(false);
+
+
+        pieChart.setTransparentCircleRadius(58f);
+        pieChart.setData(data);                     //update and set data on change
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
+    }
+
 
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
         delaySelect = 0;
