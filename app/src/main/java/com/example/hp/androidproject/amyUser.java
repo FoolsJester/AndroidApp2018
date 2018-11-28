@@ -271,13 +271,8 @@ public class amyUser extends AppCompatActivity {
         BarData data = new BarData(dataSets);
 
         List<String> labels = db.getCourseName();
-        Log.d("Lables",labels.toString());
         labels.remove(0);
         labels.remove(0);
-
-        Log.d("Lables",labels.toString());
-
-
 
         XAxis xAxis = chart.getXAxis();
 
@@ -354,8 +349,8 @@ public class amyUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openMuireannV(View view) {
-        Intent intent = new Intent(this, muireannUser.class);
+    public void openEimearV(View view) {
+        Intent intent = new Intent(this, eimearUser.class);
         startActivity(intent);
     }
 }

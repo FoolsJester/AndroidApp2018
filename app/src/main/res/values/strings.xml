@@ -45,6 +45,17 @@
 
     <string name="uni">University College Dublin</string>
     <string name="course">MSc Computer Science</string>
+    <string name="addFriend">Add as Friend</string>
+
+    <string name="personalDetails">Personal Details</string>
+    <string name="courseDetails">Course Details</string>
+    <string name="statsEnrolled">Enrolled Modules and Statistics</string>
+
+    <string name="moduleCode">Module Code</string>
+    <string name="prodHours">Productive Hours</string>
+    <string name="totalHours">Total Hours</string>
+    <string name="editSettings">Edit Settings</string>
+    <string name="changeProfile">Change Profile Photo</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -56,7 +56,7 @@ public class shaneUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.amy_user);
+        setContentView(R.layout.shane_user);
 
         //Get firebase instance and initialise reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();

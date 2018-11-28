@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
-                android:text="Personal Details"
+                android:text="@string/personalDetails"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:padding="5dp"
@@ -44,8 +44,11 @@
             <Button
                 android:id="@+id/uploadImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Change profile picture" />
+                android:layout_height="30dp"
+                android:background="@color/colorAccent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/changeProfile" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -76,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
-                android:text="Course Details"
+                android:text="@string/courseDetails"
                 android:textColor="@color/white"
                 android:padding="5dp"
                 android:layout_marginHorizontal="10dp"
@@ -107,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
-                android:text="Enrolled Modules and Statistics"
+                android:text="@string/statsEnrolled"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:padding="5dp"
@@ -127,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:text="Module Code"
+                    android:text="@string/moduleCode"
                     android:textSize="16sp" />
 
                 <TextView
@@ -136,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:text="Productive Study"
+                    android:text="@string/prodHours"
                     android:textSize="16sp" />
 
                 <TextView
@@ -145,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:text="Total Study"
+                    android:text="@string/totalHours"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -162,7 +165,7 @@
                 android:id="@+id/submit"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:background="@color/colorAccent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="5dp"

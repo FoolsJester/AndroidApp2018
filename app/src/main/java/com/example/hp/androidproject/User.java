@@ -296,12 +296,14 @@ public class User extends AppCompatActivity {
             * enrolled in. If there are no assignments in that course it says so.
             * */
             String courseCode = courses.get(i);
+            String allAssignments = "";
             if(globalSnapshot.child(courses.get(i)).hasChild("assignments")){//checks to see if has any assignments
 
                 for (DataSnapshot ds: globalSnapshot.child(courseCode).child("assignments").getChildren()){// for each assignment
                     //initialise 2 variables for returning
                     String dbAassig = ds.child("title").getValue().toString();
                     String dbComp;
+
                     //Log.d("Test", dbAassig);
                     if (ds.child("title").getValue().toString()=="true"){ // this isn't the best way to do this but it'll do for now
                         dbComp = "COMPLETED";
@@ -311,11 +313,13 @@ public class User extends AppCompatActivity {
                     }
                     int randomNum = ThreadLocalRandom.current().nextInt(20, 120);
 
-                    assignment.setText("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes");
+
+                    allAssignments+=("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes\n\n");
                 }
+                assignment.setText(allAssignments);
             }
             else{
-                assignment.setText("No assignments yet in this course");
+                assignment.setText("No assignments yet in this course\n");
             }
 
 

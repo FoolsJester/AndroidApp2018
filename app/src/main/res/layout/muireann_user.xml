@@ -57,7 +57,7 @@
                     android:layout_marginTop="8dp"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:text="Muireann MacCarthy"
+                    android:text="@string/muireann"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +70,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:textAlignment="center"
-                    android:text="University College Dublin"
+                    android:text="@string/uni"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
                     android:layout_marginStart="8dp"
                     android:textAlignment="center"
                     android:textSize="16sp"
-                    android:text="MSc Computer Science - GPA 2.15"
+                    android:text="@string/course"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/uni_user" />
@@ -100,7 +100,7 @@
                     android:layout_marginVertical="5dp"
                     android:gravity="center"
                     android:background="@color/colorAccent"
-                    android:text="Friends" />
+                    android:text="@string/friends" />
 
                 <View
                     android:id="@+id/divider3"
@@ -121,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
-                    android:text="Courses"
+                    android:text="@string/courses"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/white"
                     android:padding="5dp"
@@ -142,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
-                    android:text="Statistics"
+                    android:text="@string/stats"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/white"
                     android:padding="5dp"
@@ -163,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
-                    android:text="Friends"
+                    android:text="@string/friends"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/white"
                     android:padding="5dp"
@@ -184,7 +184,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_gravity="center"
                         android:onClick="openShaneV"
-                        app:srcCompat="@drawable/shaneprofile" />
+                        app:srcCompat="@drawable/eimearprofile" />
 
 
                     <ImageView
@@ -214,7 +214,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="40dp"
                         android:layout_marginLeft="60dp"
-                        android:text = "Shane Bird"
+                        android:text = "@string/eimear"
                         android:layout_height="wrap_content" />
 
                     <Button
@@ -225,7 +225,7 @@
                         android:textAllCaps="false"
                         android:layout_weight=".33"
                         android:paddingTop="5dp"
-                        android:text="David Coyle"
+                        android:text="@string/dcoyle"
                         android:layout_gravity="center"
                         android:layout_marginLeft="30dp"/>
 
