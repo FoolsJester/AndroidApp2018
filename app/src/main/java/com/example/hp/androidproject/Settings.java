@@ -126,7 +126,7 @@ public class Settings extends AppCompatActivity {
 
             coursecode.setLayoutParams(lparams);
             coursecode.setTextSize(18);
-            coursecode.setText(courses.get(i + 1) + "\t\t\t\t\t\t\t" + courses.get(i + 2) + "\t\t\t\t\t\t\t\t\t\t" + courses.get(i + 3));
+            coursecode.setText(courses.get(i + 1) + "\t\t\t\t\t\t\t\t\t\t\t" + courses.get(i + 2) + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + courses.get(i + 3));
             check.addView(coursecode);
 
 

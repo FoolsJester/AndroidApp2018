@@ -181,31 +181,3 @@ public class SearchCouses extends AppCompatActivity {
 
 
 
-
-
-
-
-     //   search_course = (ListView) findViewById(R.id.search_course);
-
-       // MenuInflater inflater = new MenuInflater(getApplicationContext());
-      //  getMenuInflater().inflate(R.menu.search_menu, menu);
-       // MenuItem item = menu.findItem(R.id.search_couse);
-    //    SearchView searchView = (SearchView) item.getActionView();
-
-//            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                searchable.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-
-

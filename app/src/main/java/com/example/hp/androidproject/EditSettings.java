@@ -148,12 +148,15 @@ public class EditSettings extends AppCompatActivity {
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             LinearLayout.LayoutParams textparams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 0.33f);
+                    400, LinearLayout.LayoutParams.MATCH_PARENT, 1);
 
-            textparams.gravity = Gravity.CENTER_VERTICAL;
+            LinearLayout.LayoutParams letters= new LinearLayout.LayoutParams(
+                    200, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+
+       //     textparams.gravity = Gravity.CENTER_VERTICAL;
 
             lparams.setMargins(0,0,0,0);
-            textparams.setMargins(20,0,0,10);
+            textparams.setMargins(0,0,0,10);
 
             final TextView coursecode = new TextView(this);
             final EditText productiveHours = new EditText(this);
@@ -169,14 +172,14 @@ public class EditSettings extends AppCompatActivity {
             coursecode.setGravity(Gravity.CENTER);
             coursecode.setId(View.generateViewId());
 
-            productiveHours.setLayoutParams(textparams);
+            productiveHours.setLayoutParams(letters);
             productiveHours.setText(courses.get(i + 2));
             productiveHours.setGravity(Gravity.CENTER);
             productiveHours.setInputType(InputType.TYPE_CLASS_NUMBER);
             productiveHours.setId(i);
             productiveHours.setId(idTracker--);
 
-            TotalHours.setLayoutParams(textparams);
+            TotalHours.setLayoutParams(letters);
             TotalHours.setText(courses.get(i + 3));
             TotalHours.setGravity(Gravity.CENTER);
             TotalHours.setInputType(InputType.TYPE_CLASS_NUMBER);
