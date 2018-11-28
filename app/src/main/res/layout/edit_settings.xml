@@ -44,7 +44,10 @@
             <Button
                 android:id="@+id/uploadImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:background="@color/colorAccent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/changeProfile" />
 
             <ImageView

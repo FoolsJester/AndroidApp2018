@@ -53,14 +53,30 @@ public class SearchCouses extends AppCompatActivity {
         search_course = (ListView) findViewById(R.id.search_course);
 
         search_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                             @Override
-                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                 Object selectedFromList = (search_course.getItemAtPosition(position));
-                                                 Log.d("test",selectedFromList.toString());
-                                                 Intent intent=new Intent(getBaseContext(),User.class);
-                                                 startActivity(intent);
-                                             }
-                                         });
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                 Object selectedFromList = (search_course.getItemAtPosition(position));
+
+                 String course = selectedFromList.toString();
+                Log.d("Course",course);
+                 if (course.equals("Android Programming")){
+                     Intent intent=new Intent(getBaseContext(),AndroidProgramming.class);
+                     startActivity(intent);
+                 }
+                 else if (course.equals("Programming for IoT")){
+                     Intent intent=new Intent(getBaseContext(),IOTprogramming.class);
+                     startActivity(intent);
+                 }
+                 else if (course.equals("Java Programming")){
+                     Intent intent=new Intent(getBaseContext(),JavaProgramming.class);
+                     startActivity(intent);
+                 }
+                 else if (course.equals("Data Analytics")){
+                     Intent intent=new Intent(getBaseContext(),Courses.class);
+                     startActivity(intent);
+                 }
+             }
+         });
 
         search_friends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

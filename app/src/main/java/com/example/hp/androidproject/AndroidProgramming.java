@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -24,6 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.hp.androidproject.Objects.AssignmentObject;
 import com.example.hp.androidproject.Objects.ForumObject;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AndroidProgramming extends AppCompatActivity {
 
@@ -96,7 +105,7 @@ public class AndroidProgramming extends AppCompatActivity {
         ForumSpinner = (Spinner) findViewById(R.id.ForumSpinnerAP);
         memberSpinner = (Spinner) findViewById(R.id.memberSpinnerAP);
 
-
+        createPieChart();
 
 
         // button to add assignment fragment on click
@@ -267,6 +276,38 @@ public class AndroidProgramming extends AppCompatActivity {
 
 
     }
+
+    public void createPieChart(){
+
+
+            PieChart pieChart = (PieChart) findViewById(R.id.firstPie);
+            pieChart.setUsePercentValues(true);
+            ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
+            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 0));
+            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 1));
+            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 1));
+            yvalues.add(new PieEntry(ThreadLocalRandom.current().nextInt(20, 121), 1));
+            PieDataSet dataSet = new PieDataSet(yvalues,"Average Completion Time");
+            ArrayList<String> xVals = new ArrayList<String>();
+            xVals.add("Assignment One");
+            xVals.add("Assignment Two");
+            PieData data = new PieData(dataSet);
+
+            final int[] MY_COLORS = {Color.rgb(147,22,33), Color.rgb(134,163,168)};
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+
+            for(int c: MY_COLORS) colors.add(c);
+
+            dataSet.setColors(colors);
+
+            //dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+            pieChart.setData(data);
+            pieChart.getDescription().setEnabled(false);
+            pieChart.setDrawHoleEnabled(false);
+            data.setValueTextSize(13f);
+            pieChart.setTransparentCircleRadius(58f);
+        }
+
 
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
         delaySelect = 0;
