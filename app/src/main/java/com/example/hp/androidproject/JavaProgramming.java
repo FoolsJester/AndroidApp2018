@@ -465,7 +465,7 @@ public class JavaProgramming extends AppCompatActivity {
         AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tagJP");
         if(fragment == null) {
             fragment = new AddAssignment_Fragment();
-            ft.add(R.id.placeholderIOT, fragment, "tagJP");
+            ft.add(R.id.placeholderJP, fragment, "tagJP");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         } else {
@@ -482,7 +482,7 @@ public class JavaProgramming extends AppCompatActivity {
         ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtagJP");
         if(forumfragment == null) {
             forumfragment = new ForumFragment();
-            ft.add(R.id.forumPlaceholderIOT, forumfragment, "forumtagJP");
+            ft.add(R.id.forumPlaceholderJP, forumfragment, "forumtagJP");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         } else {
