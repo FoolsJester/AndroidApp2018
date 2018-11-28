@@ -155,6 +155,7 @@ public class IOTprogramming extends AppCompatActivity {
                 }
                 else if( id == R.id.course){
                     Toast.makeText(IOTprogramming.this, "Course Page", Toast.LENGTH_SHORT).show();
+                    openJavaPage();
                 }
                 else if(id == R.id.login){
                     openMainActivity();
@@ -213,12 +214,13 @@ public class IOTprogramming extends AppCompatActivity {
                     else if(key.equals("Shane Bird")){
                         openShanesPage();
                     }
+                    else if(key.equals("Eimear Galligan")){
+                        openEimearsPage();
+                    }
                     else{
                         Toast.makeText(IOTprogramming.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
                     }
-
                 }
-
                 else{
                     return;
                 }
@@ -322,6 +324,16 @@ public class IOTprogramming extends AppCompatActivity {
         Intent intent = new Intent(this, User.class);
         startActivity(intent);
 
+    }
+
+    public void openEimearsPage(){
+        Intent intent = new Intent(this, eimearUser.class);
+        startActivity(intent);
+    }
+
+    public void openJavaPage(){
+        Intent intent = new Intent(this, JavaProgramming.class);
+        startActivity(intent);
     }
 
     public void openMuireannsPage(){

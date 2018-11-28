@@ -213,6 +213,9 @@ public class AndroidProgramming extends AppCompatActivity {
                     else if(key.equals("Shane Bird")){
                         openShanesPage();
                     }
+                    else if(key.equals("Eimear Galligan")){
+                        openEimearsPage();
+                    }
                     else{
                         Toast.makeText(AndroidProgramming.this, parent.getSelectedItem().toString() + " hasn't created a profile yet", Toast.LENGTH_SHORT).show();
                     }
@@ -309,6 +312,11 @@ public class AndroidProgramming extends AppCompatActivity {
 
     public void openUser(){
         Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+    }
+
+    public void openEimearsPage(){
+        Intent intent = new Intent(this, eimearUser.class);
         startActivity(intent);
     }
 
