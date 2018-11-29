@@ -121,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
                 android:text="@string/stats"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:padding="5dp"
@@ -128,7 +129,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:fontFamily="sans-serif" />
-
 
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/BarChart"
@@ -160,7 +160,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:textColor="@color/white"
                 android:layout_marginBottom="5dp"
                 android:spinnerMode="dropdown"
@@ -175,16 +174,6 @@
                 android:hint="@string/addHoursHint"
                 android:inputType="number|numberDecimal"
                 android:visibility="gone" />
-
-            <EditText
-                android:id="@+id/editText2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/addProdHoursHint"
-                android:inputType="number|numberDecimal"
-                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/button2"
@@ -258,12 +247,12 @@
                     android:layout_width="wrap_content"
                     android:background="@color/white"
                     android:textAllCaps="false"
-                    android:layout_weight=".33"
-                    android:paddingTop="5dp"
+                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_marginRight="40dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="40dp"
                     android:text = "@string/shane"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_height="wrap_content" />
 
                 <Button
@@ -272,10 +261,11 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:textAllCaps="false"
-                    android:layout_weight=".33"
-                    android:paddingTop="5dp"
+                    android:layout_weight="1"
                     android:text = "@string/amy"
+                    android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_marginRight="20dp"/>
 
                 <Button
@@ -284,8 +274,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:textAllCaps="false"
-                    android:layout_weight=".33"
-                    android:paddingTop="5dp"
+                    android:layout_weight="1"
+                    style="?android:attr/borderlessButtonStyle"
                     android:text="@string/muireann"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"/>

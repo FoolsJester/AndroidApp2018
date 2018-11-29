@@ -219,10 +219,10 @@
                         android:background="@color/white"
                         android:textAllCaps="false"
                         android:layout_weight=".33"
-                        android:paddingTop="5dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="40dp"
                         android:layout_marginLeft="30dp"
+                        style="?android:attr/borderlessButtonStyle"
                         android:text = "@string/dcoyle"
                         android:layout_height="wrap_content" />
 
@@ -233,7 +233,7 @@
                         android:background="@color/white"
                         android:textAllCaps="false"
                         android:layout_weight=".33"
-                        android:paddingTop="5dp"
+                        style="?android:attr/borderlessButtonStyle"
                         android:text = "@string/shane"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"/>
@@ -245,10 +245,10 @@
                         android:background="@color/white"
                         android:textAllCaps="false"
                         android:layout_weight=".33"
-                        android:paddingTop="5dp"
+                        style="?android:attr/borderlessButtonStyle"
                         android:text="@string/eimear"
                         android:layout_gravity="center"
-                        android:layout_marginRight="20dp"/>
+                        android:layout_marginLeft="15dp"/>
 
 
                 </LinearLayout>

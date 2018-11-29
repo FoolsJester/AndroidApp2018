@@ -169,19 +169,19 @@ public class eimearUser extends AppCompatActivity {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            lparams.setMargins(35,5,0,5);
+            lparams.setMargins(35,5,0,10);
 
             LinearLayout.LayoutParams newActivityParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, 70);
-            newActivityParams.setMargins(80,0,80,5);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            newActivityParams.setMargins(80,0,80,10);
 
             Button course = new Button(this);
             final TextView assignment = new TextView(this);
             final Button toCourse = new Button(this);
 
             course.setLayoutParams(lparams);
-            course.setText(courses.get(i)+" - "+courses.get(i-1));
-            course.setId(i+1);
+            course.setText(courses.get(i-1)+" - "+courses.get(i));
+            course.setId(i-1);
             course.setPadding(10,0,10,0);
             course.setBackgroundColor(Color.WHITE);
             course.setTransformationMethod(null);
@@ -191,12 +191,34 @@ public class eimearUser extends AppCompatActivity {
             assignment.setTextSize(15);
 
             toCourse.setLayoutParams(newActivityParams);
-            toCourse.setText("View "+courses.get(i-1));
-            toCourse.setId(i+1);
-            toCourse.setPadding(0,0,0,0);
+            toCourse.setText("View "+courses.get(i));
+            toCourse.setId(i-1);
             toCourse.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
             toCourse.setVisibility(View.GONE);
-            toCourse.setTransformationMethod(null);
+
+            final String onClickCourse = courses.get(i);
+
+            toCourse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickCourse.equals("Android Programming")){
+                        Intent intent=new Intent(getBaseContext(),AndroidProgramming.class);
+                        startActivity(intent);
+                    }
+                    else if (onClickCourse.equals("Programming for IoT")){
+                        Intent intent=new Intent(getBaseContext(),IOTprogramming.class);
+                        startActivity(intent);
+                    }
+                    else if (onClickCourse.equals("Java Programming")){
+                        Intent intent=new Intent(getBaseContext(),JavaProgramming.class);
+                        startActivity(intent);
+                    }
+                    else if (onClickCourse.equals("Data Analytics")){
+                        Intent intent=new Intent(getBaseContext(),Courses.class);
+                        startActivity(intent);
+                    }
+                }
+            });
 
             /*
              * Just a lil' function to take assignments from DB
@@ -204,13 +226,16 @@ public class eimearUser extends AppCompatActivity {
              * Takes items from the global dataSnapshot for each of the courses the user is
              * enrolled in. If there are no assignments in that course it says so.
              * */
-            String courseCode = courses.get(i);
-            if(globalSnapshot.child(courses.get(i)).hasChild("assignments")){//checks to see if has any assignments
+            String courseCode = courses.get(i-1);
+
+            String allAssignments = "";
+            if(globalSnapshot.child(courses.get(i-1)).hasChild("assignments")){//checks to see if has any assignments
 
                 for (DataSnapshot ds: globalSnapshot.child(courseCode).child("assignments").getChildren()){// for each assignment
                     //initialise 2 variables for returning
                     String dbAassig = ds.child("title").getValue().toString();
                     String dbComp;
+
                     //Log.d("Test", dbAassig);
                     if (ds.child("title").getValue().toString()=="true"){ // this isn't the best way to do this but it'll do for now
                         dbComp = "COMPLETED";
@@ -220,11 +245,13 @@ public class eimearUser extends AppCompatActivity {
                     }
                     int randomNum = ThreadLocalRandom.current().nextInt(20, 120);
 
-                    assignment.setText("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes");
+
+                    allAssignments+=("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes\n\n");
                 }
+                assignment.setText(allAssignments);
             }
             else{
-                assignment.setText("No assignments yet in this course");
+                assignment.setText("No assignments yet in this course\n");
             }
 
             course.setOnClickListener(new View.OnClickListener() {
@@ -294,7 +321,7 @@ public class eimearUser extends AppCompatActivity {
         xAxis.setTextSize(12);
 
         //xAxis.setLabelRotationAngle(30);
-        xAxis.setLabelCount(4);
+        xAxis.setLabelCount(labels.size()/2);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
 
 

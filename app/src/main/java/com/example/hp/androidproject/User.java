@@ -173,7 +173,6 @@ public class User extends AppCompatActivity {
         final Button set = (Button) findViewById(R.id.button2);
         final EditText hours = (EditText) findViewById(R.id.editText);
         final Spinner dropdown = findViewById(R.id.spinner1);
-        final EditText productive = findViewById(R.id.editText2);
 
         Button shane = (Button) findViewById(R.id.ShaneButton);
         shane.setOnClickListener(new View.OnClickListener() {
@@ -208,12 +207,12 @@ public class User extends AppCompatActivity {
                     dropdown.setVisibility(View.VISIBLE);
                     set.setVisibility(View.VISIBLE);
                     hours.setVisibility(View.VISIBLE);
-                    productive.setVisibility(View.VISIBLE);}
+                    }
                 else if(dropdown.getVisibility()==View.VISIBLE){
                     dropdown.setVisibility(View.GONE);
                     set.setVisibility(View.GONE);
                     hours.setVisibility(View.GONE);
-                    productive.setVisibility(View.GONE);}
+                    }
 
             }
         });
@@ -231,15 +230,11 @@ public class User extends AppCompatActivity {
 
                 String course = dropdown.getSelectedItem().toString();
                 String study = hours.getText().toString();
-                int studyInt = Integer.parseInt(study);
-
-                String prodStudy = productive.getText().toString();
-                int prodStudyInt = Integer.parseInt(prodStudy);
+                double studyInt = Double.parseDouble(study);
 
 
-                updateData(course, studyInt, prodStudyInt);
+                updateData(course, studyInt);
                 Toast.makeText(getApplicationContext(), "register successfully", Toast.LENGTH_LONG).show();
-                barChart();
             }
         });
     }
@@ -259,11 +254,11 @@ public class User extends AppCompatActivity {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            lparams.setMargins(35,5,0,5);
+            lparams.setMargins(35,5,0,10);
 
             LinearLayout.LayoutParams newActivityParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, 70);
-            newActivityParams.setMargins(80,0,80,5);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            newActivityParams.setMargins(80,0,80,10);
 
             Button course = new Button(this);
             final TextView assignment = new TextView(this);
@@ -283,11 +278,33 @@ public class User extends AppCompatActivity {
             toCourse.setLayoutParams(newActivityParams);
             toCourse.setText("View "+courses.get(i+1));
             toCourse.setId(i+1);
-            toCourse.setPadding(0,0,0,0);
             toCourse.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
             toCourse.setVisibility(View.GONE);
-            toCourse.setTransformationMethod(null);
+            //toCourse.setTransformationMethod(null);
 
+            final String onClickCourse = courses.get(i+1);
+
+            toCourse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickCourse.equals("Android Programming")){
+                        Intent intent=new Intent(getBaseContext(),AndroidProgramming.class);
+                        startActivity(intent);
+                    }
+                    else if (onClickCourse.equals("Programming for IoT")){
+                        Intent intent=new Intent(getBaseContext(),IOTprogramming.class);
+                        startActivity(intent);
+                    }
+                    else if (onClickCourse.equals("Java Programming")){
+                        Intent intent=new Intent(getBaseContext(),JavaProgramming.class);
+                        startActivity(intent);
+                    }
+                    else if (onClickCourse.equals("Data Analytics")){
+                        Intent intent=new Intent(getBaseContext(),Courses.class);
+                        startActivity(intent);
+                    }
+                }
+            });
 
             /*
             * Just a lil' function to take assignments from DB
@@ -321,8 +338,6 @@ public class User extends AppCompatActivity {
             else{
                 assignment.setText("No assignments yet in this course\n");
             }
-
-
 
             course.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -392,29 +407,33 @@ public class User extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "ID="+id, Toast.LENGTH_LONG).show();
     }
 
-    public void updateData(String courseCode, int hours, int productiveStudy) {
+    public void updateData(String courseName, double hours) {
 
         DatabaseHelperLocalDB database = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> current_hours = database.getAll();
 
-        int old_total = 0; int old_interupted = 0; int id = 0; String courseName = " ";
+        int old_total = 0; int old_interupted = 0; int id = 0; String courseCode = " ";
 
-        for (int i = 1; i < current_hours.size(); i+=4) {
-            if (courseCode.equals(current_hours.get(i))){
-                id = Integer.parseInt(current_hours.get(i-1));
-                courseName = current_hours.get(i);
-                old_total = Integer.parseInt(current_hours.get(i+1));
-                old_interupted = Integer.parseInt(current_hours.get(i+2));
+        for (int i = 0; i < current_hours.size(); i+=5) {
+            if (courseName.equals(current_hours.get(i+2))){
+                id = Integer.parseInt(current_hours.get(i));
+                courseCode= current_hours.get(i+1);
+                old_total = Integer.parseInt(current_hours.get(i+3));
+                old_interupted = Integer.parseInt(current_hours.get(i+4));
             }
         }
-        int newTotal = old_total + hours; int newInterupted = old_interupted + productiveStudy;
+        int newTotal = old_total + (int) hours*60; double interuptedDouble = ((double)old_interupted/(double)old_total) * (hours*60);
+        int newInterupted = (int) interuptedDouble + old_interupted;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelperLocalDB.COL_2, courseCode);
         contentValues.put(DatabaseHelperLocalDB.COL_3, courseName);
         contentValues.put(DatabaseHelperLocalDB.COL_4, newTotal);
         contentValues.put(DatabaseHelperLocalDB.COL_5, newInterupted);
+        Log.d("CourseInfo", contentValues.toString());
         db.update(DatabaseHelperLocalDB.TABLE_NAME, contentValues, "Count_ID ="+id, null);
+
+        barChart();
 
     }
 
@@ -428,17 +447,17 @@ public class User extends AppCompatActivity {
 
         chart = (BarChart) findViewById(R.id.BarChart);
 
-//        int size = assignment.size();
-//        String sizeString = Integer.toString(size);
-//        Log.d("AssignmentSize", sizeString);
-
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
         for (int i =0; i < assignment.size(); i+=2){
-            int hour = Integer.parseInt(assignment.get(i));
-            int interupted = Integer.parseInt(assignment.get(i+1));
-            barEntries.add(new BarEntry(i, new float[] {hour-interupted, interupted}));
-        }
+            int minutes = Integer.parseInt(assignment.get(i));
+            float total_hour = (float) minutes/60;
+            int interupted_mins = Integer.parseInt(assignment.get(i+1));
+            float interupted = (float) interupted_mins/60;
+            Log.d("BarValues", assignment.get(i)+" "+ assignment.get(i+1));
+            barEntries.add(new BarEntry(i, new float[] {total_hour-interupted, interupted}));
 
+        }
+        Log.d("BarChart", barEntries.toString());
         BarDataSet barDataSet = new BarDataSet(barEntries, "  ");
         barDataSet.setColors(new int[]{ContextCompat.getColor(this, R.color.colorAccent),
                 ContextCompat.getColor(this, R.color.colorPrimary),});
@@ -462,24 +481,16 @@ public class User extends AppCompatActivity {
         xAxis.setTextSize(12);
 
         //xAxis.setLabelRotationAngle(30);
-        xAxis.setLabelCount(4);
+        xAxis.setLabelCount(labels.size()/2);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-
-
-        //chart.setFitBars(true);
-//;
-//        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-//        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-//
-//        chart.getXAxis().setTextSize(12);
-//        chart.getXAxis().setLabelCount(3    , true);
-//        chart.getXAxis().
 
         chart.setDrawGridBackground(false);
         chart.getDescription().setEnabled(false);
 
         if (chart.getData() != null && chart.getData().getDataSetCount() > 0){
             chart.setData(data);
+            chart.notifyDataSetChanged();
+            chart.invalidate();
         }
         else {
             chart.setData(data);

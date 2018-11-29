@@ -116,7 +116,7 @@ public class Settings extends AppCompatActivity {
         DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> courses = db.getAll();
 
-        for (int i = 0; i < courses.size(); i += 4) {
+        for (int i = 1; i < courses.size(); i += 5) {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -126,7 +126,13 @@ public class Settings extends AppCompatActivity {
 
             coursecode.setLayoutParams(lparams);
             coursecode.setTextSize(18);
-            coursecode.setText(courses.get(i + 1) + "\t\t\t\t\t\t\t\t\t\t\t" + courses.get(i + 2) + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + courses.get(i + 3));
+            int prodMins = Integer.parseInt(courses.get(i + 3));
+            double prodHours = (double)prodMins/60;
+            double roundHours = (double) Math.round(prodHours * 100) / 100;
+            int totalMins = Integer.parseInt(courses.get(i+2));
+            double totalHours = (double)totalMins/60;
+            double totalRoundHours = (double) Math.round(totalHours* 100) / 100;
+            coursecode.setText(courses.get(i) + "\t\t\t\t\t\t\t\t\t\t\t" + roundHours + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + totalRoundHours);
             check.addView(coursecode);
 
 

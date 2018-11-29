@@ -142,7 +142,7 @@ public class EditSettings extends AppCompatActivity {
         final DatabaseHelperLocalDB db1 = new DatabaseHelperLocalDB(getApplicationContext());
         final List<String> courses = db1.getAll();
 
-        for (int i = 0; i < courses.size(); i += 4) {
+        for (int i = 1; i < courses.size(); i += 5) {
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -168,19 +168,25 @@ public class EditSettings extends AppCompatActivity {
 
             coursecode.setLayoutParams(textparams);
             coursecode.setTextSize(18);
-            coursecode.setText(courses.get(i + 1));
+            coursecode.setText(courses.get(i));
             coursecode.setGravity(Gravity.CENTER);
             coursecode.setId(View.generateViewId());
 
             productiveHours.setLayoutParams(letters);
-            productiveHours.setText(courses.get(i + 2));
+            int prodMins = Integer.parseInt(courses.get(i + 3));
+            double prodHours = (double)prodMins/60;
+            double roundProdHours = (double) Math.round(prodHours* 100) / 100;
+            productiveHours.setText(Double.toString(roundProdHours));
             productiveHours.setGravity(Gravity.CENTER);
             productiveHours.setInputType(InputType.TYPE_CLASS_NUMBER);
             productiveHours.setId(i);
             productiveHours.setId(idTracker--);
 
             TotalHours.setLayoutParams(letters);
-            TotalHours.setText(courses.get(i + 3));
+            int totalMins = Integer.parseInt(courses.get(i+2));
+            double totalHours = (double)totalMins/60;
+            double roundHours = (double) Math.round(totalHours * 100) / 100;
+            TotalHours.setText(Double.toString(roundHours));
             TotalHours.setGravity(Gravity.CENTER);
             TotalHours.setInputType(InputType.TYPE_CLASS_NUMBER);
             TotalHours.setId(idTracker--);

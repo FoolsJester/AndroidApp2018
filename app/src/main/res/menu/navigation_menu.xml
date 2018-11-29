@@ -33,7 +33,7 @@
 
     <item
         android:id="@+id/login"
-        android:title="Log In/Out"
+        android:title="Log Out"
         android:icon="@drawable/ic_person_pin_circle_black_24dp">
     </item>
 

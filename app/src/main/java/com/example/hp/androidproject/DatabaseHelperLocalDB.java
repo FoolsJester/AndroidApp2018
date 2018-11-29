@@ -60,29 +60,29 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             contentValues.put(COL_2, "COMP41690");
             contentValues.put(COL_3, "Android Programming");
-            contentValues.put(COL_4, 40);
-            contentValues.put(COL_5, 3);
+            contentValues.put(COL_4, 40*60);
+            contentValues.put(COL_5, 3*60);
 
             db.insert(TABLE_NAME, null, contentValues);
 
             contentValues.put(COL_2, "COMP47520");
             contentValues.put(COL_3, "Programming for IoT");
-            contentValues.put(COL_4, 20);
-            contentValues.put(COL_5, 7);
+            contentValues.put(COL_4, 20*60);
+            contentValues.put(COL_5, 7*60);
 
             db.insert(TABLE_NAME, null, contentValues);
 
             contentValues.put(COL_2, "COMP41530");
             contentValues.put(COL_3, "Java Programming");
-            contentValues.put(COL_4, 32);
-            contentValues.put(COL_5, 10);
+            contentValues.put(COL_4, 32*60);
+            contentValues.put(COL_5, 10*60);
 
             db.insert(TABLE_NAME, null, contentValues);
 
             contentValues.put(COL_2, "COMP47350");
             contentValues.put(COL_3, "Data Analytics");
-            contentValues.put(COL_4, 28);
-            contentValues.put(COL_5, 6);
+            contentValues.put(COL_4, 28*60);
+            contentValues.put(COL_5, 6*60);
 
             db.insert(TABLE_NAME, null, contentValues);
 
@@ -198,6 +198,7 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
             do {
                 allInfo.add(cursor.getString(0));
                 allInfo.add(cursor.getString(1));
+                allInfo.add(cursor.getString(2));
                 allInfo.add(cursor.getString(3));
                 allInfo.add(cursor.getString(4));
             } while (cursor.moveToNext());
