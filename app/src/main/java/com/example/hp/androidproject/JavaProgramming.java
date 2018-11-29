@@ -34,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class JavaProgramming extends AppCompatActivity {
@@ -267,14 +268,31 @@ public class JavaProgramming extends AppCompatActivity {
         });
 
 
-        // on click listener for the enrol button
+        // listener to display toast when enrol button selected
+        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
+        List<String> enrolledCourses = db.getCourseName();
+        Boolean enrolled = false;
+
         Button enrol = (Button) findViewById(R.id.enrolButtonJP);
-        enrol.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Waiting for admins approval", Toast.LENGTH_LONG).show();
+
+        for (int i = 0; i < enrolledCourses.size(); i+=2) {
+            if(enrolledCourses.get(i).equals(courseName)){
+                enrolled = true;
             }
-        });
+        }
+        if (enrolled == true){
+            enrol.setText("Enrolled");
+        }
+        else {
+            enrol.setText("Enroll");
+          //  enrol.setCompoundDrawables(null,null,null,null);
+            enrol.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(), "Waiting for admins approval", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
 
     }

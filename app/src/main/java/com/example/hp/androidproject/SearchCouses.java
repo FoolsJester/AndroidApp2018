@@ -75,12 +75,16 @@ public class SearchCouses extends AppCompatActivity {
         });
 
 
-    openHelper = new DatabaseHelperLocalDB(this);
-        db = openHelper.getReadableDatabase();
-
-
-        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
-        List<String> courses = db.getCourseNameOnly();
+//    openHelper = new DatabaseHelperLocalDB(this);
+//        db = openHelper.getReadableDatabase();
+//
+//
+//        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
+        List<String> courses = new ArrayList<String>(4);
+        courses.add("Android Programming");
+        courses.add("Programming for IoT");
+        courses.add("Java Programming");
+        courses.add("Data Analytics");
         List<String> friends = new ArrayList<String>(4);
         friends.add("Shane Bird");
         friends.add("Eimear Galligan");

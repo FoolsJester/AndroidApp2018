@@ -196,7 +196,7 @@ public class EditSettings extends AppCompatActivity {
             delete.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
             delete.setText("Remove Course");
 
-            final String id = courses.get(i);
+            final String id = courses.get(i-1);
 
             delete.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
