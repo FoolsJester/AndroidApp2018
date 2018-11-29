@@ -38,6 +38,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class IOTprogramming extends AppCompatActivity {
 
+    // initializing all variables here
     private static final String courseName = "COMP47520";
     private DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
@@ -49,6 +50,7 @@ public class IOTprogramming extends AppCompatActivity {
     int delaySelect = 0;
     int delayForumSelect = 0;
     int delayMemberSelect = 0;
+
 
 
     @Override
@@ -84,7 +86,7 @@ public class IOTprogramming extends AppCompatActivity {
             }
         });
 
-        // initialising variables
+        // initialising variables for the navigation bar
         drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
         abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -93,7 +95,7 @@ public class IOTprogramming extends AppCompatActivity {
 
 
 
-        // initialising variables for assignment form and forum links
+        // setting variables for buttons and spinners to the relevant button and spinner in xml
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
         addAssignmentFragIOT = (Button)findViewById(R.id.assignmentFragButtonIOT);
         openGmail = (Button)findViewById(R.id.openGmailIOT);
@@ -109,6 +111,7 @@ public class IOTprogramming extends AppCompatActivity {
         addAssignmentFragIOT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // calls the function that adds fragment if its present or removes it if already present
                 ChangeFragment(addAssignmentFragIOT);
             }
         });
@@ -118,6 +121,7 @@ public class IOTprogramming extends AppCompatActivity {
         addForumTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // calling function that adds fragment if not present, removes if already present
                 topicFragment(addForumTopic);
             }
         });
@@ -127,9 +131,13 @@ public class IOTprogramming extends AppCompatActivity {
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // creating intent to open gmal
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
+                // set type of intent as a message
                 emailIntent .setType("message/rfc822");
+                // set the email address to appear in message
                 emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
+                // set subject line to appear in message
                 emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Programming for Internet of Things");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
@@ -139,11 +147,10 @@ public class IOTprogramming extends AppCompatActivity {
             }
         });
 
-        // tutorials for creating form with database: https://www.youtube.com/watch?v=B2avB5tmTMM
-        // https://techsupportnep.com/programming/android/android-login-and-register-with-sqlite-database.html
 
 
 
+        // enables nav bar to appear
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // opens pages when item selected in nav bar
@@ -169,18 +176,20 @@ public class IOTprogramming extends AppCompatActivity {
                     openSearch();
                 }
 
-
                 return true;
             }
         });
 
+        // listener for when an assignment is selected from the assignment spinner
         Assignmentspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                // getting the item selected from spinner and converting to string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
+                // if statement to prevent call on first load of page
                 if(delaySelect != position) {
                     AssignmentObject assignment = globalSnapshot.child("assignments").child(key).getValue(AssignmentObject.class);
                     customDialog(assignment.getTitle(),
@@ -199,6 +208,7 @@ public class IOTprogramming extends AppCompatActivity {
             }
         });
 
+        // listener to open member pages when member selected from the spinner
         memberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -236,13 +246,16 @@ public class IOTprogramming extends AppCompatActivity {
             }
         });
 
+        // listener to open forum page when forem item selected from spinner
         ForumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // get the item selected from spinner and convert to string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delayForumSelect != position) {
+                    // opens the activity with the relevant item
                     openActivityTopicOne(key);
                 }
                 else{
@@ -258,6 +271,7 @@ public class IOTprogramming extends AppCompatActivity {
         });
 
 
+        // listener to display toast when enrol button selected
         Button enrol = (Button) findViewById(R.id.enrolButtonIOT);
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,7 +360,6 @@ public class IOTprogramming extends AppCompatActivity {
     }
 
 
-
     public void openUser(){
         Intent intent = new Intent(this, User.class);
         startActivity(intent);
@@ -403,6 +416,7 @@ public class IOTprogramming extends AppCompatActivity {
     }
 
 
+    // code that allows items to be selected in nav bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
@@ -441,10 +455,14 @@ public class IOTprogramming extends AppCompatActivity {
     }
 
 
-    // function to check if add assignment fragment is already added. If it is not added the
-    // fragment is added. If the fragment is already present when the method is called it is
-    // removed
+
     public void ChangeFragment(View view){
+         /*
+        Method to check if add assignment fragment is already added. If it is not added the
+        fragment is added. If the fragment is already present when the method is called it is
+        removed
+         */
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tagIOT");
@@ -462,6 +480,12 @@ public class IOTprogramming extends AppCompatActivity {
     }
 
     public void topicFragment(View view){
+        /*
+        Method to check if forum fragment is already added. If it is not added the
+        fragment is added. If the fragment is already present when the method is called it is
+        removed
+         */
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtagIOT");

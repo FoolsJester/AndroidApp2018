@@ -38,6 +38,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class AndroidProgramming extends AppCompatActivity {
 
+    // initializing variables
     private static final String courseName = "COMP41690";
     private DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
@@ -85,7 +86,7 @@ public class AndroidProgramming extends AppCompatActivity {
             }
         });
 
-        // initialising variables
+        // assigning relevent xml features to variables for the creation of nav bar
         drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
         abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -94,7 +95,7 @@ public class AndroidProgramming extends AppCompatActivity {
 
 
 
-        // initialising variables for assignment form and forum links
+        // assigning relevant xml features to variables for spinners and buttons
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
         addAssignmentFragAP = (Button)findViewById(R.id.assignmentFragButtonAP);
         openGmail = (Button)findViewById(R.id.openGmailAP);
@@ -104,7 +105,7 @@ public class AndroidProgramming extends AppCompatActivity {
         memberSpinner = (Spinner) findViewById(R.id.memberSpinnerAP);
 
 
-        // button to add assignment fragment on click
+        // button to call method that adds / removes assignment fragment on click
         addAssignmentFragAP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +114,7 @@ public class AndroidProgramming extends AppCompatActivity {
         });
 
 
-        // button to add forum fragment on click
+        // button to call method that add / removes forum fragment on click
         addForumTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,14 +123,16 @@ public class AndroidProgramming extends AppCompatActivity {
         });
 
 
-        // function opens users gmail on button click
+        // listener opens users gmail on button click
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // setting up gmail intent of type message
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
+                // adding default email address and subject line
                 emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Message Subject");
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Android PRogramming");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
@@ -138,14 +141,12 @@ public class AndroidProgramming extends AppCompatActivity {
             }
         });
 
-        // tutorials for creating form with database: https://www.youtube.com/watch?v=B2avB5tmTMM
-        // https://techsupportnep.com/programming/android/android-login-and-register-with-sqlite-database.html
 
 
-
+        // allows nav bar to display
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // opens pages when item selected in nav bar
+        // calls methods that opens pages when item selected in nav bar
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
             @Override
@@ -173,11 +174,14 @@ public class AndroidProgramming extends AppCompatActivity {
             }
         });
 
+
+        // listener to display assignment when it is clicked
         Assignmentspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                // get the item selected and convert to string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delaySelect != position) {
@@ -198,6 +202,7 @@ public class AndroidProgramming extends AppCompatActivity {
             }
         });
 
+        // listener to open the page for whatever member is selected
         memberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -237,10 +242,12 @@ public class AndroidProgramming extends AppCompatActivity {
             }
         });
 
+        // listener to open the forum activity when item selected
         ForumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // get item selected and convert to string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delayForumSelect != position) {
@@ -258,7 +265,7 @@ public class AndroidProgramming extends AppCompatActivity {
             }
         });
 
-
+        // listener to display toast when enrol button selected
         Button enrol = (Button) findViewById(R.id.enrolButtonAP);
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,8 +320,11 @@ public class AndroidProgramming extends AppCompatActivity {
         pieChart.invalidate();
     }
 
-
+    // method called from fragment
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
+        /*
+        method called from fragment, calls the insertdata method with data passed from fragment (form)
+         */
         delaySelect = 0;
         insertData(name, dueData, description, percentWorth);
         Toast.makeText(getApplicationContext(), "Assignment is added", Toast.LENGTH_LONG).show();
@@ -444,10 +454,12 @@ public class AndroidProgramming extends AppCompatActivity {
     }
 
 
-    // function to check if add assignment fragment is already added. If it is not added the
-    // fragment is added. If the fragment is already present when the method is called it is
-    // removed
+
     public void ChangeFragment(View view){
+        /*
+        Method to check id add assignment is already there, removes it if it is or adds it if it is
+        not already present
+         */
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tagAP");
@@ -465,6 +477,9 @@ public class AndroidProgramming extends AppCompatActivity {
     }
 
     public void topicFragment(View view){
+        /*
+        Method to check if forum fragment is up, removes it if it is adds it if it is not present
+         */
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtagAP");

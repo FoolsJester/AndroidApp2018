@@ -83,7 +83,7 @@ public class JavaProgramming extends AppCompatActivity {
             }
         });
 
-        // initialising variables
+        // assigning relevant xml features to nav bar variables
         drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
         abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -92,7 +92,7 @@ public class JavaProgramming extends AppCompatActivity {
 
 
 
-        // initialising variables for assignment form and forum links
+        // assigning xml spinners and buttons to relevant variables
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
         addAssignmentFragJP = (Button)findViewById(R.id.assignmentFragButtonJP);
         openGmail = (Button)findViewById(R.id.openGmailJP);
@@ -104,10 +104,11 @@ public class JavaProgramming extends AppCompatActivity {
 
 
 
-        // button to add assignment fragment on click
+        // on click listener for add assignment button
         addAssignmentFragJP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // calling method to add / remove fragment
                 ChangeFragment(addAssignmentFragJP);
             }
         });
@@ -117,6 +118,7 @@ public class JavaProgramming extends AppCompatActivity {
         addForumTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // calling method to add / remove forum fragment
                 topicFragment(addForumTopic);
             }
         });
@@ -126,9 +128,12 @@ public class JavaProgramming extends AppCompatActivity {
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // setting up gmail intent, to open up in message
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
+                // setting default email address to appear
                 emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
+                // setting default subject line
                 emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Java Programming");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
@@ -138,11 +143,8 @@ public class JavaProgramming extends AppCompatActivity {
             }
         });
 
-        // tutorials for creating form with database: https://www.youtube.com/watch?v=B2avB5tmTMM
-        // https://techsupportnep.com/programming/android/android-login-and-register-with-sqlite-database.html
 
-
-
+        // allow nav bar to appear
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // opens pages when item selected in nav bar
@@ -173,11 +175,13 @@ public class JavaProgramming extends AppCompatActivity {
             }
         });
 
+        // on click listener for when user selects and assignment
         Assignmentspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                // getting the item selected from spinner and converting to a string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delaySelect != position) {
@@ -198,10 +202,12 @@ public class JavaProgramming extends AppCompatActivity {
             }
         });
 
+        // on click listener when a member is selected from the members spinner
         memberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                // getting the item selected from the spinner and converting to string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delayMemberSelect != position & !key.equals("Select a Member")) {
@@ -237,10 +243,12 @@ public class JavaProgramming extends AppCompatActivity {
             }
         });
 
+        // on click listener for when the user selects a forum topic
         ForumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // getting the item selected and casting to a string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delayForumSelect != position) {
@@ -259,6 +267,7 @@ public class JavaProgramming extends AppCompatActivity {
         });
 
 
+        // on click listener for the enrol button
         Button enrol = (Button) findViewById(R.id.enrolButtonJP);
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,7 +323,12 @@ public class JavaProgramming extends AppCompatActivity {
         pieChart.invalidate();
     }
 
+    // function called from the add assignment fragment
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
+        /*
+        Method called from add assignment forum fragment, passes the values filled into the form to
+        the insert data method (which inserts into firebase)
+         */
         delaySelect = 0;
         insertData(name, dueData, description, percentWorth);
         Toast.makeText(getApplicationContext(), "Assignment is added", Toast.LENGTH_LONG).show();
@@ -449,6 +463,10 @@ public class JavaProgramming extends AppCompatActivity {
     // fragment is added. If the fragment is already present when the method is called it is
     // removed
     public void ChangeFragment(View view){
+        /*
+        Method to place fragment in xml if not already there, or remove fragment from xml if already
+        there
+         */
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tagJP");
@@ -466,6 +484,10 @@ public class JavaProgramming extends AppCompatActivity {
     }
 
     public void topicFragment(View view){
+        /*
+        Method to place forum fragment in xml if not already there, or remove forum from fragment if
+        already there
+         */
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtagJP");

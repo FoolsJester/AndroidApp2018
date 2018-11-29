@@ -16,9 +16,8 @@ import android.widget.Toast;
 
 
 public class ForumFragment extends Fragment {
+    // initializing buttons, text fields and length holders
     Button forumButton;
-    SQLiteOpenHelper openHelper;
-    SQLiteDatabase db;
     EditText topicname, topicdescription;
     int input1, input2;
 
@@ -42,8 +41,8 @@ public class ForumFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // getting relevant xml features and assigning to variables
         forumButton = (Button)view.findViewById(R.id.forumButton);
-        openHelper = new DatabaseHelper(getActivity());
         topicname = (EditText)view.findViewById(R.id.topicname);
         topicdescription = (EditText)view.findViewById(R.id.topicdescription);
 
@@ -53,15 +52,18 @@ public class ForumFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-
+                // getting length of input for error handling
                 input1 = topicname.getText().toString().trim().length();
                 input2 = topicdescription.getText().toString().trim().length();
+                // if statements to check input fields not empty
                 if (input1> 0 & + input2 >  0) {
-                    db = openHelper.getWritableDatabase();
+                    // getting string of inputs
                     String name = topicname.getText().toString();
                     String desc =topicdescription.getText().toString();
-
+                    // getting the activity
                     Activity act = getActivity();
+                    // if statements to check which activity fragment called from,
+                    // calls the relevant function for the activity fragment called from
                     if (act instanceof Courses) {
                         ((Courses) act).sendForum(name, desc);
                     }
