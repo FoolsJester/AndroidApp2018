@@ -52,7 +52,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="170dp"
                             android:scaleType="fitCenter"
-                            app:srcCompat="@drawable/dcoyle_image" />
+                            />
 
                         <TextView
                             android:id="@+id/name_settings"

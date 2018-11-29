@@ -6,6 +6,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,12 +19,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,11 +39,14 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -110,6 +117,20 @@ public class User extends AppCompatActivity {
         drawerlayout.addDrawerListener(abdt);
         abdt.syncState();
         timeStudy = (Button)findViewById(R.id.button1);
+        // Reference to an image file in Cloud Storage
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilePicture.jpg");
+        final ImageView profilePhoto = findViewById(R.id.imageView);
+        final long ONE_MEGABYTE = 1024 * 1024;
+        mStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                profilePhoto.setImageBitmap(bm);
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -392,19 +413,6 @@ public class User extends AppCompatActivity {
 
     }
 
-    public void insertdata(String courseCode, int hours, int productiveStudy) {
-
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelperLocalDB.COL_2, courseCode);
-        contentValues.put(DatabaseHelperLocalDB.COL_3, "12/11/2018");
-        contentValues.put(DatabaseHelperLocalDB.COL_4, hours);
-        contentValues.put(DatabaseHelperLocalDB.COL_5, productiveStudy);
-
-        long id = db.insert(DatabaseHelperLocalDB.TABLE_NAME, null, contentValues);
-        Toast.makeText(getApplicationContext(), "ID="+id, Toast.LENGTH_LONG).show();
-    }
-
     public void updateData(String courseName, double hours) {
 
         DatabaseHelperLocalDB database = new DatabaseHelperLocalDB(getApplicationContext());
@@ -428,7 +436,6 @@ public class User extends AppCompatActivity {
         contentValues.put(DatabaseHelperLocalDB.COL_3, courseName);
         contentValues.put(DatabaseHelperLocalDB.COL_4, newTotal);
         contentValues.put(DatabaseHelperLocalDB.COL_5, newInterupted);
-        Log.d("CourseInfo", contentValues.toString());
         db.update(DatabaseHelperLocalDB.TABLE_NAME, contentValues, "Count_ID ="+id, null);
 
         barChart();
@@ -451,11 +458,9 @@ public class User extends AppCompatActivity {
             float total_hour = (float) minutes/60;
             int interupted_mins = Integer.parseInt(assignment.get(i+1));
             float interupted = (float) interupted_mins/60;
-            Log.d("BarValues", assignment.get(i)+" "+ assignment.get(i+1));
             barEntries.add(new BarEntry(i, new float[] {total_hour-interupted, interupted}));
 
         }
-        Log.d("BarChart", barEntries.toString());
         BarDataSet barDataSet = new BarDataSet(barEntries, "  ");
         barDataSet.setColors(new int[]{ContextCompat.getColor(this, R.color.colorAccent),
                 ContextCompat.getColor(this, R.color.colorPrimary),});

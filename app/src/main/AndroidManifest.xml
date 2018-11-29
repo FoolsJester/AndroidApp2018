@@ -26,8 +26,8 @@
             android:value="26.0.0"
             tools:replace="android:value" />
 
-        <activity android:name=".MainActivity"
-            android:label="@string/studyBuddy">
+        <activity android:name=".MainActivity">
+            <!--android:label="@string/studyBuddy">-->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
