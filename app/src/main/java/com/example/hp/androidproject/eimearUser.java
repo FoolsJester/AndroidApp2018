@@ -7,17 +7,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
-
 import android.view.View;
-
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,7 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 
 public class eimearUser extends AppCompatActivity {
     private NotificationManagerCompat notificationManager;
@@ -100,8 +96,6 @@ public class eimearUser extends AppCompatActivity {
                     openUserActivity();
                 } else if (id == R.id.study) {
                     openStudyTimerActivity();
-                } else if (id == R.id.course) {
-                    openCoursesActivity();
                 } else if (id == R.id.login) {
                     openMainActivity();
                 }
@@ -347,11 +341,6 @@ public class eimearUser extends AppCompatActivity {
 
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void openCoursesActivity(){
-        Intent intent = new Intent(this, Courses.class);
         startActivity(intent);
     }
 

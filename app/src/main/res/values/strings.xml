@@ -6,7 +6,7 @@
     <string name="logo_description">Study Buddy Logo</string>
     <string name="title"> Enter Title</string>
     <string name="enter_text">Write a detailed Description</string>
-
+    <string name="enrol_button_status">Enrolled</string>
     <string-array name="forum_list">
         <item>Topic1</item>
         <item>Topic2</item>

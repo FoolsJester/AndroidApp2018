@@ -45,9 +45,6 @@ public class TopicThree extends AppCompatActivity {
                 else if( id == R.id.study){
                     Toast.makeText(TopicThree.this, "Study Page", Toast.LENGTH_SHORT).show();
                 }
-                else if( id == R.id.course){
-                    openCourses();
-                }
                 else if(id == R.id.login){
                     openMainActivity();
                 }
@@ -64,10 +61,6 @@ public class TopicThree extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openCourses(){
-        Intent intent = new Intent(this, Courses.class);
-        startActivity(intent);
-    }
 
     public void openUser(){
         Intent intent = new Intent(this, User.class);

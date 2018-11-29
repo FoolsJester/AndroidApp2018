@@ -64,15 +64,14 @@
                 tools:text="Android Programming"
                 />
 
-
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/enrolButtonIOT"
-                android:layout_width="match_parent"
+                android:layout_width="203dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
                 android:drawableEnd="@drawable/ic_favorite_border_black_24dp"
-                android:text="Enrol Me"
+                android:text="@string/enrol_button_status"
                 android:textStyle="bold"
                 app:backgroundTint="#86A3A8"
                 app:fontFamily="sans-serif" />
@@ -126,8 +125,7 @@
                 android:id="@+id/placeholderIOT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                >
             </FrameLayout>
 
             <TextView
@@ -197,7 +195,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:drawableEnd="@drawable/ic_email_black_24dp"
                 android:text="open gmail"
                 app:backgroundTint="#86A3A8"
@@ -210,7 +207,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2C8C99"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:padding="4dp"
                 android:text="Discussion Forum"
@@ -243,7 +239,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
                 android:text="Add Forum Topic"
                 app:backgroundTint="#FFFFFF"

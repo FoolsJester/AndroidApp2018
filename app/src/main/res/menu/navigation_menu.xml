@@ -14,12 +14,6 @@
     </item>
 
     <item
-        android:id="@+id/course"
-        android:title="Courses Page"
-        android:icon="@drawable/ic_school_black_24dp">
-    </item>
-
-    <item
         android:id="@+id/settings"
         android:title="Settings"
         android:icon="@drawable/ic_adb_black_24dp">

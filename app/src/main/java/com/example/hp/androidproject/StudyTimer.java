@@ -178,9 +178,6 @@ public class StudyTimer extends AppCompatActivity {
                 else if( id == R.id.study){
                     openStudy();
                 }
-                else if( id == R.id.course){
-                    openCourses();
-                }
                 else if( id == R.id.settings){
                     openSettings();
                 }
@@ -357,10 +354,6 @@ public class StudyTimer extends AppCompatActivity {
         contentValues.put(DatabaseHelperLocalDB.COL_5, newInterupted);
         db.update(DatabaseHelperLocalDB.TABLE_NAME, contentValues, "Count_ID ="+id, null);
         Toast.makeText(this, "Study time logged successfully.\n" + (int) productivity + "% productivity in this session.", Toast.LENGTH_LONG).show();
-    }
-    public void openCourses(){
-        Intent intent = new Intent(this, Courses.class);
-        startActivity(intent);
     }
 
     public void openUser(){

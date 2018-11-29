@@ -67,12 +67,12 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/enrolButtonAP"
-                android:layout_width="match_parent"
+                android:layout_width="203dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
                 android:drawableEnd="@drawable/ic_favorite_border_black_24dp"
-                android:text="Enrol Me"
+                android:text="Enrolled"
                 android:textStyle="bold"
                 app:backgroundTint="#86A3A8"
                 app:fontFamily="sans-serif" />
@@ -126,8 +126,7 @@
                 android:id="@+id/placeholderAP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                >
             </FrameLayout>
 
             <TextView
@@ -198,7 +197,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:drawableEnd="@drawable/ic_email_black_24dp"
                 android:text="open gmail"
                 app:backgroundTint="#86A3A8"
@@ -211,7 +209,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2C8C99"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:padding="4dp"
                 android:text="Discussion Forum"
@@ -254,7 +251,7 @@
                 android:id="@+id/forumPlaceholderAP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="10dp">
             </FrameLayout>
 
         </LinearLayout>
