@@ -1,32 +1,43 @@
 package com.example.hp.androidproject;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class EditSettings extends AppCompatActivity {
-    private Button uploadImage;
-    private ImageView newProfilePic;
     private static final int CAMERA_REQUEST_CODE = 1;
-    private ProgressBar imageUploadProgress;
+    private static final int GALLERY_REQUEST_CODE = 2;
+    private StorageReference mStorageRef;
+    // initialising variables for form, button, and length holders
+    Button cameraButton, galleryButton, saveButton;
+    private ImageView newProfilePic;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
 
@@ -43,22 +54,44 @@ public class EditSettings extends AppCompatActivity {
         createTextField();
         setText();
 
-        uploadImage = (Button) findViewById(R.id.uploadImage);
+        mStorageRef = FirebaseStorage.getInstance().getReference("profilePicture.jpg");
         newProfilePic = (ImageView) findViewById(R.id.imageView2);
+        cameraButton = (Button) findViewById(R.id.cameraButton);
+        galleryButton = (Button) findViewById(R.id.galleryButton);
         Button submit = (Button) findViewById(R.id.submit);
         final EditText name = (EditText) findViewById(R.id.edit_name);
         final EditText email = (EditText) findViewById(R.id.edit_email);
         final EditText uni = (EditText) findViewById(R.id.edit_uni);
         final EditText course = (EditText) findViewById(R.id.edit_course);
-        imageUploadProgress = new ProgressBar(this);
+        // Reference to an image file in Cloud Storage
+        final StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilePicture.jpg");
+        final long ONE_MEGABYTE = 1024 * 1024;
+        mStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        uploadImage.setOnClickListener(new View.OnClickListener() {
+                newProfilePic.setImageBitmap(bm);
+            }
+        });
+
+
+        cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        });
+
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
             }
         });
 
@@ -66,6 +99,14 @@ public class EditSettings extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Retrieve bitmap https://stackoverflow.com/questions/26865787/get-bitmap-from-imageview-in-android-l/27030439
+                newProfilePic.invalidate();
+                BitmapDrawable drawable = (BitmapDrawable) newProfilePic.getDrawable();
+                Bitmap getphoto = drawable.getBitmap();
+                //Get the uri https://www.codeproject.com/Questions/741165/why-capture-image-path-return-null-in-android
+                Uri storageUri = getImageUri(getApplicationContext(), getphoto);
+                //Store in Firebase Storage
+                mStorageRef.putFile(storageUri);
 
                 String new_name = name.getText().toString();
                 String new_mail = email.getText().toString();
@@ -93,21 +134,42 @@ public class EditSettings extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+   @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK ) {
+            Uri uri = data.getData();
+            try {
+                Bitmap getPhoto = (Bitmap) MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                newProfilePic.setImageBitmap(getPhoto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //Tutorial on how to upload files from gallery to phone and display in imageview https://www.youtube.com/watch?v=oTBkrTsKyPc
 
+        }
+
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            //Get image captured
             Uri uri = data.getData();
             Bitmap getphoto = (Bitmap) data.getExtras().get("data");
+            //Set image as new bitmap
             newProfilePic.setImageBitmap(getphoto);
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-            getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        //Tutorial on how to store access camera https://www.youtube.com/watch?v=Zy2DKo0v-OY"
+            //Store to phone
+//            ContentValues values = new ContentValues();
+//            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+//            getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            //Tutorial on how to store access camera https://www.youtube.com/watch?v=Zy2DKo0v-OY"
         }
     }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "profilePicture", null);
+            return Uri.parse(path);
+            }
 
     public void setText() {
 

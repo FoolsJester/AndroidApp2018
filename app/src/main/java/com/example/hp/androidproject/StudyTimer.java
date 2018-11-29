@@ -300,15 +300,7 @@ public class StudyTimer extends AppCompatActivity {
                     InterruptedStudyTime = Math.round(saveHandleTime / 1000) + Math.round(saveInteractTime / 1000);
                     //getting course name from dropdown
                     String courseName = dropdown.getSelectedItem().toString();
-                    List<String> courseCodes = db.getCourseName();
-                    String courseCode="";
-                    //retrieving corresponding course code
-                    for (int i=1; i<courseCodes.size(); i+=2){
-                        if (courseName.equals(courseCodes.get(i))){
-                            courseCode = courseCodes.get(i-1);
-                        };
-                    }
-                    updateData(courseCode, courseName, Math.round(saveStudyTime / 1000), InterruptedStudyTime);
+                    updateData(courseName, Math.round(saveStudyTime / 1000), InterruptedStudyTime);
                     startBtn.setVisibility(View.VISIBLE);
                     stopBtn.setVisibility(View.GONE);
                 }
@@ -320,7 +312,7 @@ public class StudyTimer extends AppCompatActivity {
     /*
      * Takes informaton about the study session and logs it to the database
      */
-    public void updateData(String courseCode,String courseName, int STime, int SInterrupt) {
+    public void updateData(String courseName, int STime, int SInterrupt) {
         float productivity;
         //Getting productivity percentage
         int productiveTime = (STime - SInterrupt);
@@ -335,16 +327,17 @@ public class StudyTimer extends AppCompatActivity {
         DatabaseHelperLocalDB database = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> current_hours = database.getAll();
 
-        int old_total = 0; int old_interupted = 0; int id = 0;
+        int old_total = 0; int old_interupted = 0; int id = 0; String courseCode = " ";
 
-        for (int i = 1; i < current_hours.size(); i+=4) {
-            if (courseCode.equals(current_hours.get(i))){
-                id = Integer.parseInt(current_hours.get(i-1));
-                old_total = Integer.parseInt(current_hours.get(i+1));
-                old_interupted = Integer.parseInt(current_hours.get(i+2));
+        for (int i = 0; i < current_hours.size(); i+=5) {
+            if (courseName.equals(current_hours.get(i+2))){
+                id = Integer.parseInt(current_hours.get(i));
+                courseCode= current_hours.get(i+1);
+                old_total = Integer.parseInt(current_hours.get(i+3));
+                old_interupted = Integer.parseInt(current_hours.get(i+4));
             }
         }
-        int newTotal = old_total + Math.round(STime/360); int newInterupted = old_interupted + Math.round(SInterrupt/360);
+        int newTotal = old_total + Math.round(STime/60); int newInterupted = old_interupted + Math.round(SInterrupt/60);
 
         //Updating the values in the database
         ContentValues contentValues = new ContentValues();
@@ -379,7 +372,6 @@ public class StudyTimer extends AppCompatActivity {
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-
     }
 
     @Override
