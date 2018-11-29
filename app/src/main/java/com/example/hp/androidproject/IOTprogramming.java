@@ -165,7 +165,7 @@ public class IOTprogramming extends AppCompatActivity {
                     openUser();
                 }
                 else if( id == R.id.study){
-                    Toast.makeText(IOTprogramming.this, "Study Page", Toast.LENGTH_SHORT).show();
+                    openStudy();
                 }
                 else if(id == R.id.login){
                     openMainActivity();
@@ -400,6 +400,10 @@ public class IOTprogramming extends AppCompatActivity {
         Intent intent = new Intent(this, amyUser.class);
         startActivity(intent);
 
+    }
+    public void openStudy(){
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
     }
 
     public void openEimearsPage(){

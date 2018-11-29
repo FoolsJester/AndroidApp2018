@@ -11,10 +11,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +45,8 @@ public class EditSettings extends AppCompatActivity {
     private ImageView newProfilePic;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
+    private DrawerLayout drawerlayout;
+    private ActionBarDrawerToggle abdt;
 
 //    EditText name;
 //    EditText email;
@@ -53,6 +60,45 @@ public class EditSettings extends AppCompatActivity {
 
         createTextField();
         setText();
+
+        // initialising variables for the navigation bar
+        drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
+        abdt.setDrawerIndicatorEnabled(true);
+        drawerlayout.addDrawerListener(abdt);
+        abdt.syncState();
+
+        // enables nav bar to appear
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // opens pages when item selected in nav bar
+        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item){
+                int id = item.getItemId();
+
+                if( id == R.id.myprofile){
+                    openUser();
+                }
+                else if( id == R.id.study){
+                    openStudy();
+                }
+                else if(id == R.id.login){
+                    openMainActivity();
+                }
+                else if(id == R.id.settings){
+                    openSettings();
+                }
+                else if( id == R.id.search){
+                    openSearch();
+                }
+
+                return true;
+            }
+        });
+
+
 
         mStorageRef = FirebaseStorage.getInstance().getReference("profilePicture.jpg");
         newProfilePic = (ImageView) findViewById(R.id.imageView2);
@@ -286,4 +332,35 @@ public class EditSettings extends AppCompatActivity {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
+
+    public void openUser(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+    }
+
+    public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSettings() {
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
+        Intent intent = new Intent(this, SearchCouses.class);
+        startActivity(intent);
+    }
+    public void openStudy(){
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    // code that allows items to be selected in nav bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
 }

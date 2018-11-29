@@ -140,7 +140,7 @@ public class Courses extends AppCompatActivity  {
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
                 emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Message Subject");
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Data Analytics");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
