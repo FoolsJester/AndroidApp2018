@@ -259,7 +259,7 @@ public class JavaProgramming extends AppCompatActivity {
                 else{
                     return;
                 }
-                delayForumSelect = position;
+                delayForumSelect = 0;
             }
 
             @Override

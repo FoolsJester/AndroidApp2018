@@ -120,11 +120,14 @@ public class DisplayContent extends AppCompatActivity {
     public void populateData(DataSnapshot dataSnapshot){
 
         ForumObject forumEntry = dataSnapshot.child("forum/"+intentKey).getValue(ForumObject.class);//casting red to forum class
-        String title = forumEntry.getTitle();
-        String content = forumEntry.getContent();
-        Log.d(TAG, "Object reads in as: " + title + "    " + content);
-        mTitle.setText(title);//render title and content
-        mContent.setText(content);
+        if(forumEntry != null){
+            String title = forumEntry.getTitle();
+            String content = forumEntry.getContent();
+            Log.d(TAG, "Object reads in as: " + title + "    " + content);
+            mTitle.setText(title);//render title and content
+            mContent.setText(content);
+        }
+
 
 
 

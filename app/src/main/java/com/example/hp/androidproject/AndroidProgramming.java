@@ -258,7 +258,7 @@ public class AndroidProgramming extends AppCompatActivity {
                 else{
                     return;
                 }
-                delayForumSelect = position;
+                delayForumSelect = 0;
             }
 
             @Override
