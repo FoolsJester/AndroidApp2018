@@ -31,7 +31,7 @@ public class DiscussionForumMake extends AppCompatActivity {
         /* this now needs to take this argument and add it to a file or db.
         If we use a file it will be easier to access, update and nest arguments in
 
-        Problem exists for all creation aspects of project- Users, Courses, Forums
+        Problem exists for all creation aspects of project- Users, DataAnalytics, Forums
          */
 
     }

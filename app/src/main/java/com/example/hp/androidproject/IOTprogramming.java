@@ -27,6 +27,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +43,7 @@ public class IOTprogramming extends AppCompatActivity {
     private static final String courseName = "COMP47520";
     private DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
-    private static final String TAG = "Courses";
+    private static final String TAG = "DataAnalytics";
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
     Button enrolButton, assignmentButton, openGmail, addAssignmentFragIOT, addForumTopic;
@@ -366,8 +367,10 @@ public class IOTprogramming extends AppCompatActivity {
     }
 
     public void openMainActivity(){
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+
     }
 
     public void openSettings() {

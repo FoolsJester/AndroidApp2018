@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -198,7 +199,7 @@ public class amyUser extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else if (onClickCourse.equals("Data Analytics")){
-                        Intent intent=new Intent(getBaseContext(),Courses.class);
+                        Intent intent=new Intent(getBaseContext(),DataAnalytics.class);
                         startActivity(intent);
                     }
                 }
@@ -327,9 +328,11 @@ public class amyUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openMainActivity(){
+    public void openMainActivity() {
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+
     }
 
     public void openUserActivity(){

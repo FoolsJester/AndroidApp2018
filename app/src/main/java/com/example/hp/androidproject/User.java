@@ -40,6 +40,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -119,10 +120,14 @@ public class User extends AppCompatActivity {
         timeStudy = (Button)findViewById(R.id.button1);
         // Reference to an image file in Cloud Storage
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilePicture.jpg");
+        //Setting profile photo to photo in cloud stoarage
         final ImageView profilePhoto = findViewById(R.id.imageView);
         final long ONE_MEGABYTE = 1024 * 1024;
         mStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
+            /*
+            * Converts byte array from firebase storage to bitmap and sets profile photo of user
+            */
             public void onSuccess(byte[] bytes) {
                 Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 DisplayMetrics dm = new DisplayMetrics();
@@ -130,6 +135,7 @@ public class User extends AppCompatActivity {
 
                 profilePhoto.setImageBitmap(bm);
             }
+            //Tutorial https://stackoverflow.com/questions/39702304/retrieve-stored-image-from-firebase-storage
         });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -319,7 +325,7 @@ public class User extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else if (onClickCourse.equals("Data Analytics")){
-                        Intent intent=new Intent(getBaseContext(),Courses.class);
+                        Intent intent=new Intent(getBaseContext(),DataAnalytics.class);
                         startActivity(intent);
                     }
                 }
@@ -428,9 +434,11 @@ public class User extends AppCompatActivity {
                 old_interupted = Integer.parseInt(current_hours.get(i+4));
             }
         }
+        // setting new total time, retrieving assumed interupted time of study
         int newTotal = old_total + (int) hours*60; double interuptedDouble = ((double)old_interupted/(double)old_total) * (hours*60);
         int newInterupted = (int) interuptedDouble + old_interupted;
 
+        //saving data to local database
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelperLocalDB.COL_2, courseCode);
         contentValues.put(DatabaseHelperLocalDB.COL_3, courseName);
@@ -503,7 +511,6 @@ public class User extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
@@ -512,6 +519,7 @@ public class User extends AppCompatActivity {
     // intents to open activities for nav bar
 
     public void openMainActivity(){
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -645,15 +653,12 @@ public class User extends AppCompatActivity {
     * Notifies the user of the weather conditions by making a call to an OpenWeatherMap API and advises on how best to spend their day
     */
     public void weatherNotification(String Title, String Message){
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        //Building notification
         Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
                 .setSmallIcon(R.drawable.ic_weather_update)
                 .setContentTitle(Title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(Message))
-                .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setAutoCancel(true)
                 .build();
@@ -664,12 +669,14 @@ public class User extends AppCompatActivity {
     */
     public void assignmentPostedNotification(){
         Intent intent = new Intent(this, AndroidProgramming.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        //Setting flags to bring user back to previous activity after clicking on notification
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        //Building notification
         Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
                 .setSmallIcon(R.drawable.ic_assignment)
                 .setContentTitle("New Assignment Posted")
-                .setContentText("Assignment 2 for COMP41690 is due on 07/12/18")
+                .setContentText("Android Group Report for COMP41690 is due on 12/12/18")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(pendingIntent)
@@ -677,17 +684,20 @@ public class User extends AppCompatActivity {
                 .build();
 
         notificationManager.notify(1, notification);
+        //Tutorial for stack builder https://stackoverflow.com/questions/17677994/pressing-back-home-from-activity-launched-in-notification-exits-app
     }
     /*
      * Notifies the user that a member has joined a course
      */
     public void courseJoinNotification() {
         Intent intent = new Intent(this, AndroidProgramming.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        //Setting flags to bring user back to previous activity after clicking on notification
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        //Building notification
         Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
                 .setSmallIcon(R.drawable.ic_course_join)
-                .setContentTitle("COMP41234")
+                .setContentTitle("COMP41530")
                 .setContentText("Eimear has joined COMP41530")
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setContentIntent(pendingIntent)
@@ -695,5 +705,6 @@ public class User extends AppCompatActivity {
                 .build();
 
         notificationManager.notify(2, notification);
+        //Tutorial for stack builder https://stackoverflow.com/questions/17677994/pressing-back-home-from-activity-launched-in-notification-exits-app
     }
 }

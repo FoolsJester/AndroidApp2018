@@ -38,30 +38,37 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/cameraButton"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/colorAccent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="5dp"
-                android:text="Take new photo" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/galleryButton"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginHorizontal="20dp"
-                android:background="@color/colorAccent"
-                android:text="Upload from gallery" />
+                <Button
+                    android:id="@+id/galleryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="Upload from gallery" />
+
+                <Button
+                    android:id="@+id/cameraButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="Take new photo" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:scaleType="fitCenter"
-                />
+                android:layout_height="116dp"
+                android:scaleType="fitCenter" />
 
             <EditText
                 android:id="@+id/edit_name"

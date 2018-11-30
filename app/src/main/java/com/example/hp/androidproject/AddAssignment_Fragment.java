@@ -1,22 +1,14 @@
 package com.example.hp.androidproject;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.util.List;
 
 
 public class AddAssignment_Fragment extends Fragment {
@@ -81,8 +73,8 @@ public class AddAssignment_Fragment extends Fragment {
                     Activity act = getActivity();
                     // check which activity fragment is called from, send form details to relevant
                     // activity
-                    if (act instanceof Courses) {
-                        ((Courses) act).populateSpinner(name, dueData, description, percentWorth);
+                    if (act instanceof DataAnalytics) {
+                        ((DataAnalytics) act).populateSpinner(name, dueData, description, percentWorth);
                     }
                     else if(act instanceof AndroidProgramming){
                         ((AndroidProgramming) act).populateSpinner(name, dueData, description, percentWorth);

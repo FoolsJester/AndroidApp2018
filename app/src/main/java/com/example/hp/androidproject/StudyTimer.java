@@ -27,6 +27,8 @@ import android.widget.Chronometer;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -370,6 +372,7 @@ public class StudyTimer extends AppCompatActivity {
     }
 
     public void openMainActivity(){
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

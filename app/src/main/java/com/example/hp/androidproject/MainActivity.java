@@ -7,22 +7,57 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
-
+    private EditText username;
+    private EditText password;
+    private Button loginButton;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
+        loginButton = (Button) findViewById(R.id.button);
+        mAuth = FirebaseAuth.getInstance();
+
+        //assigning listener to check if user is logged in or not
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() != null){
+                    //if user is logged in, go straight to user page
+                    openUser();
+                }
+            }
+        };
+
+        //invokes signIn method when clicked
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
+
+//***************************THIS IS NAV BAR
 
         // initialising variables for nav bar
         drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
@@ -30,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         abdt.setDrawerIndicatorEnabled(true);
         drawerlayout.addDrawerListener(abdt);
         abdt.syncState();
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -59,8 +95,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+//ALL THIS CODE TO GO *****************************
 
 
+
+
+    /*
+    * Assigns the authentication state listened defined in onCreate method
+    */
+    @Override
+    protected void onStart(){
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+
+
+
+
+//***************************THIS IS NAV BAR
     public void openUser(){
         Intent intent = new Intent(this, User.class);
         startActivity(intent);
@@ -82,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMainActivity(){
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 
@@ -92,35 +146,37 @@ public class MainActivity extends AppCompatActivity {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
-
-
+    //ALL THIS CODE TO GO *****************************
 
     /**
      * Called when user hits the submit button on login page
      */
-    public void isValidPassword(View view) {
-        EditText username = (EditText) findViewById(R.id.username);
-        EditText password = (EditText) findViewById(R.id.password);
+    private void signIn() {
+        //retrieve user input for email and password
+        String email = username.getText().toString();
+        String pass = password.getText().toString();
 
-        if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
-            // toast to say login successful, can pass on to wherever after that
-            Toast toast = Toast.makeText(getApplicationContext(), "Login Successful",
+        //Ensure fields at not empty
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)){
+            Toast toast = Toast.makeText(getApplicationContext(), "Empty fields, please try again.",
                     Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-
-
-            //this is the intent which calls the following page, right now points to
-            //the make forum page, just so I can view it
-
-            Intent intent = new Intent(this, User.class);
-            startActivity(intent);
-        } else {
-            // toast to say username/ password incorrect
-            Toast toast = Toast.makeText(getApplicationContext(), "Username/ Password Incorrect",
-                    Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
+        else{
+            //authenticate user
+            mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    //ensure email and password are correct
+                    if(!task.isSuccessful()){
+                        Toast toast = Toast.makeText(getApplicationContext(), "Username/ Password Incorrect",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            });
+        }
     }
+
+    //Tutorial for firebase authentication - https://www.youtube.com/watch?v=oi-UAwiBigQ
 }

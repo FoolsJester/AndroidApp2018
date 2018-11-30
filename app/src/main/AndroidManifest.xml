@@ -12,12 +12,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <application
         android:name=".BaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="StudyBuddy"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -27,7 +26,7 @@
             tools:replace="android:value" />
 
         <activity android:name=".MainActivity">
-            <!--android:label="@string/studyBuddy">-->
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +36,7 @@
         </activity>
 
         <activity android:name=".DiscussionForumMake" />
-        <activity android:name=".Courses" />
+        <activity android:name=".DataAnalytics" />
         <activity android:name=".TopicOne" />
         <activity android:name=".TopicTwo" />
         <activity android:name=".TopicThree" />

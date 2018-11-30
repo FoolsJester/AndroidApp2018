@@ -1,10 +1,6 @@
 package com.example.hp.androidproject;
 
 import android.app.Activity;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -64,8 +60,8 @@ public class ForumFragment extends Fragment {
                     Activity act = getActivity();
                     // if statements to check which activity fragment called from,
                     // calls the relevant function for the activity fragment called from
-                    if (act instanceof Courses) {
-                        ((Courses) act).sendForum(name, desc);
+                    if (act instanceof DataAnalytics) {
+                        ((DataAnalytics) act).sendForum(name, desc);
                     }
                     else if(act instanceof AndroidProgramming){
                         ((AndroidProgramming) act).sendForum(name, desc);

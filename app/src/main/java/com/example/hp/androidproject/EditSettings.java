@@ -1,8 +1,10 @@
 package com.example.hp.androidproject;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -11,6 +13,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.DisplayMetrics;
@@ -36,15 +40,11 @@ public class EditSettings extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 2;
     private StorageReference mStorageRef;
     // initialising variables for form, button, and length holders
-    Button cameraButton, galleryButton, saveButton;
+    Button cameraButton, galleryButton, submit;
     private ImageView newProfilePic;
     SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
 
-//    EditText name;
-//    EditText email;
-//    EditText uni;
-//    EditText course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,61 +58,92 @@ public class EditSettings extends AppCompatActivity {
         newProfilePic = (ImageView) findViewById(R.id.imageView2);
         cameraButton = (Button) findViewById(R.id.cameraButton);
         galleryButton = (Button) findViewById(R.id.galleryButton);
-        Button submit = (Button) findViewById(R.id.submit);
+        submit = (Button) findViewById(R.id.submit);
         final EditText name = (EditText) findViewById(R.id.edit_name);
         final EditText email = (EditText) findViewById(R.id.edit_email);
         final EditText uni = (EditText) findViewById(R.id.edit_uni);
         final EditText course = (EditText) findViewById(R.id.edit_course);
+
         // Reference to an image file in Cloud Storage
         final StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilePicture.jpg");
+        //Setting profile photo to photo in cloud stoarage
         final long ONE_MEGABYTE = 1024 * 1024;
         mStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
+            /*
+             * Converts byte array from firebase storage to bitmap and sets profile photo of user
+             */
             public void onSuccess(byte[] bytes) {
                 Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 DisplayMetrics dm = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(dm);
 
                 newProfilePic.setImageBitmap(bm);
+                //Tutorial https://stackoverflow.com/questions/39702304/retrieve-stored-image-from-firebase-storage
             }
         });
 
-
+        /*
+         * checks if user has given permission to access camera
+         */
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted
+                    ActivityCompat.requestPermissions(EditSettings.this, new String[]{Manifest.permission.CAMERA},CAMERA_REQUEST_CODE);
+                } else {
+                    // Permission has already been granted, open camera activity
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                }
+                //Tutorial for this - https://developer.android.com/training/permissions/requesting
             }
         });
 
+        /*
+         * checks if user has given permission to access gallery
+         */
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted
+                    ActivityCompat.requestPermissions(EditSettings.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_REQUEST_CODE);
+                } else {
+                    // Permission has already been granted, open gallery activity
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
+                }
+                //Tutorial for this - https://developer.android.com/training/permissions/requesting
             }
+            //https://developer.android.com/training/permissions/requesting
         });
 
-
+        /*
+         * Reads changes and saves changes to database locally and on firebase storage
+         */
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Retrieve bitmap https://stackoverflow.com/questions/26865787/get-bitmap-from-imageview-in-android-l/27030439
+                //Retrieve bitmap profile picture
+                // https://stackoverflow.com/questions/26865787/get-bitmap-from-imageview-in-android-l/27030439
                 newProfilePic.invalidate();
                 BitmapDrawable drawable = (BitmapDrawable) newProfilePic.getDrawable();
                 Bitmap getphoto = drawable.getBitmap();
-                //Get the uri https://www.codeproject.com/Questions/741165/why-capture-image-path-return-null-in-android
+                //Get the uri of bitmap
+                // https://www.codeproject.com/Questions/741165/why-capture-image-path-return-null-in-android
                 Uri storageUri = getImageUri(getApplicationContext(), getphoto);
-                //Store in Firebase Storage
+                //Store image in Firebase Storage
                 mStorageRef.putFile(storageUri);
 
+                //Retrieve data on user
                 String new_name = name.getText().toString();
                 String new_mail = email.getText().toString();
                 String new_uni = uni.getText().toString();
                 String new_course = course.getText().toString();
 
+                //Save data to local database
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(DatabaseHelperLocalDB.STUDENT_2, new_name);
                 contentValues.put(DatabaseHelperLocalDB.STUDENT_3, new_mail);
@@ -127,20 +158,26 @@ public class EditSettings extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "Changed Hours must be approved by Course Administrator", Toast.LENGTH_LONG).show();
                 }
+                //Return to settings activity once finished
                 openSettingsActivity();
-
             }
         });
 
     }
 
-   @Override
+    /*
+     *Retrieves data from camera/gallery activities and sets the new image as the profile picture bitmap
+     */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //check if code and result are returned as expected for gallery activity
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK ) {
+            //get image from gallery
             Uri uri = data.getData();
             try {
+                //convert image to bitmap and set as profilephoto
                 Bitmap getPhoto = (Bitmap) MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 newProfilePic.setImageBitmap(getPhoto);
             } catch (IOException e) {
@@ -150,27 +187,31 @@ public class EditSettings extends AppCompatActivity {
 
         }
 
+        //check if code and result are returned as expected for camera activity
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             //Get image captured
             Uri uri = data.getData();
             Bitmap getphoto = (Bitmap) data.getExtras().get("data");
             //Set image as new bitmap
             newProfilePic.setImageBitmap(getphoto);
-            //Store to phone
-//            ContentValues values = new ContentValues();
-//            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-//            getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             //Tutorial on how to store access camera https://www.youtube.com/watch?v=Zy2DKo0v-OY"
         }
     }
 
+    /*
+     * Retrieve image uri from a bitmap image
+     */
     public Uri getImageUri(Context inContext, Bitmap inImage) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "profilePicture", null);
-            return Uri.parse(path);
-            }
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "profilePicture", null);
+        return Uri.parse(path);
+        //https://www.codeproject.com/Questions/741165/why-capture-image-path-return-null-in-android
+    }
 
+    /*
+     * Populate fields on the page with user info
+     */
     public void setText() {
 
         openHelper = new DatabaseHelperLocalDB(this);
@@ -192,6 +233,9 @@ public class EditSettings extends AppCompatActivity {
 
     }
 
+    /*
+     * Creates text fields to edit user info
+     */
     public void createTextField() {
 
         int idTracker = 100;
@@ -215,7 +259,7 @@ public class EditSettings extends AppCompatActivity {
             LinearLayout.LayoutParams letters= new LinearLayout.LayoutParams(
                     200, LinearLayout.LayoutParams.MATCH_PARENT, 1);
 
-       //     textparams.gravity = Gravity.CENTER_VERTICAL;
+            //     textparams.gravity = Gravity.CENTER_VERTICAL;
 
             lparams.setMargins(0,0,0,0);
             textparams.setMargins(0,0,0,10);
@@ -282,6 +326,9 @@ public class EditSettings extends AppCompatActivity {
 
     }
 
+    /*
+     * Opens settings activity
+     */
     public void openSettingsActivity() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);

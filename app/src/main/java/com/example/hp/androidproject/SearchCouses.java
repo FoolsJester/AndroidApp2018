@@ -20,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +112,7 @@ public class SearchCouses extends AppCompatActivity {
                      startActivity(intent);
                  }
                  else if (course.equals("Data Analytics")){
-                     Intent intent=new Intent(getBaseContext(),Courses.class);
+                     Intent intent=new Intent(getBaseContext(),DataAnalytics.class);
                      startActivity(intent);
                  }
              }
@@ -242,6 +244,7 @@ public class SearchCouses extends AppCompatActivity {
     }
 
     public void openMainActivity(){
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 

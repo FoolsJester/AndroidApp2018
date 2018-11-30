@@ -18,8 +18,8 @@ public class BaseApp extends Application {
     }
 
     /*
-    * Creates notifications channels for notifications
-    * */
+     * Creates notifications channels for notifications
+     * */
     private void createNotificationChannels(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel1 = new NotificationChannel(
