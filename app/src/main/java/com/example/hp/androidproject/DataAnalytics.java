@@ -41,6 +41,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class DataAnalytics extends AppCompatActivity  {
+    // initializing variables
     private static final String courseName = "COMP47350";
     private  DatabaseReference myRef;
     private DataSnapshot globalSnapshot;
@@ -93,7 +94,7 @@ public class DataAnalytics extends AppCompatActivity  {
             }
         });
 
-        // initialising variables
+        // getting relevant xml features assigned to variable names for nav bar
         drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
         abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -102,7 +103,7 @@ public class DataAnalytics extends AppCompatActivity  {
 
 
 
-        // initialising variables for assignment form and forum links
+        // setting relevant xml features to variable names for spinners and buttons
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
         openHelper = new DatabaseHelper(this);
         addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
@@ -115,32 +116,36 @@ public class DataAnalytics extends AppCompatActivity  {
 
 
 
-        // button to add assignment fragment on click
+        // listener to call fragment method on click
         addAssignmentFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // calling fragment method that adds / removes fragment
                 ChangeFragment(addAssignmentFrag);
             }
         });
 
 
-        // button to add forum fragment on click
+        // listener to call forum fragment method
         addForumTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // calling method that adds / removes fragment
                 topicFragment(addForumTopic);
             }
         });
 
 
-        // function opens users gmail on button click
+        // listener opens users gmail on button click
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // setting up email intent as type message
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
+                // setting default email address and subject line
                 emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Message Subject");
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Data Analytics");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
@@ -149,11 +154,10 @@ public class DataAnalytics extends AppCompatActivity  {
             }
         });
 
-        // tutorials for creating form with database: https://www.youtube.com/watch?v=B2avB5tmTMM
-        // https://techsupportnep.com/programming/android/android-login-and-register-with-sqlite-database.html
 
 
 
+        // allows nav bar to display
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // opens pages when item selected in nav bar
@@ -164,11 +168,10 @@ public class DataAnalytics extends AppCompatActivity  {
                 int id = item.getItemId();
 
                 if( id == R.id.myprofile){
-                    Toast.makeText(DataAnalytics.this, "MyProfile", Toast.LENGTH_SHORT).show();
                     openUser();
                 }
                 else if( id == R.id.study){
-                    Toast.makeText(DataAnalytics.this, "Study Page", Toast.LENGTH_SHORT).show();
+                    openStudy();
                 }
                 else if(id == R.id.login){
                     openMainActivity();
@@ -185,11 +188,14 @@ public class DataAnalytics extends AppCompatActivity  {
             }
         });
 
+
+        // listener for assignment spinner when item clicked
         Assignmentspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                // getting item selected and casting to string
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delaySelect != position) {
@@ -210,10 +216,15 @@ public class DataAnalytics extends AppCompatActivity  {
             }
         });
 
+        // listener for member spinner
         memberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                /*
+                getting item selected and converting to string
+                checking string equal to item in members array
+                if it is open relevant user page
+                 */
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delayMemberSelect != position & !key.equals("Select a Member")) {
@@ -249,10 +260,15 @@ public class DataAnalytics extends AppCompatActivity  {
             }
         });
 
+        // listener for forum spinner
         ForumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                /*
+                getting item selected and converting to string
+                open new forum page for item selected
+                 */
                 Object obj = parent.getAdapter().getItem(position);
                 String key = obj.toString();
                 if(delayForumSelect != position) {
@@ -271,6 +287,7 @@ public class DataAnalytics extends AppCompatActivity  {
         });
 
 
+        // listener for enrol button
         Button enrol = (Button) findViewById(R.id.enrolButton);
         enrol.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,7 +344,13 @@ public class DataAnalytics extends AppCompatActivity  {
     }
 
 
+
     public void populateSpinner(String name, String dueData, String description, Integer percentWorth){
+        /*
+        populates assignment spinner with data from form filled out in fragment
+        method called from fragment
+        calls relevant method to insert data into firebase
+         */
         delaySelect = 0;
         insertData(name, dueData, description, percentWorth);
         Toast.makeText(getApplicationContext(), "Assignment is added", Toast.LENGTH_LONG).show();
@@ -401,6 +424,11 @@ public class DataAnalytics extends AppCompatActivity  {
         startActivity(intent);
     }
 
+    public void openStudy(){
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
     // method that inserts value from form into database
     public void insertData(String name, String dueData, String description, Integer percentWorth){
         //changed to write to Firebase instead of Local DB
@@ -455,10 +483,11 @@ public class DataAnalytics extends AppCompatActivity  {
     }
 
 
-    // function to check if add assignment fragment is already added. If it is not added the
-    // fragment is added. If the fragment is already present when the method is called it is
-    // removed
+
     public void ChangeFragment(View view){
+        /*
+        method to remove fragment if present and add it if not present
+         */
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         AddAssignment_Fragment fragment = (AddAssignment_Fragment) fm.findFragmentByTag("tag");
@@ -476,6 +505,9 @@ public class DataAnalytics extends AppCompatActivity  {
     }
 
     public void topicFragment(View view){
+        /*
+        method to remove forum fragment if present and add it if not present
+         */
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ForumFragment forumfragment = (ForumFragment) fm.findFragmentByTag("forumtag");
