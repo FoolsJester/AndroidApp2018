@@ -190,12 +190,12 @@ public class AndroidProgramming extends AppCompatActivity {
                     AssignmentObject assignment = globalSnapshot.child("assignments").child(key).getValue(AssignmentObject.class);
                     customDialog(assignment.getTitle(),
                             "Due Date: "+assignment.getDueDate()+"\nCompleted: "+assignment.isComplete()
-                                    + "\n\n"+assignment.getDescription(), key, assignment.isComplete());
+                                    + "\n\n"+assignment.getDescription(), assignment, assignment.isComplete());
                 }
                 else{
                     return;
                 }
-                delaySelect = position;
+                delaySelect = 0;
             }
 
             @Override
@@ -526,7 +526,7 @@ public class AndroidProgramming extends AppCompatActivity {
      * buttons in the method header as these will always call the same functions, just with
      * different parameters
      * */
-    public void customDialog(String title, String message,final String key, Boolean completeness){
+    public void customDialog(String title, String message,final AssignmentObject assignment, Boolean completeness){
         final android.support.v7.app.AlertDialog.Builder builderSingle = new android.support.v7.app.AlertDialog.Builder(this);
         //builderSingle.setIcon(R.mipmap.ic_notification);
         builderSingle.setTitle(title); //constructing both title and message for display in dialog
@@ -539,7 +539,8 @@ public class AndroidProgramming extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            markIncomplete(key);
+                            markIncomplete(assignment);
+
                         }
                     }
             );
@@ -551,7 +552,8 @@ public class AndroidProgramming extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            markComplete(key);
+                            markComplete(assignment);
+
                         }
                     }
             );
@@ -580,13 +582,15 @@ public class AndroidProgramming extends AppCompatActivity {
         builderSingle.show();
     }
 
-    private void markComplete( String key){
-        myRef.child("assignments").child(key).child("complete").setValue(true);
+    private void markComplete( AssignmentObject assignment){
+        assignment.setComplete(true);
+        myRef.child("assignments").child(assignment.getTitle()).setValue(assignment);
         toastMessage("Marked as Completed");
     }
 
-    private void markIncomplete( String key){
-        myRef.child("assignments").child(key).child("complete").setValue(false);
+    private void markIncomplete( AssignmentObject assignment){
+        assignment.setComplete(false);
+        myRef.child("assignments").child(assignment.getTitle()).setValue(assignment);
         toastMessage("Marked as Incomplete");
     }
 
