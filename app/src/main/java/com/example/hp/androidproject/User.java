@@ -653,6 +653,11 @@ public class User extends AppCompatActivity {
     * Notifies the user of the weather conditions by making a call to an OpenWeatherMap API and advises on how best to spend their day
     */
     public void weatherNotification(String Title, String Message){
+        Intent intent = new Intent(this, User.class);
+        //Setting flags to bring user back to previous activity after clicking on notification
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        //Building notification
         //Building notification
         Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
                 .setSmallIcon(R.drawable.ic_weather_update)
@@ -690,7 +695,7 @@ public class User extends AppCompatActivity {
      * Notifies the user that a member has joined a course
      */
     public void courseJoinNotification() {
-        Intent intent = new Intent(this, AndroidProgramming.class);
+        Intent intent = new Intent(this, JavaProgramming.class);
         //Setting flags to bring user back to previous activity after clicking on notification
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
