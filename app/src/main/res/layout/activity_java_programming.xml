@@ -38,7 +38,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                app:srcCompat="@drawable/study_buddy_logo"
+                app:srcCompat="@drawable/study_buddy_app_logo"
                 />
 
             <TextView
