@@ -38,6 +38,11 @@
     <string name="setHours">Set</string>
     <string name="friends">Friends</string>
 
+    <string name="Assignments">Assignments</string>
+    <string name="AverageAssignment">Average Assignment Completion Time</string>
+    <string name="CourseMembers">Course Members</string>
+    <string name="DiscussionForum">Discussion Forum</string>
+
     <string name="shane">Shane Bird</string>
     <string name="amy">Amy McCormack</string>
     <string name="muireann">Muireann MacCarthy</string>
