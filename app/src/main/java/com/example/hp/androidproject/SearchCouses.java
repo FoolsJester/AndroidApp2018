@@ -76,12 +76,7 @@ public class SearchCouses extends AppCompatActivity {
             }
         });
 
-
-//    openHelper = new DatabaseHelperLocalDB(this);
-//        db = openHelper.getReadableDatabase();
-//
-//
-//        DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
+        //adding courses and friends to be searched
         List<String> courses = new ArrayList<String>(4);
         courses.add("Android Programming");
         courses.add("Programming for IoT");
@@ -97,6 +92,7 @@ public class SearchCouses extends AppCompatActivity {
         search_friends = (ListView) findViewById(R.id.test_course);
         search_course = (ListView) findViewById(R.id.search_course);
 
+        //creating onclick events if the listen item is clicked
         search_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -122,6 +118,8 @@ public class SearchCouses extends AppCompatActivity {
              }
          });
 
+
+        //creating onclick events if the listen item is clicked
         search_friends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -154,6 +152,7 @@ public class SearchCouses extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 friends
         );
+        //setting the contents of the listview
         search_course.setAdapter(searchable);
         search_friends.setAdapter(friend_searchable);
 
@@ -163,6 +162,7 @@ public class SearchCouses extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        //inflaing the menu with the search widget
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
 
@@ -170,30 +170,29 @@ public class SearchCouses extends AppCompatActivity {
                 getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.search_couse);
 
+        //selecting the serach widget
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
         searchView.setSearchableInfo(searchManager.
                 getSearchableInfo(getComponentName()));
 
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
+        //adding a listener to the searach widget
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
+                /*
+                Function when text is submitted
+                 */
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchable.getFilter().filter(newText);
+                /*
+                Function once a chanage in the text is detected
+                 */
+                searchable.getFilter().filter(newText);         //filter the lists by the text entered
                 friend_searchable.getFilter().filter(newText);
                 return false;
             }
@@ -201,6 +200,9 @@ public class SearchCouses extends AppCompatActivity {
         });
 
         return true;
+
+        //https://developer.android.com/guide/topics/search/search-dialog
+        //https://www.youtube.com/watch?v=FZfjWXYm80k&vl=en
     }
 
     @Override

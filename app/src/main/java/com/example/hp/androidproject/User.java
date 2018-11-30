@@ -513,6 +513,8 @@ public class User extends AppCompatActivity {
         chart.invalidate();
 
 
+        //https://github.com/PhilJay/MPAndroidChart#examples reference
+
     }
 
     @Override
