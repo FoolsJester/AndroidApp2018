@@ -36,7 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
 public class eimearUser extends AppCompatActivity {
     private NotificationManagerCompat notificationManager;
 
@@ -119,7 +118,6 @@ public class eimearUser extends AppCompatActivity {
             public void onClick(View v) {
                 addFriend.setText("Request Sent");
                 addFriend.setCompoundDrawables(null,null,null,null);
-               // newFollower();
             }
         });
 
@@ -387,19 +385,4 @@ public class eimearUser extends AppCompatActivity {
         Intent intent = new Intent(this, muireannUser.class);
         startActivity(intent);
     }
-//    public void newFollower(){
-//        Intent intent = new Intent(this, eimearUser.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//        Notification notification = new NotificationCompat.Builder(this, Channel_2_ID)
-//                .setSmallIcon(R.drawable.ic_course_join)
-//                .setContentTitle("New Friend")
-//                .setContentText("Eimear has accepted your friend request")
-//                .setPriority(NotificationCompat.PRIORITY_LOW)
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true)
-//                .build();
-//
-//        notificationManager.notify(2, notification);
-//    }
 }
