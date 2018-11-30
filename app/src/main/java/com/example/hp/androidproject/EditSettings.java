@@ -13,12 +13,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -39,6 +45,8 @@ public class EditSettings extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int GALLERY_REQUEST_CODE = 2;
     private StorageReference mStorageRef;
+    private DrawerLayout drawerlayout;
+    private ActionBarDrawerToggle abdt;
     // initialising variables for form, button, and length holders
     Button cameraButton, galleryButton, submit;
     private ImageView newProfilePic;
@@ -159,11 +167,44 @@ public class EditSettings extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Changed Hours must be approved by Course Administrator", Toast.LENGTH_LONG).show();
                 }
                 //Return to settings activity once finished
-                openSettingsActivity();
+                openSettings();
             }
         });
 
-    }
+    //Adding Nav bar to settings page
+    drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+    abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
+    abdt.setDrawerIndicatorEnabled(true);
+    drawerlayout.addDrawerListener(abdt);
+    abdt.syncState();
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item){
+            int id = item.getItemId();
+
+            if( id == R.id.myprofile){
+                openUser();
+            }
+            else if( id == R.id.study){
+                openStudy();
+            }
+            else if( id == R.id.settings){
+                openSettings();
+            }
+            else if( id == R.id.search){
+                openSearch();
+            }
+            else if(id == R.id.login){
+                openMainActivity();
+            }
+
+            return true;
+        }
+    });
+}
 
     /*
      *Retrieves data from camera/gallery activities and sets the new image as the profile picture bitmap
@@ -327,10 +368,37 @@ public class EditSettings extends AppCompatActivity {
     }
 
     /*
-     * Opens settings activity
+     * Open activities from nav bar
      */
-    public void openSettingsActivity() {
+    public void openUser(){
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+    }
+
+    public void openSettings(){
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
+    }
+
+    public void openStudy(){
+        Intent intent = new Intent(this, StudyTimer.class);
+        startActivity(intent);
+    }
+
+    public void openSearch(){
+        Intent intent = new Intent(this, SearchCouses.class);
+        startActivity(intent);
+    }
+
+    public void openMainActivity(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }
