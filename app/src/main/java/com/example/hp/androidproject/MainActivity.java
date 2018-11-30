@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() != null){
+                if (firebaseAuth.getCurrentUser() != null) {
                     //if user is logged in, go straight to user page
                     openUser();
                 }
@@ -60,44 +60,44 @@ public class MainActivity extends AppCompatActivity {
 //***************************THIS IS NAV BAR
 
         // initialising variables for nav bar
-        drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
-        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
-        abdt.setDrawerIndicatorEnabled(true);
-        drawerlayout.addDrawerListener(abdt);
-        abdt.syncState();
+//        drawerlayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+//        abdt = new ActionBarDrawerToggle(this, drawerlayout, R.string.Open,R.string.Close);
+//        abdt.setDrawerIndicatorEnabled(true);
+//        drawerlayout.addDrawerListener(abdt);
+//        abdt.syncState();
+//
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+//        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item){
+//                int id = item.getItemId();
+//
+//                if( id == R.id.myprofile){
+//                    openUser();
+//                }
+//                else if( id == R.id.study){
+//                    openStudy();
+//                }
+//                else if( id == R.id.settings){
+//                    openSettings();
+//                }
+//                else if( id == R.id.search){
+//                    openSearch();
+//                }
+//                else if(id == R.id.login){
+//                    openMainActivity();
+//                }
+//
+//                return true;
+//            }
+//        });
 
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
-        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item){
-                int id = item.getItemId();
-
-                if( id == R.id.myprofile){
-                    openUser();
-                }
-                else if( id == R.id.study){
-                    openStudy();
-                }
-                else if( id == R.id.settings){
-                    openSettings();
-                }
-                else if( id == R.id.search){
-                    openSearch();
-                }
-                else if(id == R.id.login){
-                    openMainActivity();
-                }
-
-                return true;
-            }
-        });
-    }
 //ALL THIS CODE TO GO *****************************
 
-
+    }
 
 
     /*

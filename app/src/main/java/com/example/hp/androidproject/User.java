@@ -165,41 +165,19 @@ public class User extends AppCompatActivity {
         });
 
 
-        setSpinner();
+        setSpinner();               //functions to set contents of page text, bar chart and spinner
         barChart();
         setText();
 
         openHelper = new DatabaseHelperLocalDB(this);
 
 
-//        chart = (BarChart) findViewById(R.id.bar_chart);
-//
-//
-//        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
-//        barEntries.add(new BarEntry(3f, 0));
-//        barEntries.add(new BarEntry(2f, 1));
-//        barEntries.add(new BarEntry(3f, 2));
-//        barEntries.add(new BarEntry(4f, 3));
-//        barEntries.add(new BarEntry(5f, 4));
-//        barEntries.add(new BarEntry(6f, 5));
-//
-//        BarDataSet barDataSet = new BarDataSet(barEntries, "Study Statistics");
-//        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-//        dataSets.add(barDataSet);
-//
-//
-//        BarData data = new BarData(dataSets);
-//        chart.setData(data);
-//        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-//        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-
-        // final Spinner dropdown = findViewById(R.id.spinner1);
         final Button set = (Button) findViewById(R.id.button2);
         final EditText hours = (EditText) findViewById(R.id.editText);
         final Spinner dropdown = findViewById(R.id.spinner1);
 
-        Button shane = (Button) findViewById(R.id.ShaneButton);
+
+        Button shane = (Button) findViewById(R.id.ShaneButton);         //onClick functions to redirect user to friends page depending on the buttons they select
         shane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +202,7 @@ public class User extends AppCompatActivity {
         });
 
 
-        Button addStudy = (Button) findViewById(R.id.button3);
+        Button addStudy = (Button) findViewById(R.id.button3);      //View and hide adding study time contents onclick
         addStudy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -247,24 +225,36 @@ public class User extends AppCompatActivity {
             public void onClick(View view) {
                 openStudyTimerActivity();
             }
-        });
+        });         //opening study time activity onclick
 
         set.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                /*
+                Onclick function to get user inputted data and update the
+                database with it
+                 */
                 db = openHelper.getWritableDatabase();
 
                 String course = dropdown.getSelectedItem().toString();
                 String study = hours.getText().toString();
+
+                if (study == null) {            //ensure they entered a study time
+                    Toast.makeText(getApplicationContext(), "Please enter study duration", Toast.LENGTH_LONG).show();
+                }
+                else {
                 double studyInt = Double.parseDouble(study);
 
-
-                updateData(course, studyInt);
-                Toast.makeText(getApplicationContext(), "register successfully", Toast.LENGTH_LONG).show();
+                updateData(course, studyInt);       //update the database
+                Toast.makeText(getApplicationContext(), "register successfully", Toast.LENGTH_LONG).show();}
             }
         });
     }
 
     public void createTextField() {
+        /*
+        Function to take the information from the database
+        and use it to populate course and assignment information
+         */
 
         LinearLayout check = (LinearLayout) findViewById(R.id.linearLayout);
 
@@ -273,23 +263,23 @@ public class User extends AppCompatActivity {
 
 
         DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
-        List<String> courses = db.getCourseName();
+        List<String> courses = db.getCourseName(); //getting course names and codes from DB
 
         for (int i = 0; i < courses.size(); i+=2) {
 
-            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(              //setting layout parameters
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             lparams.setMargins(35,5,0,10);
 
-            LinearLayout.LayoutParams newActivityParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams newActivityParams = new LinearLayout.LayoutParams(   //setting layout parameters
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             newActivityParams.setMargins(80,0,80,10);
 
-            Button course = new Button(this);
+            Button course = new Button(this);                   //Creating new Views
             final TextView assignment = new TextView(this);
             final Button toCourse = new Button(this);
 
-            course.setLayoutParams(lparams);
+            course.setLayoutParams(lparams);                            //adding parameters and contents to new views
             course.setText(courses.get(i)+" - "+courses.get(i+1));
             course.setId(i+1);
             course.setPadding(10,0,10,0);
@@ -312,6 +302,9 @@ public class User extends AppCompatActivity {
             toCourse.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
+                    Onclick function to redirect the user to the correct course activity
+                     */
                     if (onClickCourse.equals("Android Programming")){
                         Intent intent=new Intent(getBaseContext(),AndroidProgramming.class);
                         startActivity(intent);
@@ -346,8 +339,7 @@ public class User extends AppCompatActivity {
                     String dbAassig = ds.child("title").getValue().toString();
                     String dbComp;
 
-                    //Log.d("Test", dbAassig);
-                    if (ds.child("title").getValue().toString()=="true"){ // this isn't the best way to do this but it'll do for now
+                    if (ds.child("title").getValue().toString()=="true"){
                         dbComp = "COMPLETED";
                     }
                     else{
@@ -355,9 +347,10 @@ public class User extends AppCompatActivity {
                     }
                     int randomNum = ThreadLocalRandom.current().nextInt(20, 120);
 
-
+                    //Add the contents all into one string to be set
                     allAssignments+=("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes\n\n");
                 }
+                //set contents of the assignment TextView
                 assignment.setText(allAssignments);
             }
             else{
@@ -366,6 +359,7 @@ public class User extends AppCompatActivity {
 
             course.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    //Makes the text field for assignments visibile/invisible onclick
                     if(assignment.getVisibility()==View.GONE){
                         assignment.setVisibility(View.VISIBLE);
                         toCourse.setVisibility(View.VISIBLE);}
@@ -386,6 +380,9 @@ public class User extends AppCompatActivity {
         }
 
     public void setSpinner() {
+        /*
+        Function to populate the spinner with course information from the database
+         */
 
         openHelper = new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
@@ -402,6 +399,10 @@ public class User extends AppCompatActivity {
     }
 
     public void setText() {
+        /*
+        Populates text fields in the activity with informatio  from the
+        Student Info database
+         */
 
         TextView name = (TextView) findViewById(R.id.name_user);
         TextView uni = (TextView) findViewById(R.id.uni_user);
@@ -420,21 +421,26 @@ public class User extends AppCompatActivity {
     }
 
     public void updateData(String courseName, double hours) {
+        /*
+        Function to update the study time for specific modules within the database
+         */
 
         DatabaseHelperLocalDB database = new DatabaseHelperLocalDB(getApplicationContext());
-        List<String> current_hours = database.getAll();
+        List<String> current_hours = database.getAll();     //return all information from the database
 
         int old_total = 0; int old_interupted = 0; int id = 0; String courseCode = " ";
 
+        //loop through the return string and find the entry that is the course being updated
         for (int i = 0; i < current_hours.size(); i+=5) {
             if (courseName.equals(current_hours.get(i+2))){
+                //get the old values for the productive and interupted study time
                 id = Integer.parseInt(current_hours.get(i));
                 courseCode= current_hours.get(i+1);
                 old_total = Integer.parseInt(current_hours.get(i+3));
                 old_interupted = Integer.parseInt(current_hours.get(i+4));
             }
         }
-        // setting new total time, retrieving assumed interupted time of study
+        // setting new total time, retrieving assumed interupted time of study (uses the average percentage of interupted time)
         int newTotal = old_total + (int) hours*60; double interuptedDouble = ((double)old_interupted/(double)old_total) * (hours*60);
         int newInterupted = (int) interuptedDouble + old_interupted;
 
@@ -446,21 +452,27 @@ public class User extends AppCompatActivity {
         contentValues.put(DatabaseHelperLocalDB.COL_5, newInterupted);
         db.update(DatabaseHelperLocalDB.TABLE_NAME, contentValues, "Count_ID ="+id, null);
 
+        //recreate bar chart with new values
         barChart();
 
     }
 
     public void barChart() {
+        /*
+        Function to retrieve study information from the database and
+        plot that information with a bar chart.
+         */
 
         openHelper=new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
         DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
-        List<String> assignment = db.getHours();
+        List<String> assignment = db.getHours(); //get the total and interupted hours from the database
 
         chart = (BarChart) findViewById(R.id.BarChart);
 
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+        //add the total and interupted times as bar entries to the graph
         for (int i =0; i < assignment.size(); i+=2){
             int minutes = Integer.parseInt(assignment.get(i));
             float total_hour = (float) minutes/60;
@@ -469,45 +481,37 @@ public class User extends AppCompatActivity {
             barEntries.add(new BarEntry(i, new float[] {total_hour-interupted, interupted}));
 
         }
-        BarDataSet barDataSet = new BarDataSet(barEntries, "  ");
-        barDataSet.setColors(new int[]{ContextCompat.getColor(this, R.color.colorAccent),
+        BarDataSet barDataSet = new BarDataSet(barEntries, "  ");              //setting the data
+        barDataSet.setColors(new int[]{ContextCompat.getColor(this, R.color.colorAccent),   //colour code the graph
                 ContextCompat.getColor(this, R.color.colorPrimary),});
-        barDataSet.setStackLabels(new String[]{"Productive Study", "Unproductive Study"});
+        barDataSet.setStackLabels(new String[]{"Productive Study", "Unproductive Study"});      //setting the lables for thr stacked plot
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(barDataSet);
 
 
         BarData data = new BarData(dataSets);
 
-        List<String> labels = db.getCourseName();
+        List<String> labels = db.getCourseName();   //getting course names for the bar labels
 
 
         XAxis xAxis = chart.getXAxis();
 
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);   //styling labels
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setCenterAxisLabels(false);
         xAxis.setGranularity(1f);
         xAxis.setTextSize(12);
-
-        //xAxis.setLabelRotationAngle(30);
         xAxis.setLabelCount(labels.size()/2);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
 
         chart.setDrawGridBackground(false);
         chart.getDescription().setEnabled(false);
 
-        if (chart.getData() != null && chart.getData().getDataSetCount() > 0){
-            chart.setData(data);
-            chart.notifyDataSetChanged();
-            chart.invalidate();
-        }
-        else {
-            chart.setData(data);
-            chart.notifyDataSetChanged();
-            chart.invalidate();
-        }
+        chart.setData(data);                //sets data and changes bar chart if there is a change in data
+        chart.notifyDataSetChanged();
+        chart.invalidate();
+
 
     }
 

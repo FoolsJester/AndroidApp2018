@@ -108,6 +108,10 @@ public class Settings extends AppCompatActivity {
     }
 
     public void setText() {
+        /*
+        Function to take relevent content from the database and use it
+        to populate different text fields
+         */
 
         TextView name = (TextView) findViewById(R.id.name_settings);
         TextView email = (TextView) findViewById(R.id.email_settings);
@@ -118,7 +122,7 @@ public class Settings extends AppCompatActivity {
         db = openHelper.getReadableDatabase();
 
         DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
-        List<String> info = db.getUserInfo();
+        List<String> info = db.getUserInfo(); //gets all user information from the database
 
         name.setText(info.get(0));
         email.setText(info.get(1));
@@ -129,6 +133,10 @@ public class Settings extends AppCompatActivity {
 
 
     public void createTextField() {
+        /*
+        Function to get the study and module information for all the courses the user is enrolled in
+        and display it
+         */
 
         LinearLayout check = (LinearLayout) findViewById(R.id.LinearLayout);
 
@@ -136,11 +144,11 @@ public class Settings extends AppCompatActivity {
         db = openHelper.getReadableDatabase();
 
         DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
-        List<String> courses = db.getAll();
+        List<String> courses = db.getAll(); //gets back all course information form the db
 
         for (int i = 1; i < courses.size(); i += 5) {
 
-            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(              //set parameters for new views
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             final TextView coursecode = new TextView(this);
@@ -149,13 +157,13 @@ public class Settings extends AppCompatActivity {
             coursecode.setLayoutParams(lparams);
             coursecode.setTextSize(18);
             int prodMins = Integer.parseInt(courses.get(i + 3));
-            double prodHours = (double)prodMins/60;
-            double roundHours = (double) Math.round(prodHours * 100) / 100;
+            double prodHours = (double)prodMins/60;                 //turns time back to hours
+            double roundHours = (double) Math.round(prodHours * 100) / 100; //round to two decimal places
             int totalMins = Integer.parseInt(courses.get(i+2));
-            double totalHours = (double)totalMins/60;
-            double totalRoundHours = (double) Math.round(totalHours* 100) / 100;
+            double totalHours = (double)totalMins/60;               //turns time back into hours
+            double totalRoundHours = (double) Math.round(totalHours* 100) / 100;    //round to two decimal places
             coursecode.setText(courses.get(i) + "\t\t\t\t\t\t\t\t\t\t\t" + roundHours + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + totalRoundHours);
-            check.addView(coursecode);
+            check.addView(coursecode);      //add text to the linear layout
 
 
         }
@@ -201,6 +209,10 @@ public class Settings extends AppCompatActivity {
     }
 
     public void discussionForum(){
+        /*
+        Function that sends the user a notification about a new posting in a
+        discussion form
+         */
         Intent intent = new Intent(this, IOTprogramming.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);

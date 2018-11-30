@@ -121,7 +121,7 @@ public class eimearUser extends AppCompatActivity {
             }
         });
 
-        Button shane = (Button) findViewById(R.id.ShaneButton);
+        Button shane = (Button) findViewById(R.id.ShaneButton);         //redirect user to new activity depending on button clicked
         shane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +148,9 @@ public class eimearUser extends AppCompatActivity {
     }
 
     public void createTextField() {
+        /*
+        Function to populate the course and assignment information
+         */
 
         LinearLayout check = (LinearLayout) findViewById(R.id.linearLayout);
 
@@ -158,7 +161,7 @@ public class eimearUser extends AppCompatActivity {
         DatabaseHelperLocalDB db = new DatabaseHelperLocalDB(getApplicationContext());
         List<String> courses = db.getCourseName();
 
-        for (int i = courses.size()-1; i >= 0; i-=2) {
+        for (int i = courses.size()-1; i >= 0; i-=2) {  //only show max four courses
 
             LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -193,7 +196,7 @@ public class eimearUser extends AppCompatActivity {
 
             toCourse.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {       //redirect users to correct activity when clicking buttons
                     if (onClickCourse.equals("Android Programming")){
                         Intent intent=new Intent(getBaseContext(),AndroidProgramming.class);
                         startActivity(intent);
@@ -238,7 +241,7 @@ public class eimearUser extends AppCompatActivity {
                     }
                     int randomNum = ThreadLocalRandom.current().nextInt(20, 120);
 
-
+                    //add the assignment information to one string. One assignment to be added per loop
                     allAssignments+=("\t\t"+dbAassig + ": " + dbComp + "\n\t\tAverage Completion Time: "+randomNum+" minutes\n\n");
                 }
                 assignment.setText(allAssignments);
@@ -248,7 +251,7 @@ public class eimearUser extends AppCompatActivity {
             }
 
             course.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
+                public void onClick(View v) {                   //change visibility of assignment info
 
                     if(assignment.getVisibility()==View.GONE){
                         assignment.setVisibility(View.VISIBLE);
@@ -270,6 +273,9 @@ public class eimearUser extends AppCompatActivity {
     }
 
     public void barChart(){
+         /*
+        Create bar chart with random study values for each modules enrolled
+         */
         openHelper=new DatabaseHelperLocalDB(this);
         db = openHelper.getReadableDatabase();
 
@@ -278,19 +284,16 @@ public class eimearUser extends AppCompatActivity {
 
         chart = (BarChart) findViewById(R.id.BarChart);
 
-//        int size = assignment.size();
-//        String sizeString = Integer.toString(size);
-//        Log.d("AssignmentSize", sizeString);
-
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
         for (int i =assignment.size()-1; i >= 0; i-=2){
-
-            int hour = ThreadLocalRandom.current().nextInt(10, 35);
+            //adding random values to study times
+            int hour = ThreadLocalRandom.current().nextInt(10, 30);
             int interupted = ThreadLocalRandom.current().nextInt(1, 10);
 
-            barEntries.add(new BarEntry(i, new float[] {hour-interupted, interupted}));
+            barEntries.add(new BarEntry(i, new float[] {hour, interupted}));
         }
 
+        //set content information and style graph
         BarDataSet barDataSet = new BarDataSet(barEntries, "  ");
         barDataSet.setColors(new int[]{ContextCompat.getColor(this, R.color.colorAccent),
                 ContextCompat.getColor(this, R.color.colorPrimary),});
@@ -301,8 +304,8 @@ public class eimearUser extends AppCompatActivity {
 
         BarData data = new BarData(dataSets);
 
+        //get coursecodes from graph labels
         List<String> labels = db.getCourseName();
-
 
         XAxis xAxis = chart.getXAxis();
 
@@ -312,8 +315,6 @@ public class eimearUser extends AppCompatActivity {
         xAxis.setCenterAxisLabels(false);
         xAxis.setGranularity(1f);
         xAxis.setTextSize(12);
-
-        //xAxis.setLabelRotationAngle(30);
         xAxis.setLabelCount(labels.size()/2);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
 
@@ -323,6 +324,8 @@ public class eimearUser extends AppCompatActivity {
         chart.setData(data);
     }
 
+
+    //intents for page redirection
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);

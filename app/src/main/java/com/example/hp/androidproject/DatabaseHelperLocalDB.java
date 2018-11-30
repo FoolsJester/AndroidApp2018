@@ -30,6 +30,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        /*
+        Creates tables with specified columns on creation
+         */
         db.execSQL("CREATE TABLE " + STUDENT_TABLE + "(" + STUDENT_1 +"INTEGER PRIMARY KEY AUTOINCREMENT, "+ STUDENT_2 + "VARCHAR, "+ STUDENT_3 + "VARCHAR, "+STUDENT_4+ "VARCHAR, "+STUDENT_5+ "VARCHAR)");
         db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL_1 +"INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_2+ "VARCHAR, "+ COL_3+ "VARCHAR, "+COL_4+ "INTEGER, "+COL_5+ "INTEGER)");
         populate(db);
@@ -43,6 +46,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     }
 
     public void populate_student(SQLiteDatabase db){
+        /*
+        Function to populate the Student Info tables
+         */
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(STUDENT_2, "David Coyle");
@@ -55,6 +61,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     }
 
     public void populate(SQLiteDatabase db){
+         /*
+        Function to populate the StudyTimeLog table
+         */
 
 
             ContentValues contentValues = new ContentValues();
@@ -91,6 +100,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     }
 
     public List<String> getUserInfo(){
+        /*
+        Function to select and return all the information in the user table
+         */
 
         List<String> userInfo = new ArrayList<String>();
 
@@ -118,6 +130,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     }
 
     public List<String> getCourseName(){
+        /*
+        Function to select and return all the courseName and Code in the studylog table
+         */
         List<String> courseNames = new ArrayList<String>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
@@ -142,6 +157,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     }
 
     public List<String> getCourseNameOnly(){
+        /*
+        Function to select and return all the courseName in the studylog table
+         */
         List<String> courseNames = new ArrayList<String>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
@@ -164,6 +182,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     }
 
     public List<String> getHours(){
+        /*
+        Function to select and return all the total and interupted study hours in the studylog table
+         */
         List<String> hours = new ArrayList<String>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
@@ -187,6 +208,9 @@ public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
     }
 
     public List<String> getAll(){
+        /*
+        Function to select and return all the all the information in the studylog table
+         */
         List<String> allInfo = new ArrayList<String>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME;

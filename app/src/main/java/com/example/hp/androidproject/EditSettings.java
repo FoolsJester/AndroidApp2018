@@ -275,7 +275,8 @@ public class EditSettings extends AppCompatActivity {
     }
 
     /*
-     * Creates text fields to edit user info
+     * Creates text fields to edit user info and populates it with
+     * information from the database
      */
     public void createTextField() {
 
@@ -287,11 +288,11 @@ public class EditSettings extends AppCompatActivity {
         db = openHelper.getReadableDatabase();
 
         final DatabaseHelperLocalDB db1 = new DatabaseHelperLocalDB(getApplicationContext());
-        final List<String> courses = db1.getAll();
+        final List<String> courses = db1.getAll();  //gets all the information form the database
 
         for (int i = 1; i < courses.size(); i += 5) {
 
-            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(          //sets layout parameters
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             LinearLayout.LayoutParams textparams = new LinearLayout.LayoutParams(
@@ -302,10 +303,10 @@ public class EditSettings extends AppCompatActivity {
 
             //     textparams.gravity = Gravity.CENTER_VERTICAL;
 
-            lparams.setMargins(0,0,0,0);
+            lparams.setMargins(0,0,0,0);        //sets layout margins
             textparams.setMargins(0,0,0,10);
 
-            final TextView coursecode = new TextView(this);
+            final TextView coursecode = new TextView(this);     //creating new views
             final EditText productiveHours = new EditText(this);
             final EditText TotalHours = new EditText(this);
             final LinearLayout layout = new LinearLayout(this);
@@ -313,7 +314,7 @@ public class EditSettings extends AppCompatActivity {
 
             layout.setLayoutParams(lparams);
 
-            coursecode.setLayoutParams(textparams);
+            coursecode.setLayoutParams(textparams);     //setting layout parameters and text to views
             coursecode.setTextSize(18);
             coursecode.setText(courses.get(i));
             coursecode.setGravity(Gravity.CENTER);
@@ -321,8 +322,8 @@ public class EditSettings extends AppCompatActivity {
 
             productiveHours.setLayoutParams(letters);
             int prodMins = Integer.parseInt(courses.get(i + 3));
-            double prodHours = (double)prodMins/60;
-            double roundProdHours = (double) Math.round(prodHours* 100) / 100;
+            double prodHours = (double)prodMins/60;             //changing time back to hours
+            double roundProdHours = (double) Math.round(prodHours* 100) / 100;  //rounding two decimal palces
             productiveHours.setText(Double.toString(roundProdHours));
             productiveHours.setGravity(Gravity.CENTER);
             productiveHours.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -348,7 +349,9 @@ public class EditSettings extends AppCompatActivity {
             delete.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    //  db.execSQL("DELETE FROM "+DatabaseHelperLocalDB.TABLE_NAME+" WHERE "+DatabaseHelperLocalDB.COL_1+" = '"+id+"'");
+                    /*
+                    Onclick function to delete courses from the database when the user selects
+                     */
                     db.delete(DatabaseHelperLocalDB.TABLE_NAME, DatabaseHelperLocalDB.COL_1 + "=?", new String[]{id});
 
                     layout.removeAllViews();
@@ -356,7 +359,7 @@ public class EditSettings extends AppCompatActivity {
                 }
             });
 
-            layout.addView(coursecode);
+            layout.addView(coursecode);         //adding contents to the linear layouts
             layout.addView(productiveHours);
             layout.addView(TotalHours);
             layout.addView(delete);
