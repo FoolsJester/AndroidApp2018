@@ -82,7 +82,7 @@ public class Settings extends AppCompatActivity {
                 if (id == R.id.myprofile) {
                     openUser();
                 } else if (id == R.id.study) {
-                    Toast.makeText(Settings.this, "Study Page", Toast.LENGTH_SHORT).show();
+                    openStudyTimer();
                 } else if (id == R.id.settings) {
                     openSettings();
                 } else if (id == R.id.login) {
@@ -185,6 +185,11 @@ public class Settings extends AppCompatActivity {
 
     public void openSearch(){
         Intent intent = new Intent(this, SearchCouses.class);
+        startActivity(intent);
+    }
+
+    public void openStudyTimer(){
+        Intent intent = new Intent(this, StudyTimer.class);
         startActivity(intent);
     }
 

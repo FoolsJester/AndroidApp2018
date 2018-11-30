@@ -352,7 +352,7 @@ public class StudyTimer extends AppCompatActivity {
     }
 
     public void openUser(){
-        Intent intent = new Intent(this, muireannUser.class);
+        Intent intent = new Intent(this, User.class);
         startActivity(intent);
     }
 
