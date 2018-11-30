@@ -134,7 +134,7 @@ public class AndroidProgramming extends AppCompatActivity {
                 emailIntent .setType("message/rfc822");
                 // adding default email address and subject line
                 emailIntent .putExtra(Intent.EXTRA_EMAIL, new String[]{"membersEmail@gmail.com"});
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Android PRogramming");
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Android Programming");
                 emailIntent .setPackage("com.google.android.gm");
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
