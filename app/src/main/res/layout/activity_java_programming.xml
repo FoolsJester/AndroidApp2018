@@ -198,7 +198,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:drawableEnd="@drawable/ic_email_black_24dp"
-                android:text="open gmail"
+                android:text="@string/OpenEmail"
                 app:backgroundTint="#86A3A8"
                 app:fontFamily="sans-serif"
                 android:textStyle="bold"

@@ -136,7 +136,7 @@ public class DataAnalytics extends AppCompatActivity  {
         });
 
 
-        // listener opens users gmail on button click
+        // listener opens users email on button click
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +150,7 @@ public class DataAnalytics extends AppCompatActivity  {
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
                 else
-                    Toast.makeText(getApplicationContext(), "Gmail App is not installed on your device",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No email client is installed on your device",Toast.LENGTH_SHORT).show();
             }
         });
 

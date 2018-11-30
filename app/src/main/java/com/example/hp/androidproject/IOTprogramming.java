@@ -129,11 +129,11 @@ public class IOTprogramming extends AppCompatActivity {
         });
 
 
-        // function opens users gmail on button click
+        // function opens users email on button click
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // creating intent to open gmal
+                // creating intent to open email
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 // set type of intent as a message
                 emailIntent .setType("message/rfc822");
@@ -145,7 +145,7 @@ public class IOTprogramming extends AppCompatActivity {
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
                 else
-                    Toast.makeText(getApplicationContext(), "Gmail App is not installed on your device",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No email client installed on your device",Toast.LENGTH_SHORT).show();
             }
         });
 

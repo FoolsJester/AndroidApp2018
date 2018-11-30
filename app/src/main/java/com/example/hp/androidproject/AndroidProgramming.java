@@ -125,11 +125,11 @@ public class AndroidProgramming extends AppCompatActivity {
         });
 
 
-        // listener opens users gmail on button click
+        // listener opens users email on button click
         openGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // setting up gmail intent of type message
+                // setting up email intent of type message
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
                 emailIntent .setType("message/rfc822");
                 // adding default email address and subject line
@@ -139,7 +139,7 @@ public class AndroidProgramming extends AppCompatActivity {
                 if (emailIntent .resolveActivity(getPackageManager())!=null)
                     startActivity(emailIntent);
                 else
-                    Toast.makeText(getApplicationContext(), "Gmail App is not installed on your device",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No email client installed on your device",Toast.LENGTH_SHORT).show();
             }
         });
 
