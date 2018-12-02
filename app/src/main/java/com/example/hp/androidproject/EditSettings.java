@@ -42,6 +42,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class EditSettings extends AppCompatActivity {
+    /*
+    This class shows users their registered information and allows
+    then to edit and make changes to it. Any information changed will be
+    updated within the database and reflected throughout the application
+     */
+
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int GALLERY_REQUEST_CODE = 2;
     private StorageReference mStorageRef;

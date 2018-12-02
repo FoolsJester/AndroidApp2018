@@ -63,6 +63,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 
 public class User extends AppCompatActivity {
+    /*
+    This class displays all the user information, form the database
+    and gets a list of all their enrolled courses, displays the assignments,
+    study stats, allows the user to add to their stats and view their friends
+     */
+
     private NotificationManagerCompat notificationManager;
 
 

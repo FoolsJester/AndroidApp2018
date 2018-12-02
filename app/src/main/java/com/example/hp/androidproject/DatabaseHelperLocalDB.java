@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelperLocalDB extends SQLiteOpenHelper {
+    /*
+    This class creates and populates tables within the local DB and
+    returns the contents of the DB through various functions
+     */
+
     public static final String DATABASE_NAME="StudyBuddy.db";
     public static final String TABLE_NAME="StudyTimeLog";
     public static final String COL_1="Count_ID ";

@@ -38,6 +38,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class shaneUser extends AppCompatActivity {
+    /*
+    This class creates a users friend with their
+    study stats and information displayed
+     */
 
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;

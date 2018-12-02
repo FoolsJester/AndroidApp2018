@@ -105,7 +105,6 @@ public class DataAnalytics extends AppCompatActivity  {
 
         // setting relevant xml features to variable names for spinners and buttons
         assignmentButton = (Button)findViewById(R.id.assignmentButton);
-        openHelper = new DatabaseHelper(this);
         addAssignmentFrag = (Button)findViewById(R.id.assignmentFragButton);
         openGmail = (Button)findViewById(R.id.openGmail);
         addForumTopic = (Button)findViewById(R.id.addForumTopic);

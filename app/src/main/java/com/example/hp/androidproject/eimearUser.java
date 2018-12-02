@@ -37,6 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 public class eimearUser extends AppCompatActivity {
+    /*
+    This class creates a users friend with their
+    study stats and information displayed
+     */
     private NotificationManagerCompat notificationManager;
 
     private DrawerLayout drawerlayout;

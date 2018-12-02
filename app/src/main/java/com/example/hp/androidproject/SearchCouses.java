@@ -26,6 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchCouses extends AppCompatActivity {
+
+    /*
+        This class creates a searchable interface and allows users
+        to search through a list of courses and friends
+     */
+
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
     private ListView search_course;
@@ -33,7 +39,6 @@ public class SearchCouses extends AppCompatActivity {
     private ArrayAdapter<String> searchable;
     private ArrayAdapter<String> friend_searchable;
 
-    SQLiteOpenHelper openHelper;
     SQLiteDatabase db;
 
     @Override

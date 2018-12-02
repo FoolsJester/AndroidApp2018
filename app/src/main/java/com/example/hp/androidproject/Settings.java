@@ -32,6 +32,11 @@ import java.util.List;
 
 import static com.example.hp.androidproject.BaseApp.Channel_2_ID;
 public class Settings extends AppCompatActivity {
+    /*
+    This page allows users to view their current information
+    and can redirect them to edit this information
+     */
+
     private NotificationManagerCompat notificationManager;
 
 
