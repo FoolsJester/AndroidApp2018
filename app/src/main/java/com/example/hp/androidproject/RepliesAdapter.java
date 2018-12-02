@@ -18,6 +18,7 @@ import java.util.List;
 /*
 * Adapter for replies which is used to render replies in recycler view
 *
+*Tutorial followed from https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
 *
 * */
 public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHolder>{
@@ -46,7 +47,7 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
 
     @Override
     public RepliesAdapter.ViewHolder  onCreateViewHolder(ViewGroup parent, int viewType){
-        //create viewholder for adapter
+        //create viewholder for adapter and inflating parent view
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -58,6 +59,7 @@ public class RepliesAdapter extends RecyclerView.Adapter<RepliesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(RepliesAdapter.ViewHolder viewHolder, int position){
+        //rendering content of each view
         ReplyObject replyObject = mReplies.get(position);
 
         TextView author = viewHolder.authorTextView;
