@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 
 public class ForumFragment extends Fragment {
+    /*
+    Forum allows users add new forum topic to relevant course
+     */
+
     // initializing buttons, text fields and length holders
     Button forumButton;
     EditText topicname, topicdescription;

@@ -39,6 +39,10 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class IOTprogramming extends AppCompatActivity {
+    /*
+    Class that displays all the information, assignments,
+    staistics and fourms for the cours page
+     */
 
     // initializing all variables here
     private static final String courseName = "COMP47520";

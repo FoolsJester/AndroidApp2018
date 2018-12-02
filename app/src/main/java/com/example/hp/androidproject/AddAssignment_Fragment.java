@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 
 public class AddAssignment_Fragment extends Fragment {
+    /*
+    Fragment allows users add new assignment to relevant course
+     */
 
     // initialising variables for form, button, and length holders
     Button assignmentButton;

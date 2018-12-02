@@ -41,6 +41,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class DataAnalytics extends AppCompatActivity  {
+    /*
+    Class that displays all the information, assignments,
+    staistics and fourms for the cours page
+     */
+
     // initializing variables
     private static final String courseName = "COMP47350";
     private  DatabaseReference myRef;

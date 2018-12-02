@@ -39,6 +39,10 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class JavaProgramming extends AppCompatActivity {
+    /*
+    Class that displays all the information, assignments,
+    staistics and fourms for the cours page
+     */
 
     private static final String courseName = "COMP41530";
     private DatabaseReference myRef;
