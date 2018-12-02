@@ -193,6 +193,7 @@ public class SearchCouses extends AppCompatActivity {
                 Function once a chanage in the text is detected
                  */
                 searchable.getFilter().filter(newText);         //filter the lists by the text entered
+                searchable.getFilter().filter(newText);         //filter the lists by the text entered
                 friend_searchable.getFilter().filter(newText);
                 return false;
             }

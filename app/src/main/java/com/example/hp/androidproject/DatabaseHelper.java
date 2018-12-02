@@ -23,7 +23,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    public static final String COL2_4="comments";
 
 
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
