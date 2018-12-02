@@ -6,6 +6,9 @@ import android.app.NotificationManager;
 import android.os.Build;
 
 public class BaseApp extends Application {
+    /*
+    * This class defines two notification channels over which notifications are sent to the user.
+    * */
     public static final String Channel_1_ID = "channel1";
     public static final String Channel_2_ID = "channel2";
 
