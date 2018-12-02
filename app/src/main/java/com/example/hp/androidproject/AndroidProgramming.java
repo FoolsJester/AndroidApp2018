@@ -74,6 +74,7 @@ public class AndroidProgramming extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 Object value = dataSnapshot.getValue();
+                //initialise global variables
                 globalSnapshot = dataSnapshot;
                 loadAssignmentData(globalSnapshot);
                 loadForumData(globalSnapshot);
@@ -352,7 +353,7 @@ public class AndroidProgramming extends AppCompatActivity {
 
     }
 
-    public void sendForum(String name, String desc){
+    public void sendForum(String name, String desc){ //method to write do db with forum object, uses try catch exception
         try {
             Log.d(TAG, "myRef is : " + myRef);
             myRef.child("forum").child(name).setValue(new ForumObject(name, desc));
