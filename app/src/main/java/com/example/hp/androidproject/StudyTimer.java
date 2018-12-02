@@ -35,6 +35,11 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 public class StudyTimer extends AppCompatActivity {
+    /*
+  This class opens a study timer which, when started using the start button,
+   counts the total study time and counts the interaction time with the phone
+   (i.e. when the phone has been in the users hand or unlocked during the study period.
+   */
     //Declaring variables
     private DrawerLayout drawerlayout;
     private ActionBarDrawerToggle abdt;
